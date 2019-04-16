@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Company;
+
 public class CompanyDAO {
 
 	    private String jdbcURL;
@@ -25,7 +27,7 @@ public class CompanyDAO {
 	    protected void connect() throws SQLException {
 	        if (jdbcConnection == null || jdbcConnection.isClosed()) {
 	            try {
-	                Class.forName("com.mysql.jdbc.Driver");
+	                Class.forName("com.mysql.cj.jdbc.Driver");
 	            } catch (ClassNotFoundException e) {
 	                throw new SQLException(e);
 	            }
