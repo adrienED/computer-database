@@ -13,10 +13,10 @@ import model.Company;
 
 public class CompanyDAO {
 
-	    private String jdbcURL;
-	    private String jdbcUsername;
-	    private String jdbcPassword;
-	    private Connection jdbcConnection;
+	    private static String jdbcURL;
+	    private static String jdbcUsername;
+	    private static String jdbcPassword;
+	    private static Connection jdbcConnection;
 	     
 	    public CompanyDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
 	        this.jdbcURL = jdbcURL;
@@ -24,7 +24,7 @@ public class CompanyDAO {
 	        this.jdbcPassword = jdbcPassword;
 	    }
 	     
-	    protected void connect() throws SQLException {
+	    protected static void connect() throws SQLException {
 	        if (jdbcConnection == null || jdbcConnection.isClosed()) {
 	            try {
 	                Class.forName("com.mysql.cj.jdbc.Driver");
@@ -36,13 +36,13 @@ public class CompanyDAO {
 	        }
 	    }
 	     
-	    protected void disconnect() throws SQLException {
+	    protected static void disconnect() throws SQLException {
 	        if (jdbcConnection != null && !jdbcConnection.isClosed()) {
 	            jdbcConnection.close();
 	        }
 	    }	   
 	     
-	    public List<Company> listAllCompany() throws SQLException {
+	    public static List<Company> listAllCompany() throws SQLException {
 	        List<Company> listCompany = new ArrayList<>();
 	         
 	        String sql = "SELECT * FROM company";

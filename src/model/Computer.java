@@ -1,5 +1,5 @@
 package model;
-import java.util.Date;
+import java.sql.Date;
 
 public class Computer {
 	
@@ -56,6 +56,12 @@ public class Computer {
 	protected Date introduced;
 	protected Date discontinued;
 	protected long company_id;
+	
+	public Computer(long id) {
+		super();
+		this.id = id;
+		
+	}
 
 	
 	public Computer(long id, String name) {
@@ -77,6 +83,15 @@ public class Computer {
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
+	}
+	
+	public Computer( String name, Date introduced, Date discontinued, long company_id) {
+		super();
+	
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.company_id = company_id;
 	}
 
 	public Computer(long id, String name, Date introduced, Date discontinued, long company_id) {
