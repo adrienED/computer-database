@@ -86,13 +86,14 @@ public class ComputerDAO {
     }
 
 	public boolean insertComputer(Computer computer) throws SQLException {
-	 String sql = "INSERT INTO computer (name, introduced, discontinued) VALUES (?, ?, ?)";
+	 String sql = "INSERT INTO computer (name, introduced, discontinued,company_id) VALUES (?, ?, ?,?)";
 	 connect();
 		         
 	PreparedStatement statement = jdbcConnection.prepareStatement(sql);
 	statement.setString(1, computer.getName());
 	statement.setDate(2, computer.getIntroduced());
 	statement.setDate(3, computer.getDiscontinued());
+	statement.setLong(4, computer.getCompany_id());
 	
 		         
 	boolean rowInserted = statement.executeUpdate() > 0;
@@ -114,5 +115,103 @@ public class ComputerDAO {
 		disconnect();
 		return rowInserted;
 			    }
-		
-	}
+	
+	
+	public boolean CompanyIDCheck(long company_id) throws SQLException {
+        boolean check=false;
+         
+        String sql = "SELECT id FROM company";
+         
+        connect();
+         
+        Statement statement = jdbcConnection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+            long id = resultSet.getLong("id");
+            if (id==company_id) check=true;
+            
+            
+        }
+         
+        resultSet.close();
+        statement.close();
+         
+        disconnect();
+         
+        return check;
+    }
+	
+	
+	
+	public boolean ComputerIDCheck(long computer_id) throws SQLException {
+        boolean check=false;
+         
+        String sql = "SELECT id FROM computer";
+         
+        connect();
+         
+        Statement statement = jdbcConnection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+            long id = resultSet.getLong("id");
+            if (id==computer_id) check=true;
+            
+            
+        }
+         
+        resultSet.close();
+        statement.close();
+         
+        disconnect();
+         
+        return check;
+    }
+	
+	
+	 public boolean updateComputer(Computer computer) throws SQLException {
+	        String sql = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ?";
+	        sql += " WHERE id = ?";
+	        connect();
+	         
+	        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+	        statement.setString(1, computer.getName());
+	        statement.setDate(2, computer.getIntroduced());
+	        statement.setDate(3, computer.getDiscontinued());
+	        statement.setLong(4, computer.getCompany_id());
+	        statement.setLong(5, computer.getId());
+	         
+	        boolean rowUpdated = statement.executeUpdate() > 0;
+	        statement.close();
+	        disconnect();
+	        return rowUpdated;     
+	    }
+	     
+	    public Computer getComputer(int idC) throws SQLException {
+	        Computer computer = null;
+	        String sql = "SELECT * FROM computer WHERE id = ?";
+	         
+	        connect();
+	         
+	        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+	        statement.setInt(1, idC);
+	         
+	        ResultSet resultSet = statement.executeQuery();
+	         
+	        if (resultSet.next()) {
+	        	long id = resultSet.getLong("id");
+	            String name = resultSet.getString("name");
+	            Date introduced = resultSet.getDate("introduced");
+	            Date discontinued = resultSet.getDate("discontinued");
+	            long company_id = resultSet.getLong("company_id");
+	             
+	           computer = new Computer(id,name, introduced, discontinued, company_id);
+	        }
+	         
+	        resultSet.close();
+	        statement.close();
+	         
+	        return computer;
+}
+}
