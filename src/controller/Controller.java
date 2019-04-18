@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,8 +29,8 @@ public class Controller {
 	    listCompany();
 	    break;
 	  case 3:
-	    
-	    String id =AppMain.ComputerDetails();
+	      
+		 ShowComputerDetails();
 	    
 	    break;
 	  case 4:
@@ -58,6 +59,7 @@ public class Controller {
 	       String  ch2= (String) iter.next().toString();
 	        System.out.println(ch2)  ;
 	      }
+
     }
  
     private void listCompany() throws SQLException {
@@ -71,6 +73,32 @@ public class Controller {
 	      }
     }
     
+    
+    private void ShowComputerDetails() throws SQLException {
+		 System.out.println("You choose to show computer details\n");
+		 
+		 
+		 System.out.print("Enter Computer id  : ");
+		 Scanner sc = new Scanner(System.in);
+		 String company_id = sc.nextLine();
+		 long id=Long.valueOf(company_id).longValue();
+		 Computer computer = new Computer(id);
+		 ComputerDAO cdao = new ComputerDAO("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC","admincdb","qwerty1234");
+		 System.out.println(cdao.ComputerIDCheck(id));
+		 
+		 Computer computera = cdao.getComputer(id);
+		 System.out.println(computera);
+		 
+		 
+		 
+		 
+		 
+		 
+	
+	 }
+    
+    
+    
     private void InsertComputer() throws SQLException {
     	System.out.println("You choose to insert a computer");
 		 System.out.print("name ? : ");
@@ -78,7 +106,7 @@ public class Controller {
 		 String name = sc.nextLine();
 		 System.out.print("Introduced date ? : ");
 		 String introduced = sc.nextLine();
-		
+		 
 		 System.out.print("Discountinued date ? : ");
 		 String discontinued = sc.nextLine();
 		 System.out.print("Company_id? : ");

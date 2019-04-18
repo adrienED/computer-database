@@ -188,14 +188,14 @@ public class ComputerDAO {
 	        return rowUpdated;     
 	    }
 	     
-	    public Computer getComputer(int idC) throws SQLException {
+	    public Computer getComputer(long id2) throws SQLException {
 	        Computer computer = null;
 	        String sql = "SELECT * FROM computer WHERE id = ?";
 	         
 	        connect();
 	         
 	        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-	        statement.setInt(1, idC);
+	        statement.setLong(1, id2);
 	         
 	        ResultSet resultSet = statement.executeQuery();
 	         

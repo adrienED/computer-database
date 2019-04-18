@@ -5,15 +5,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 import controller.Controller;
 import model.Company;
-import model.Computer;
-import persistence.CompanyDAO;
-import persistence.ComputerDAO;
 
 public class AppMain {
 	
@@ -21,11 +17,9 @@ public class AppMain {
 
 	public static void main(String[] args) throws SQLException, ParseException {
 		
-		System.out.println(testDate("2017-11-06", "2018-11-06"));
-		
-		
-		
-		System.out.println(testFormDate ("2018-11-06"));
+		//System.out.println(testDate("2017-11-06", "2018-11-06"));
+
+		System.out.println(testFormDate ("null"));
 		
 		
 		System.out.println("Welcome to the computer-database");
@@ -56,18 +50,8 @@ public class AppMain {
 	
 	
 	*/
-	
-
-}
+}	 
 		 
-		 public static String ComputerDetails() {
-			 System.out.println("You choose to show computer details\n");
-			 System.out.print("Enter Computer id  : ");
-			 Scanner sc = new Scanner(System.in);
-			 String id = sc.nextLine();
-			 return id;
-		
-		 }
 		 
 		 public static String DeleteComputer() {
 			 System.out.println("You choose to delete a computer");
@@ -89,16 +73,12 @@ public class AppMain {
 		                
 		            }
 		            number = scanner.nextInt();
-		        } while (number > 7 || number <0);
+		        } while (number > 7 || number <1);
 
 		        return number;
-		    
-
 
 		 }
-		 
-		 
-		 
+	 /*
 		 private static int validateNameInput() {
 		        Scanner scanner = new Scanner(System.in);
 
@@ -115,12 +95,28 @@ public class AppMain {
 		        } while (number > 7 || number <0);
 
 		        return number;
-		    
-
 
 		 }
+		 */
 		 
-		 public static boolean testDate (String date1, String date2) throws ParseException {
+		 public static boolean testFormDate (String date)  {
+
+			 boolean test = true;
+			 
+			 try {
+			
+			 java.sql.Date dateF = java.sql.Date.valueOf(date);
+
+			 }
+			 catch(IllegalArgumentException e) {
+			 	test=false;
+			 	
+			 }
+			return test;
+
+		 }
+		
+		public static boolean testDate (String date1, String date2) throws ParseException {
 
 			 boolean test = false;
 			 
@@ -135,21 +131,6 @@ public class AppMain {
 		 }
 		 
 		 
-		 public static boolean testFormDate (String date)  {
-
-			 boolean test = true;
-			 
-			 try {
-			
-			 java.sql.Date dateF = java.sql.Date.valueOf(date);
-
-			 }
-			 catch(IllegalArgumentException e) {
-			 	test=false;
-			 }
-			return test;
-
-		 }
 		 
 		 
 		 
