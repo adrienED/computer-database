@@ -1,11 +1,10 @@
 package model;
 
 public class Company {
-	
+
 	protected long id;
 	protected String name;
-	
-	
+
 	public Company(long id, String name) {
 		super();
 		this.id = id;
@@ -32,8 +31,5 @@ public class Company {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-	
 
 }

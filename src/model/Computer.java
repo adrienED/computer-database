@@ -1,10 +1,9 @@
 package model;
+
 import java.sql.Date;
 
 public class Computer {
-	
-	
-	
+
 	@Override
 	public String toString() {
 		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
@@ -56,20 +55,18 @@ public class Computer {
 	protected Date introduced;
 	protected Date discontinued;
 	protected long company_id;
-	
+
 	public Computer() {
 		super();
-		
-		
+
 	}
-	
+
 	public Computer(long id) {
 		super();
 		this.id = id;
-		
+
 	}
 
-	
 	public Computer(long id, String name) {
 		super();
 		this.id = id;
@@ -90,10 +87,10 @@ public class Computer {
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 	}
-	
-	public Computer( String name, Date introduced, Date discontinued, long company_id) {
+
+	public Computer(String name, Date introduced, Date discontinued, long company_id) {
 		super();
-	
+
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
@@ -108,8 +105,4 @@ public class Computer {
 		this.discontinued = discontinued;
 		this.company_id = company_id;
 	}
-	
-	
-
-
 }
