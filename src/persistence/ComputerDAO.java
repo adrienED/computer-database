@@ -18,10 +18,10 @@ public class ComputerDAO {
     private String jdbcPassword;
     private Connection jdbcConnection;
      
-    public ComputerDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
-        this.jdbcURL = jdbcURL;
-        this.jdbcUsername = jdbcUsername;
-        this.jdbcPassword = jdbcPassword;
+    public ComputerDAO() {
+    	this.jdbcURL = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC";
+        this.jdbcUsername = "admincdb";
+        this.jdbcPassword = "qwerty1234";
     }
      
     protected void connect() throws SQLException {

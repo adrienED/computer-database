@@ -18,10 +18,10 @@ public class CompanyDAO {
 	    private static String jdbcPassword;
 	    private static Connection jdbcConnection;
 	     
-	    public CompanyDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
-	        this.jdbcURL = jdbcURL;
-	        this.jdbcUsername = jdbcUsername;
-	        this.jdbcPassword = jdbcPassword;
+	    public CompanyDAO() {
+	        this.jdbcURL = "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC";
+	        this.jdbcUsername = "admincdb";
+	        this.jdbcPassword = "qwerty1234";
 	    }
 	     
 	    protected static void connect() throws SQLException {

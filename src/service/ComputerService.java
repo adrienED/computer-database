@@ -10,18 +10,16 @@ import persistence.ComputerDAO;
 
 public class ComputerService {
 	
-	ComputerDAO cdao = new ComputerDAO("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC","admincdb","qwerty1234");
+	ComputerDAO cdao = new ComputerDAO();
 	
 	public static List<Computer> ListComputer() throws SQLException {
 		
 		List<Computer> testa = new ArrayList<>();
 
-		ComputerDAO cdaoa = new ComputerDAO("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC","admincdb","qwerty1234");
+		ComputerDAO cdaoa = new ComputerDAO();
 		testa=cdaoa.listAllComputer();
 		return testa;
 
-		 
-		
 	}
 
 }

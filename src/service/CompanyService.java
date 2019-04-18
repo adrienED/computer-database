@@ -15,7 +15,7 @@ public static List<Company> ListComputer() throws SQLException {
 		
 		List<Company> listCompany = new ArrayList<>();
 
-		CompanyDAO cdaoa = new CompanyDAO("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC","admincdb","qwerty1234");
+		CompanyDAO cdaoa = new CompanyDAO();
 		listCompany=cdaoa.listAllCompany();
 		return listCompany;
 		

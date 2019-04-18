@@ -57,6 +57,12 @@ public class Computer {
 	protected Date discontinued;
 	protected long company_id;
 	
+	public Computer() {
+		super();
+		
+		
+	}
+	
 	public Computer(long id) {
 		super();
 		this.id = id;
