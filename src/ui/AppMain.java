@@ -54,13 +54,32 @@ public class AppMain {
 	}
 
 	public static void ShowListComputer(List<Computer> listComputer) {
-		for (Iterator iter = listComputer.iterator(); iter.hasNext();) {
-			String ch = (String) iter.next().toString();
-			System.out.println(ch);
+		
+		Map<Integer, List<Computer>> HM = new HashMap<Integer, List<Computer>>();
+		HM=pagination(listComputer);
+		int page;
+		do {
+			
+			System.out.print("Enter page number : ");
+			Scanner sc = new Scanner (System.in);
+			page = sc.nextInt();
+			
+			List<Computer> listPageComputer = new ArrayList<>();
+			listPageComputer=HM.get(page);
+			
+			for (Iterator iter = listPageComputer.iterator(); iter.hasNext();) {
+				String ch = (String) iter.next().toString();
+				System.out.println(ch);
+			
 		}
+		}
+			while(page <HM.size());
+	
 	}
 
 	public static void ShowListCompany(List<Company> listCompany) {
+		
+		
 
 		for (Iterator iter = listCompany.iterator(); iter.hasNext();) {
 			String ch = (String) iter.next().toString();
@@ -73,10 +92,11 @@ public class AppMain {
 		System.out.println(computer);
 	}
 
-	public void pagination(List<Computer> listcomputer) {
+
+	public static Map<Integer, List<Computer>> pagination(List<Computer> listcomputer) {
 
 		Map<Integer, List<Computer>> HM = new HashMap<Integer, List<Computer>>();
-
+		int i = 0;
 		int max = listcomputer.size();
 		int infIndex = 0;
 		int supIndex;
@@ -89,23 +109,22 @@ public class AppMain {
 
 			List<Computer> ListPage = new ArrayList<>();
 			ListPage = listcomputer.subList(infIndex, supIndex);
+			HM.put(i, ListPage);
+			i++;
+			infIndex+=10;
+			supIndex+=10;
 		} while (supIndex + 10 < max);
+		
+		infIndex+=10;
+		supIndex+=max-supIndex;
+		i++;
+		List<Computer> ListPage = new ArrayList<>();
+		ListPage = listcomputer.subList(infIndex, supIndex);
+		HM.put(i, ListPage);
+		
+		return HM;
 	}
 
-	/*
-	 * private static int validateNameInput() { Scanner scanner = new
-	 * Scanner(System.in);
-	 * 
-	 * int number; do { System.out.print("Please enter a String "); while
-	 * (!scanner.hasNext()) { String input = scanner.next();
-	 * System.out.printf("\"%s\" is not a valid number.\n", input);
-	 * System.out.println("Please enter number between 1 et 6: ");
-	 * 
-	 * } number = scanner.nextInt(); } while (number > 7 || number <0);
-	 * 
-	 * return number;
-	 * 
-	 * }
-	 */
+
 
 }
