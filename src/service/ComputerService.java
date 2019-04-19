@@ -35,7 +35,10 @@ public class ComputerService {
 
 	public static void UpdateComputer(Computer computer) throws SQLException {
 		ComputerDAO cdao = new ComputerDAO();
+		if(computer.getId()==0) { System.out.println("Computer not found");}
+		else {
 		cdao.updateComputer(computer);
+		}
 	}
 
 	public static void DeleteComputer() throws SQLException {

@@ -48,18 +48,27 @@ public class ComputerMapper {
 	}
 
 	public static Computer UpdateComputer() throws SQLException {
+		String name;
+		String introduced;
+		String discontinued;
+		String idC;
+		String company_id;
+		do {
 
 		System.out.print("id? : ");
 		Scanner sc = new Scanner(System.in);
-		String idC = sc.nextLine();
+		idC = sc.nextLine();
 		System.out.print("name ? : ");
-		String name = sc.nextLine();
+		name = sc.nextLine();
 		System.out.print("Introduced date ? : ");
-		String introduced = sc.nextLine();
+		introduced = sc.nextLine();
 		System.out.print("Discountinued date ? : ");
-		String discontinued = sc.nextLine();
+		discontinued = sc.nextLine();
 		System.out.print("Company_id 	? : ");
-		String company_id = sc.nextLine();
+		company_id = sc.nextLine();
+		}
+		while(testFormDate(introduced)==true && testFormDate(discontinued)==true
+				&& testDate(introduced,discontinued)==true);
 
 		long id = Long.valueOf(idC).longValue();
 		Date introucedD = Date.valueOf(introduced);
@@ -68,8 +77,8 @@ public class ComputerMapper {
 
 		Computer computer = new Computer(id, name, introucedD, discontinuedD, company_idL);
 		ComputerDAO cdao = new ComputerDAO();
-		System.out.println(cdao.CompanyIDCheck(company_idL));
-
+		if(cdao.CompanyIDCheck(company_idL)==false)computer.setCompany_id(0); ;
+		
 		return computer;
 	}
 
