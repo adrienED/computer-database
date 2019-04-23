@@ -4,8 +4,8 @@ package dto;
 public class ComputerDTO {
 	private String id;
 	private String name;
-	private String introducedDate;
-	private String discontinuedDate;
+	private String introduced;
+	private String discontinued;
 	private CompanyDTO companyDTO;
 
 	public String getId() {
@@ -20,17 +20,17 @@ public class ComputerDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getIntroducedDate() {
-		return introducedDate;
+	public String getIntroduced() {
+		return introduced;
 	}
-	public void setIntroducedDate(String introducedDate) {
-		this.introducedDate = introducedDate;
+	public void setIntroduced(String introducedDate) {
+		this.introduced = introducedDate;
 	}
-	public String getDiscontinuedDate() {
-		return discontinuedDate;
+	public String getDiscontinued() {
+		return discontinued;
 	}
-	public void setDiscontinuedDate(String discontinuedDate) {
-		this.discontinuedDate = discontinuedDate;
+	public void setDiscontinued(String discontinuedDate) {
+		this.discontinued = discontinuedDate;
 	}
 
 	public CompanyDTO getCompanyDTO() {
@@ -41,8 +41,8 @@ public class ComputerDTO {
 	}
 	@Override
 	public String toString() {
-		return "ComputerDTO [id = " + id + ", name=" + name + ", introducedDate=" + introducedDate + ", discontinuedDate="
-				+ discontinuedDate + ", CompanyDTO=" + companyDTO.toString() + "]";
+		return "ComputerDTO [id = " + id + ", name=" + name + ", introducedDate=" + introduced + ", discontinuedDate="
+				+ discontinued + ", CompanyDTO=" + companyDTO.toString() + "]";
 	}
 
 }

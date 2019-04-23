@@ -59,13 +59,13 @@ public class UI {
 		
 		//get the introducedDate
 		System.out.println("Introduced Date (format yyyy-mm-dd) : ");
-		String introducedDate = readInputs();
-		inputsCreateComputer.put("introduced", introducedDate);
+		String introduced = readInputs();
+		inputsCreateComputer.put("introduced", introduced);
 
 		
 		System.out.println("Discountinued Date (format yyyy-mm-dd) : ");
-		String discontinuedDate = readInputs();
-		inputsCreateComputer.put("discontinued", discontinuedDate);
+		String discontinued = readInputs();
+		inputsCreateComputer.put("discontinued", discontinued);
 		
 		//get the idCompany
 		System.out.println("Entrez l'id du constructeur de l'ordinateur : ");

@@ -27,16 +27,16 @@ public class ComputerMapper  {
 			computer.setId(Long.parseLong(computerDTO.getId()));
 		}
 		
-		if (!computerDTO.getIntroducedDate().matches("\\d{4}-\\d{2}-\\d{2}")) {
-			throw new InvalidDateValueException(computerDTO.getIntroducedDate());
+		if (!computerDTO.getIntroduced().matches("\\d{4}-\\d{2}-\\d{2}")) {
+			throw new InvalidDateValueException(computerDTO.getIntroduced());
 		}
-		if (!computerDTO.getDiscontinuedDate().matches("\\d{4}-\\d{2}-\\d{2}")) {
-			throw new InvalidDateValueException(computerDTO.getDiscontinuedDate());
+		if (!computerDTO.getDiscontinued().matches("\\d{4}-\\d{2}-\\d{2}")) {
+			throw new InvalidDateValueException(computerDTO.getDiscontinued());
 		}
 		else {
 			computer.setName(computerDTO.getName());
-			computer.setIntroduced(LocalDate.parse(computerDTO.getIntroducedDate()));
-			computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinuedDate()));
+			computer.setIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
+			computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
 			Company company = companyDAO.findById(Long.parseLong(computerDTO.getCompanyDTO().getId()));
 
 			computer.setCompany(company);
@@ -51,10 +51,10 @@ public class ComputerMapper  {
 		computerDTO.setId(Long.toString(computer.getId()));
 		computerDTO.setName(computer.getName());
 		if (computer.getIntroduced() != null) {
-			computerDTO.setIntroducedDate(computer.getIntroduced().toString());
+			computerDTO.setIntroduced(computer.getIntroduced().toString());
 		}
 		if (computer.getDiscontinued() != null) {
-			computerDTO.setDiscontinuedDate(computer.getDiscontinued().toString());
+			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
 		}
 		CompanyDTO companyDTO = new CompanyDTO();
 		companyDTO.setId(Long.toString(computer.getCompany().getId()));

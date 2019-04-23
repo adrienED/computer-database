@@ -84,8 +84,8 @@ public class Controller {
 
 		ComputerDTO computerDTOCreate = new ComputerDTO();
 		computerDTOCreate.setName(inputsCreateComputer.get("name"));
-		computerDTOCreate.setIntroducedDate(inputsCreateComputer.get("introducedDate"));
-		computerDTOCreate.setDiscontinuedDate(inputsCreateComputer.get("discontinuedDate"));
+		computerDTOCreate.setIntroduced(inputsCreateComputer.get("introduced"));
+		computerDTOCreate.setDiscontinued(inputsCreateComputer.get("discontinued"));
 		CompanyDTO companyDTO = new CompanyDTO();
 		companyDTO.setId(inputsCreateComputer.get("idCompany"));
 		computerDTOCreate.setCompanyDTO(companyDTO);
@@ -124,10 +124,12 @@ public class Controller {
 
 	private void createComputer() {
 		Map<String, String> inputsCreateComputer = vue.createComputer();
-		ComputerDTO computerDTOCreate = this.inputsToComputerDTO(inputsCreateComputer);
 
+		ComputerDTO computerDTO = this.inputsToComputerDTO(inputsCreateComputer);
+		System.out.println(computerDTO.getIntroduced());
+		
 		try {
-			long idCreate = computerService.create(computerDTOCreate);
+			long idCreate = computerService.create(computerDTO);
 			System.out.println("Ordinateur creer avec l'id : " + idCreate);
 		} catch (InvalidDateValueException | InvalidDateChronology e) {
 			// TODO Auto-generated catch block
