@@ -4,6 +4,19 @@ import dto.CompanyDTO;
 import model.Company;
 
 public class CompanyMapper {
+
+	    private CompanyMapper()
+	    {}
+
+	    private static CompanyMapper INSTANCE = null;
+	     
+	    public static CompanyMapper getInstance()
+	    {           
+	        if (INSTANCE == null)
+	        {   INSTANCE = new CompanyMapper(); 
+	        }
+	        return INSTANCE;
+	    }
 	
 	
 	public Company dtoToModel(CompanyDTO companyDTO) {

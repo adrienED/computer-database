@@ -21,7 +21,7 @@ public class CompanyService {
 	}
 
 	public List<CompanyDTO> getAll(int limit, int offset){
-		CompanyDAO companyDAO = new CompanyDAO();
+		CompanyDAO companyDAO = CompanyDAO.getInstance();
 		List<Company> companyList = companyDAO.getAll(limit, offset);
 		List<CompanyDTO> companyDtoList = (List<CompanyDTO>) companyList.stream().map(s -> companyMapper.modelToDto(s)).collect(Collectors.toList());
 		

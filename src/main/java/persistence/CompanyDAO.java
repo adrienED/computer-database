@@ -13,6 +13,22 @@ import model.Company;
 
 public class CompanyDAO {
 
+	    private CompanyDAO()
+	    {}
+
+	    private static CompanyDAO INSTANCE = null;
+	     
+	  
+	    public static CompanyDAO getInstance()
+	    {           
+	        if (INSTANCE == null)
+	        {   INSTANCE = new CompanyDAO(); 
+	        }
+	        return INSTANCE;
+	    }
+	
+	
+
 	  	private static final String SQL_FIND_ALL = "SELECT id, name FROM company";
 	    private static final String SQL_FIND_WITH_ID = "SELECT id, name FROM company WHERE id = ?";
 	    private static final String SQL_FIND_ALL_PAGINED = "SELECT id,name FROM company ORDER BY id LIMIT ? OFFSET ?";

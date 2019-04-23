@@ -12,13 +12,13 @@ import service.ComputerService;
 public class AppMain {
 
 	public static void main(final String[] args) {
-		CompanyMapper companyMapper = new CompanyMapper();
-		CompanyDAO companyDAO = new CompanyDAO();
+		CompanyMapper companyMapper = CompanyMapper.getInstance();
+		CompanyDAO companyDAO = CompanyDAO.getInstance();
 		CompanyService companyService = new CompanyService(companyMapper, companyDAO);
 
 		
 		ComputerMapper computerMapper = new ComputerMapper(companyDAO);
-		ComputerDAO computerDAO = new ComputerDAO ();
+		ComputerDAO computerDAO = ComputerDAO.getInstance();
 		ComputerService computerService = new ComputerService(computerMapper, computerDAO);
 		
 		
