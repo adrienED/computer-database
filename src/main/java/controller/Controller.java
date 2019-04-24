@@ -126,14 +126,14 @@ public class Controller {
 		Map<String, String> inputsCreateComputer = vue.createComputer();
 
 		ComputerDTO computerDTO = this.inputsToComputerDTO(inputsCreateComputer);
-		System.out.println(computerDTO.getIntroduced());
+		
 		
 		try {
 			long idCreate = computerService.create(computerDTO);
 			System.out.println("Ordinateur creer avec l'id : " + idCreate);
 		} catch (InvalidDateValueException | InvalidDateChronology e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+			System.out.println("echec de la creation");
 		}
 	}
 

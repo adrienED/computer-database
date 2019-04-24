@@ -50,10 +50,6 @@ public class Computer {
 		this.discontinued = discontinued;
 	}
 
-	
-	
-
-
 	public Company getCompany() {
 		return company;
 	}
@@ -64,46 +60,8 @@ public class Computer {
 
 
 	public Computer() {
-		super();
-
-	}
-
-	public Computer(long id) {
-		super();
-		this.id = id;
-
-	}
-
-	public Computer(long id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
-
-	public Computer(long id, String name, LocalDate introduced) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.introduced = introduced;
-	}
-
-	public Computer(long id, String name, LocalDate introduced, LocalDate discontinued) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-	}
-
-	public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, Company company) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-		this.company = company;
-	}
 	
-	
+	}
+
 
 }

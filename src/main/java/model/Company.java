@@ -4,17 +4,8 @@ public class Company {
 
 	protected long id;
 	protected String name;
-	
-	
 
 	public Company() {
-		super();
-	}
-
-	public Company(long id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
 	}
 
 	@Override

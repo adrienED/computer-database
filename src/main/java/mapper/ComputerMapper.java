@@ -12,12 +12,20 @@ import persistence.CompanyDAO;
 
 public class ComputerMapper  {
 
-	public ComputerMapper(CompanyDAO companyDAO) {
-		super();
-		this.companyDAO = companyDAO;
-	}
-
-	private CompanyDAO companyDAO;
+	   
+	    private ComputerMapper()
+	    {}
+	     
+	    private static ComputerMapper INSTANCE = null;
+	     
+	    public static ComputerMapper getInstance()
+	    {           
+	        if (INSTANCE == null)
+	        {   INSTANCE = new ComputerMapper(); 
+	        }
+	        return INSTANCE;
+	    }
+	private CompanyDAO companyDAO = CompanyDAO.getInstance();
 
 	
 	public Computer dtoToModel(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {

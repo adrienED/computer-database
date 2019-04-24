@@ -14,18 +14,27 @@ import model.Computer;
 import persistence.ComputerDAO;
 
 public class ComputerService {
-
-
-	protected ComputerMapper mapper;
-	protected ComputerDAO dao;
 	
-	public ComputerService(ComputerMapper computerMapper, ComputerDAO computerDAO) {
-		this.mapper = computerMapper;
-		this.dao = computerDAO;
-	}
+	    private ComputerService()
+	    {}
+
+	    private static ComputerService INSTANCE = null;
+
+	    public static ComputerService getInstance()
+	    {           
+	        if (INSTANCE == null)
+	        {   INSTANCE = new ComputerService(); 
+	        }
+	        return INSTANCE;
+	    }
+
+	private ComputerMapper mapper = ComputerMapper.getInstance();
+	private ComputerDAO dao =ComputerDAO.getInstance();
+		
 	 
 	public long create(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		return this.dao.create(this.mapper.dtoToModel(computerDTO));
+		
+		return this.dao.create(mapper.dtoToModel(computerDTO));
 	};
 	
 	public boolean update(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
@@ -42,10 +51,10 @@ public class ComputerService {
 	
 	public List<ComputerDTO> getAll(int limit, int offset) throws InvalidDateChronology{
 		ComputerDAO computerDAO = ComputerDAO.getInstance();
-		List<Computer> theComputerList = computerDAO.getAll(limit, offset);
-		List<ComputerDTO> theComputerDtoList = (List<ComputerDTO>) theComputerList.stream().map(s -> mapper.modelToDto(s)).collect(Collectors.toList());
+		List<Computer> computerList = computerDAO.getAll(limit, offset);
+		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream().map(s -> mapper.modelToDto(s)).collect(Collectors.toList());
 
-		return theComputerDtoList;
+		return computerDtoList;
 }
 	
 	

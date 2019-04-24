@@ -11,17 +11,25 @@ import persistence.CompanyDAO;
 
 public class CompanyService {
 	
-	protected CompanyMapper companyMapper;
-	protected CompanyDAO companyDAO;
+	private CompanyMapper companyMapper = CompanyMapper.getInstance();
+	private CompanyDAO companyDAO = CompanyDAO.getInstance();
+
+	    private CompanyService()
+	    {}
+
+	    private static CompanyService INSTANCE = null;
+
+	    public static CompanyService getInstance()
+	    {           
+	        if (INSTANCE == null)
+	        {   INSTANCE = new CompanyService(); 
+	        }
+	        return INSTANCE;
+	    }
 	
-	
-	public CompanyService(CompanyMapper CM, CompanyDAO CDAO) {
-		this.companyMapper = CM;
-		this.companyDAO = CDAO;
-	}
 
 	public List<CompanyDTO> getAll(int limit, int offset){
-		CompanyDAO companyDAO = CompanyDAO.getInstance();
+		
 		List<Company> companyList = companyDAO.getAll(limit, offset);
 		List<CompanyDTO> companyDtoList = (List<CompanyDTO>) companyList.stream().map(s -> companyMapper.modelToDto(s)).collect(Collectors.toList());
 		
