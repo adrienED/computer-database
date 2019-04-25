@@ -6,8 +6,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConnectionDAO {
+	
+	static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
     public static Connection getConnection() throws SQLException {
         Connection connection = null;
@@ -26,7 +30,7 @@ public class ConnectionDAO {
             // create a connection to the database
             connection = DriverManager.getConnection(url, user, password);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+        	logger.error("erreur IOgetConnection", e);
         }
         return connection;
     }

@@ -6,12 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import model.Company;
 
 public class CompanyDAO {
+	
+	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
 	    private CompanyDAO()
 	    {}
@@ -40,7 +44,7 @@ public class CompanyDAO {
 	            company.setName(resultSet.getString("name"));
 	            
 	        } catch (SQLException ex) {
-	            Logger.getLogger(Company.class.getName()).log(Level.SEVERE, null, ex);
+	        	logger.error("Erreur SQL populate", ex);
 	        }
 	        return company;
 	    }
@@ -59,7 +63,7 @@ public class CompanyDAO {
 	            }
 	            connection.close();
 	        } catch (SQLException ex) {
-	            Logger.getLogger(Company.class.getName()).log(Level.SEVERE, null, ex);
+	        	logger.error("Erreur SQL ListCompany", ex);
 	        }
 	        return companies;
 		}
@@ -78,7 +82,7 @@ public class CompanyDAO {
 				}
 				connection.close();
 			} catch (SQLException ex) {
-				Logger.getLogger(Company.class.getName()).log(Level.SEVERE, null, ex);
+				logger.error("Erreur SQL findById", ex);
 			}
 			return Company;
 		}
@@ -99,7 +103,7 @@ public class CompanyDAO {
 	            }
 	            connection.close();
 	        } catch (SQLException ex) {
-	            Logger.getLogger(Company.class.getName()).log(Level.SEVERE, null, ex);
+	        	logger.error("Erreur SQL ListCompany", ex);
 	        }
 	        return companies;
 		}

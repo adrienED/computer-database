@@ -8,8 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
@@ -17,6 +17,8 @@ import model.Company;
 import model.Computer;
 
 public class ComputerDAO {
+	
+	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	
 
 	    private ComputerDAO()
@@ -62,7 +64,7 @@ public class ComputerDAO {
 			computer.setCompany(company);
 
 		} catch (SQLException ex) {
-			Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+			logger.error("Erreur SQL ComputerPopulate", ex);
 		}
 		return computer;
 	}
@@ -80,7 +82,7 @@ public class ComputerDAO {
 			}
 			connection.close();
 		} catch (SQLException ex) {
-			Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+			logger.error("Erreur SQL ListComputer", ex);
 		}
 		return computeresultSet;
 	}
@@ -105,7 +107,7 @@ public class ComputerDAO {
 			}
 			connection.close();
 		} catch (SQLException ex) {
-			Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+			logger.error("Erreur SQL createComputer", ex);
 		}
 		return lastInsertedId;
 	}
@@ -119,7 +121,7 @@ public class ComputerDAO {
 			statement.executeUpdate();
 			connection.close();
 		} catch (SQLException ex) {
-			Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+			logger.error("Erreur SQL DeleteComputer", ex);
 		}
 		return true;
 	}
@@ -139,7 +141,7 @@ public class ComputerDAO {
 
 			connection.close();
 		} catch (SQLException ex) {
-			Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+			logger.error("Erreur SQL updateComputer", ex);
 		}
 		return false;
 	}
@@ -176,7 +178,7 @@ public class ComputerDAO {
 			}
 
 		} catch (SQLException ex) {
-			Logger.getLogger(Computer.class.getName()).log(Level.SEVERE, null, ex);
+			logger.error("Erreur SQL ComputerFindById", ex);
 		}
 		return null;
 
@@ -198,7 +200,7 @@ public class ComputerDAO {
 			}
 			connection.close();
 		} catch (SQLException ex) {
-			Logger.getLogger(Company.class.getName()).log(Level.SEVERE, null, ex);
+			logger.error("Erreur SQL ListComputer", ex);
 		}
 		return computeresultSet;
 	}

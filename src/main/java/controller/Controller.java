@@ -2,12 +2,16 @@ package controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import exception.NotFoundException;
+import model.Company;
 import service.CompanyService;
 import service.ComputerService;
 import ui.UI;
@@ -105,7 +109,7 @@ public class Controller {
 			computerService.update(computerDTOUpdate);
 		} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology | ComputerNotFoundException e1) {
 			
-			System.out.println(e1.getMessage());
+			Logger.getLogger(Company.class.getName()).log(Level.SEVERE, null, e1);
 		}
 	}
 
@@ -131,9 +135,9 @@ public class Controller {
 		try {
 			long idCreate = computerService.create(computerDTO);
 			System.out.println("Ordinateur creer avec l'id : " + idCreate);
-		} catch (InvalidDateValueException | InvalidDateChronology e) {
+		} catch (InvalidDateValueException | InvalidDateChronology |NumberFormatException e) {
 			// TODO Auto-generated catch block
-			System.out.println("echec de la creation");
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -141,6 +145,7 @@ public class Controller {
 		try {
 			vue.deleteComputer();
 			String idDelete = vue.readInputs();
+			
 			ComputerDTO computerDTOtoDelete = computerService.findById(idDelete);
 			computerService.delete(computerDTOtoDelete);
 			
@@ -155,9 +160,12 @@ public class Controller {
 			boolean returnMenu = false;
 			int n = 1;
 			while (!returnMenu) {
-				List<ComputerDTO> computerDaoList;
-				computerDaoList = computerService.getAll(10, n);
-				computerDaoList.forEach(System.out::println);
+				List<ComputerDTO> computerDAOList;
+				computerDAOList = computerService.getAll(10, n);
+				
+				for (ComputerDTO computerDTO : computerDAOList) {
+					System.out.println(computerDTO);
+				}
 				vue.menuNextPage();
 				String choix2 = vue.readInputs();
 				switch (choix2) {
