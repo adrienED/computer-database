@@ -16,6 +16,8 @@ public class AppMain {
 		Controller controller = new Controller(companyService, computerService, view);
 
 		controller.start();
+		
+		
 
 	}
 }
