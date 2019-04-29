@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -26,8 +27,8 @@ public class ControllerServlet extends HttpServlet {
 
 	public void init() {
 
-		computerDAO = ComputerDAO.getInstance();
-		computerService = ComputerService.getInstance();
+		//computerDAO = ComputerDAO.getInstance();
+		//computerService = ComputerService.getInstance();
 
 	}
 	
@@ -49,61 +50,46 @@ public class ControllerServlet extends HttpServlet {
 		try {
 			switch (action) {
 			case "/add":
-				insertComputer(request, response);
+				addComputer(request, response);
 				break;
-			case "/edit":
-				editComputer(request, response);
-				break;
-			case "/showByName":
-				deleteComputer(request, response);
-				break;
-			case "/delete":
-				showEditForm(request, response);
-				break;
-			default:
-				listComputer(request, response);
+			case "/dashboard":
+				dashboard(request, response);
 				break;
 			}
-		} catch (SQLException ex) {
+		}
+		 catch (SQLException ex) {
 			throw new ServletException(ex);
 		}
 	}
 
 	
 	
-	private void listComputers(HttpServletRequest request, HttpServletResponse response) {
+	
+	private void addComputer(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/addComputer.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	private void dashboard(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+			List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
+		
 		try {
-			boolean returnMenu = false;
-			int n = 1;
-			while (!returnMenu) {
-				List<ComputerDTO> computerDAOList;
-				computerDAOList = computerService.getAll(10, n);
+			
 				
-				for (ComputerDTO computerDTO : computerDAOList) {
-					System.out.println(computerDTO);
+				computerDAOList = computerService.getAll(10, 1);
+	
 				}
-				vue.menuNextPage();
-				String choix2 = vue.readInputs();
-				switch (choix2) {
-				// retour
-				case "0":
-					returnMenu = true;
-					break;
-				// page suivante
-				case "1":
-					n += 10;
-					break;
-				// page precedente
-				case "2":
-					n -= 10;
-					break;
-				}
-			}
-
-		} catch (InvalidDateChronology e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+		catch (Exception e) {
+			// TODO: handle exception
 		}
+		
+		
+		request.setAttribute("ComputerList", computerDAOList);
+			
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
+		dispatcher.forward(request, response);
 	}
 
 
@@ -115,5 +101,6 @@ public class ControllerServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
 
 }
