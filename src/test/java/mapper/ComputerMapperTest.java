@@ -85,8 +85,8 @@ public class ComputerMapperTest {
 		
 		computerDTO.setId("24");
 		computerDTO.setName("tes");
-		computerDTO.setIntroduced("201612-12");
-		computerDTO.setDiscontinued("20112-12");	
+		computerDTO.setIntroduced("2016-12-12");
+		computerDTO.setDiscontinued("2017-12-12");	
 		computerDTO.setCompanyDTO(companyDTO);
 		
 		//System.out.println(computer.getId());

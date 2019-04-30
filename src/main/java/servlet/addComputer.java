@@ -1,4 +1,4 @@
-package Servlet;
+package servlet;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -89,8 +89,9 @@ public class addComputer extends HttpServlet {
 			System.out.println(e.getMessage());
 		}
 		*/
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
-		dispatcher.forward(request, response);
+		
+		
+		
 		
 	}
 	}
