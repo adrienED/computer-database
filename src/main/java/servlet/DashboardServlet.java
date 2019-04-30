@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import dto.ComputerDTO;
+import exception.InvalidDateChronology;
+import persistence.ComputerDAO;
+import service.ComputerService;
 
 /**
  * Servlet implementation class DashboardServlet
@@ -29,20 +36,31 @@ public class DashboardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
-		dispatcher.forward(request, response);
+				List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
+				ComputerService computerService = ComputerService.getInstance();
+				try {
+					computerDAOList = computerService.getAll(10, 1);
+				} catch (InvalidDateChronology e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+	RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
+	request.setAttribute("ListComputer", computerDAOList);
+	dispatcher.forward(request, response);
 		
-		getServletContext().getRequestDispatcher("/WEB-INF/view/dashboard.jsp").forward(request, response);
-	}
+		
+		
+}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
+
+		
+	
 	}
 
 }

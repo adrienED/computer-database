@@ -215,12 +215,7 @@
 				</dependencies>
 
 				<!-- common configuration shared by all executions -->
-				<configuration>
-					<driver>com.mysql.cj.jdbc.Driver</driver>
-					<url>jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=UTC</url>
-					<username>admincdb</username>
-					<password>qwerty1234</password>
-				</configuration>
+			
 
 			</plugin>
 

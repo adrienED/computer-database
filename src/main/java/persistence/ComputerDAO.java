@@ -18,7 +18,7 @@ import model.Computer;
 
 public class ComputerDAO {
 	
-	//Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
+	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	
 
 	    private ComputerDAO()
@@ -64,7 +64,7 @@ public class ComputerDAO {
 			computer.setCompany(company);
 
 		} catch (SQLException ex) {
-			//logger.error("Erreur SQL ComputerPopulate", ex);
+			logger.error("Erreur SQL ComputerPopulate", ex);
 		}
 		return computer;
 	}
@@ -82,7 +82,7 @@ public class ComputerDAO {
 			}
 			connection.close();
 		} catch (SQLException ex) {
-			//logger.error("Erreur SQL ListComputer", ex);
+			logger.error("Erreur SQL ListComputer", ex);
 		}
 		return computeresultSet;
 	}
@@ -107,7 +107,7 @@ public class ComputerDAO {
 			}
 			connection.close();
 		} catch (SQLException ex) {
-			//logger.error("Erreur SQL createComputer", ex);
+			logger.error("Erreur SQL createComputer", ex);
 		}
 		return lastInsertedId;
 	}
@@ -121,7 +121,7 @@ public class ComputerDAO {
 			statement.executeUpdate();
 			connection.close();
 		} catch (SQLException ex) {
-			//logger.error("Erreur SQL DeleteComputer", ex);
+			logger.error("Erreur SQL DeleteComputer", ex);
 		}
 		return true;
 	}
@@ -141,7 +141,7 @@ public class ComputerDAO {
 
 			connection.close();
 		} catch (SQLException ex) {
-			//logger.error("Erreur SQL updateComputer", ex);
+			logger.error("Erreur SQL updateComputer", ex);
 		}
 		return false;
 	}
@@ -178,7 +178,7 @@ public class ComputerDAO {
 			}
 
 		} catch (SQLException ex) {
-			//logger.error("Erreur SQL ComputerFindById", ex);
+			logger.error("Erreur SQL ComputerFindById", ex);
 		}
 		return null;
 
@@ -200,7 +200,7 @@ public class ComputerDAO {
 			}
 			connection.close();
 		} catch (SQLException ex) {
-			//logger.error("Erreur SQL ListComputer", ex);
+			logger.error("Erreur SQL ListComputer", ex);
 		}
 		return computeresultSet;
 	}

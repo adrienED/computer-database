@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="../../static/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="../../static/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="../../static/css/main.css" rel="stylesheet" media="screen">
+<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="static/css/font-awesome.css" rel="stylesheet" media="screen">
+<link href="static/css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
@@ -76,22 +76,22 @@
                     </tr>
                 </thead>
                 <tbody id="results">
-                 <c:forEach var="computer" items="${ComputerList}">
-                
+                 <c:forEach var="computer" items="${ListComputer}">
+
                 <!-- Browse attribute computers -->
-                
+
                 <tr>
-                    <td><c:out value="${computer.computerName}" /></td>
+                    <td><c:out value="${computer.name}" /></td>
                     <td><c:out value="${computer.introduced}" /></td>
                     <td><c:out value="${computer.discontinued}" /></td>
-                    <td><c:out value="a faire" /></td>
-                   
+                    <td><c:out value="${computer.companyDTO }" /></td>
+
                 </tr>
             </c:forEach>
-                
-                
-                    
-                    
+
+
+
+
                 </tbody>
             </table>
         </div>
@@ -122,11 +122,11 @@
             <button type="button" class="btn btn-default">50</button>
             <button type="button" class="btn btn-default">100</button>
         </div>
-
+</div>
     </footer>
-<script src="../../static/js/jquery.min.js"></script>
-<script src="../../static/js/bootstrap.min.js"></script>
-<script src="../../static/js/dashboard.js"></script>
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/dashboard.js"></script>
 
 </body>
-</html>
+</html> 
