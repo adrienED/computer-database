@@ -40,7 +40,7 @@ public class DashboardServlet extends HttpServlet {
 				List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
 				ComputerService computerService = ComputerService.getInstance();
 				try {
-					computerDAOList = computerService.getAll(10, 1);
+					computerDAOList = computerService.getAll(100, 1);
 				} catch (InvalidDateChronology e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

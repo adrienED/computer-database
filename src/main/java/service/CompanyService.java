@@ -35,5 +35,10 @@ public class CompanyService {
 		
 		return companyDtoList;
 	} 	  	 	
+	
+	public Company getNameById (long id) {
+		Company company =companyDAO.findById(id);
+		return company;
+	}
 
 }

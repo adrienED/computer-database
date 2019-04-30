@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +46,9 @@ public class ComputerDAO {
 
 	public Computer populate(ResultSet resultSet) throws InvalidDateChronology {
 		Computer computer = new Computer();
+		CompanyDAO companyDAO = CompanyDAO.getInstance();
+		
+		
 		try {
 			computer.setId(resultSet.getLong("id"));
 			computer.setName(resultSet.getString("name"));
@@ -54,13 +58,12 @@ public class ComputerDAO {
 			if (resultSet.getDate("discontinued") != null) {
 				computer.setDiscontinued(resultSet.getDate("discontinued").toLocalDate());
 			}
+		
 			Company company = new Company();
-			if (resultSet.getString("company_id") != null) {
-				company.setId(resultSet.getLong("company_id"));
-			}
-			if (resultSet.getString("company_name") != null) {
-				company.setName(resultSet.getString("company_name"));
-			}
+			company = companyDAO.findById(resultSet.getLong("company_id"));
+			System.out.println(company);
+			
+			
 			computer.setCompany(company);
 
 		} catch (SQLException ex) {
@@ -204,4 +207,6 @@ public class ComputerDAO {
 		}
 		return computeresultSet;
 	}
+	
+	
 }

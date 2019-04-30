@@ -1,5 +1,6 @@
 package mapper;
 
+import java.lang.invoke.MethodHandles;
 import java.time.LocalDate;
 
 import org.slf4j.Logger;
@@ -15,7 +16,7 @@ import persistence.CompanyDAO;
 
 public class ComputerMapper {
 
-	//Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
+	//private Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
 	private ComputerMapper() {
 	}

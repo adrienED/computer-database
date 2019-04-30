@@ -82,7 +82,7 @@ public class addComputer extends HttpServlet {
 			companyDTO.setId(inputsCreateComputer.get("idCompany"));
 			computerDTO.setCompanyDTO(companyDTO);
 			
-			/*
+			
 			try {
 				long idCreate = computerService.create(computerDTO);
 				System.out.println("Ordinateur creer avec l'id : " + idCreate);
@@ -90,7 +90,7 @@ public class addComputer extends HttpServlet {
 				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());
 			}
-			*/
+			
 			
 		
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");

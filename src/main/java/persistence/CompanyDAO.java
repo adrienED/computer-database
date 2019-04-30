@@ -15,7 +15,7 @@ import model.Company;
 
 public class CompanyDAO {
 	
-	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
+	//Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
 	    private CompanyDAO()
 	    {}
@@ -44,7 +44,7 @@ public class CompanyDAO {
 	            company.setName(resultSet.getString("name"));
 	            
 	        } catch (SQLException ex) {
-	        	logger.error("Erreur SQL populate", ex);
+	        	//logger.error("Erreur SQL populate", ex);
 	        }
 	        return company;
 	    }
@@ -63,7 +63,7 @@ public class CompanyDAO {
 	            }
 	            connection.close();
 	        } catch (SQLException ex) {
-	        	logger.error("Erreur SQL ListCompany", ex);
+	        	//logger.error("Erreur SQL ListCompany", ex);
 	        }
 	        return companies;
 		}
@@ -82,7 +82,7 @@ public class CompanyDAO {
 				}
 				connection.close();
 			} catch (SQLException ex) {
-				logger.error("Erreur SQL findById", ex);
+				//logger.error("Erreur SQL findById", ex);
 			}
 			return Company;
 		}
@@ -103,7 +103,7 @@ public class CompanyDAO {
 	            }
 	            connection.close();
 	        } catch (SQLException ex) {
-	        	logger.error("Erreur SQL ListCompany", ex);
+	        	//logger.error("Erreur SQL ListCompany", ex);
 	        }
 	        return companies;
 		}
