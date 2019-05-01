@@ -49,7 +49,12 @@ public class CompanyMapperTest {
 		assertEquals("test",companyMapper.dtoToModel(companyDTO).getName());
 		assertEquals(company,companyMapper.dtoToModel(companyDTO));
 		
+		companyDTO.setId("24");
+		companyDTO.setName("testa");
 		
+		assertNotEquals(23L,companyMapper.dtoToModel(companyDTO).getId());
+		assertNotEquals("test",companyMapper.dtoToModel(companyDTO).getName());
+		assertNotEquals(company,companyMapper.dtoToModel(companyDTO).getName());
 		
 	}
 	
@@ -68,13 +73,28 @@ public class CompanyMapperTest {
 		assertEquals("test",companyMapper.modelToDto(company).getName());
 		assertEquals(companyDTO,companyMapper.modelToDto(company));
 		
-		if(!(companyMapper.modelToDto(company).getId().equals("24")))
-			System.out.println("okID");
-				
-		if(!(companyMapper.modelToDto(company).getName().equals("testds")))
-			System.out.println("okName");
-		if(!(companyMapper.modelToDto(company).getName().equals(companydto)))
-			System.out.println("ok");
+		company.setId(24L);
+		company.setName("testa");
+		
+		
+		assertNotEquals("23",companyMapper.modelToDto(company).getId());
+		assertNotEquals("test",companyMapper.modelToDto(company).getName());
+		assertNotEquals(companyDTO,companyMapper.modelToDto(company));
+		
+		
+	}
+	
+	
+	@Test
+	public void NullPointerException(){
+		
+		company.setName("");
+	  try {
+		  companyMapper.modelToDto(company);
+	    fail("bdf");
+	  }catch(NullPointerException aExp){
+	    assert(aExp.getMessage().contains("NullPointerException"));
+	  }
 	}
 
 }

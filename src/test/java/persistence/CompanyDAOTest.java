@@ -53,8 +53,7 @@ public class CompanyDAOTest {
 		companyRef.setId(13L);
 		companyRef.setName("IBM");
 		
-		if (company.equals(companyRef)) 
-			System.out.println("ok");
+		assertEquals(companyRef, company);
 		
 	}
 
@@ -70,20 +69,14 @@ public class CompanyDAOTest {
 		companyRef.setId(13L);
 		companyRef.setName("IBM");
 		
-		
-		if (companyDAO.populate(resulSetMock).equals(companyRef))
-			System.out.println("ok");
+		assertEquals(companyRef, companyDAO.populate(resulSetMock));
 		
 	}
 
 	@Test
 	public void testGetAll() throws SQLException {
-		 List<Company> companies = new ArrayList<Company>();
-		 Company company = new Company();
-		 company.setId(1L);
-		 company.setName("Apple Inc.");
-		 
-		 companies.add(company);
+		
+		 CompanyDAO companyDAO = CompanyDAO.getInstance();
 		 
 		 when(resulSetMock.getLong("id")).thenReturn(1L);
 			when(resulSetMock.getString("name")).thenReturn("Apple Inc.");
@@ -128,12 +121,38 @@ public class CompanyDAOTest {
 			
 			when(resulSetMock.next()).thenReturn(true).thenReturn(false);
 			
-			
+			assertEquals(resulSetMock,companyDAO.getAll());
 		}
 
 	@Test
-	public void testGetAllIntInt() {
-		fail("Not yet implemented"); // TODO
+	public void testGetAllIntInt() throws SQLException {
+		CompanyDAO companyDAO = CompanyDAO.getInstance();
+		 
+			when(resulSetMock.getLong("id")).thenReturn(1L);
+			when(resulSetMock.getString("name")).thenReturn("Apple Inc.");
+			when(resulSetMock.getLong("id")).thenReturn(2L);
+			when(resulSetMock.getString("name")).thenReturn("Thinking Machines");
+			when(resulSetMock.getLong("id")).thenReturn(3L);
+			when(resulSetMock.getString("name")).thenReturn("RCA");
+			when(resulSetMock.getLong("id")).thenReturn(4L);
+			when(resulSetMock.getString("name")).thenReturn("Netronics");
+			when(resulSetMock.getLong("id")).thenReturn(5L);
+			when(resulSetMock.getString("name")).thenReturn("Tandy Corporation");
+			when(resulSetMock.getLong("id")).thenReturn(6L);
+			when(resulSetMock.getString("name")).thenReturn("COmmodore International");
+			when(resulSetMock.getLong("id")).thenReturn(7L);
+			when(resulSetMock.getString("name")).thenReturn("MOS Technology");
+			when(resulSetMock.getLong("id")).thenReturn(8L);
+			when(resulSetMock.getString("name")).thenReturn("Micro Instrumentation and Telemetry Systems");
+			when(resulSetMock.getLong("id")).thenReturn(9L);
+			when(resulSetMock.getString("name")).thenReturn("IMS Associates, Inc.");
+			when(resulSetMock.getLong("id")).thenReturn(10L);
+			
+			
+			when(resulSetMock.next()).thenReturn(true).thenReturn(false);
+			
+			assertEquals(resulSetMock,companyDAO.getAll(10,10) );
+		}
 	}
 
-}
+

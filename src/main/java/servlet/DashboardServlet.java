@@ -46,9 +46,9 @@ public class DashboardServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 				
-	RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
-	request.setAttribute("ListComputer", computerDAOList);
-	dispatcher.forward(request, response);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
+				request.setAttribute("ListComputer", computerDAOList);
+				dispatcher.forward(request, response);
 		
 		
 		

@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import mapper.CompanyMapper;
 import model.Company;
 import persistence.CompanyDAO;
 
@@ -39,10 +37,8 @@ public class CompanyServiceTest {
 		when (companyDAO.getAll(5,10)).thenReturn(listCompany);
 		
 		
+		assertEquals(listCompany, companyService.getAll(5, 10));
 		
-		if(listCompany.equals(companyService.getAll(5, 10)))
-			System.out.println("ok");
-System.out.println(companyService.getAll(5, 10));
 	}
 
 }
