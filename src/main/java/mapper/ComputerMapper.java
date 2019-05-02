@@ -1,11 +1,8 @@
 package mapper;
 
-import java.lang.invoke.MethodHandles;
 import java.time.LocalDate;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
@@ -16,7 +13,7 @@ import persistence.CompanyDAO;
 
 public class ComputerMapper {
 
-	//private Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
+	Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 
 	private ComputerMapper() {
 	}
@@ -53,7 +50,7 @@ public class ComputerMapper {
 
 				computer.setCompany(company);
 			} catch (NullPointerException e) {
-				//logger.error("null exception dtoToModel", e);
+				logger.error("null exception dtoToModel", e);
 			}
 
 		}
@@ -75,7 +72,7 @@ public class ComputerMapper {
 			companyDTO.setId(Long.toString(computer.getCompany().getId()));
 			computerDTO.setCompanyDTO(companyDTO);
 		} catch (NullPointerException e) {
-			//logger.error("null exception ModelToDto", e);
+			logger.error("null exception ModelToDto", e);
 		}
 		return computerDTO;
 	}

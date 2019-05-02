@@ -17,25 +17,15 @@ import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import service.ComputerService;
 
-/**
- * Servlet implementation class addComputer
- */
 @WebServlet("/addComputer")
 public class addComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public addComputer() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -47,10 +37,6 @@ public class addComputer extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -85,17 +71,15 @@ public class addComputer extends HttpServlet {
 		companyDTO.setId(inputsCreateComputer.get("idCompany"));
 		computerDTO.setCompanyDTO(companyDTO);
 
-		System.out.println(computerDTO);
-
 		try {
 			long idCreate = computerService.create(computerDTO);
 			System.out.println("Ordinateur creer avec l'id : " + idCreate);
 		} catch (InvalidDateValueException | InvalidDateChronology | NumberFormatException e) {
 			// TODO Auto-generated catch block
-			System.out.println("ERREUR");
+			System.out.println(e.getMessage());
 		}
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/DashboardServlet");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
 
 		dispatcher.forward(request, response);
 
