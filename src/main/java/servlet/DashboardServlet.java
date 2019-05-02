@@ -16,51 +16,47 @@ import exception.InvalidDateChronology;
 import persistence.ComputerDAO;
 import service.ComputerService;
 
-/**
- * Servlet implementation class DashboardServlet
- */
 @WebServlet("/DashboardServlet")
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DashboardServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-				List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
-				ComputerService computerService = ComputerService.getInstance();
-				try {
-					computerDAOList = computerService.getAll(100, 1);
-				} catch (InvalidDateChronology e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
-				request.setAttribute("ListComputer", computerDAOList);
-				dispatcher.forward(request, response);
-		
-		
-		
-}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		
 	
+	public DashboardServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+		String numeroDePage = request.getParameter("page");
+		System.out.println(numeroDePage);
+
+		if (numeroDePage == null)
+			numeroDePage = "2";
+
+		request.setAttribute("page", numeroDePage);
+
+		List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
+		ComputerService computerService = ComputerService.getInstance();
+		try {
+			computerDAOList = computerService.getAll(10, Integer.parseInt(numeroDePage));
+		} catch (InvalidDateChronology e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
+		request.setAttribute("ListComputer", computerDAOList);
+		dispatcher.forward(request, response);
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 	}
 
 }

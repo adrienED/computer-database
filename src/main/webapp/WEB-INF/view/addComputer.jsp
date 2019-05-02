@@ -26,19 +26,19 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" placeholder="Computer name">
+                                <input type="text" class="form-control" id="computerName" name="computerName" placeholder="Computer name">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced" placeholder="Introduced date">
+                                <input type="date" class="form-control" id="introduced" name="introduced" placeholder="Introduced date">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued" placeholder="Discontinued date">
+                                <input type="date" class="form-control" id="discontinued" name="discontinued" placeholder="Discontinued date">
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <input type="text" class="form-control" id="companyId" placeholder="companyId ">
+                                <input type="text" class="form-control" id="companyId" name="companyId" placeholder="companyId ">
                                 
                             </div>                  
                         </fieldset>
