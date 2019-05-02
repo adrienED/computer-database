@@ -11,6 +11,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import dto.CompanyDTO;
+import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import model.Company;
 import model.Computer;
@@ -20,7 +22,7 @@ public class ComputerServiceTest {
 
 	ComputerService computerService = null;
 
-	ComputerDAO companyDAO = mock(ComputerDAO.class);
+	ComputerDAO computerDAO = mock(ComputerDAO.class);
 
 	@Test
 	public void testFindById() {
@@ -28,10 +30,8 @@ public class ComputerServiceTest {
 	}
 
 	@Test
-	public void testGetAll() throws InvalidDateChronology {
+	public void testGetAllInint() throws InvalidDateChronology {
 
-		LocalDate introDate = LocalDate.parse("2016-12-12");
-		LocalDate disconDate = LocalDate.parse("2017-12-12");
 
 		Company company = new Company();
 		company.setId(1L);
@@ -41,26 +41,50 @@ public class ComputerServiceTest {
 
 		computer.setId(23L);
 		computer.setName("test");
-		computer.setIntroduced(introDate);
-		computer.setDiscontinued(disconDate);
+		computer.setIntroduced(LocalDate.parse("2016-12-12"));
+		computer.setDiscontinued(LocalDate.parse("2016-12-12"));
 		computer.setCompany(company);
 
-		List<Computer> listComputer = new ArrayList<>();
-		listComputer.add(computer);
+		List<Computer> listComputerModel = new ArrayList<>();
+		listComputerModel.add(computer);
 
 		Computer computer2 = new Computer();
 
 		computer2.setId(24L);
 		computer2.setName("test2");
-		computer2.setIntroduced(introDate);
-		computer2.setDiscontinued(disconDate);
+		computer2.setIntroduced(LocalDate.parse("2016-12-12"));
+		computer2.setDiscontinued(LocalDate.parse("2016-12-12"));
 		computer2.setCompany(company);
 
-		listComputer.add(computer2);
+		listComputerModel.add(computer2);
+		
+		CompanyDTO companyDTO = new CompanyDTO();
+		companyDTO.setId("1");
+		companyDTO.setName("Apple Inc.");
 
-		when(companyDAO.getAll(5, 10)).thenReturn(listComputer);
+		ComputerDTO computerDTO = new ComputerDTO();
 
-		assertEquals(listComputer, computerService.getAll(5, 10));
+		computerDTO.setId("23");
+		computerDTO.setName("test");
+		computerDTO.setIntroduced("2016-12-12");
+		computerDTO.setDiscontinued("2016-12-12");
+		computerDTO.setCompanyDTO(companyDTO);
+
+		List<ComputerDTO> listComputerDTO = new ArrayList<>();
+		listComputerDTO.add(computerDTO);
+
+		ComputerDTO computerDTO2 = new ComputerDTO();
+		computerDTO2.setName("test2");
+		computerDTO2.setIntroduced("2016-12-12");
+		computerDTO2.setDiscontinued("2016-12-12");
+		computerDTO2.setCompanyDTO(companyDTO);
+
+		listComputerDTO.add(computerDTO2);
+
+
+		when(computerDAO.getAll(2, 1)).thenReturn(listComputerModel);
+		
+		assertEquals(listComputerDTO, computerService.getAll(2, 1));
 	}
 
 }

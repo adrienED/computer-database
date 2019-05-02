@@ -83,18 +83,5 @@ public class CompanyMapperTest {
 		
 		
 	}
-	
-	
-	@Test
-	public void NullPointerException(){
-		
-		company.setName("");
-	  try {
-		  companyMapper.modelToDto(company);
-	    fail("bdf");
-	  }catch(NullPointerException aExp){
-	    assert(aExp.getMessage().contains("NullPointerException"));
-	  }
-	}
 
 }

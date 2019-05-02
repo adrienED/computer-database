@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import dto.CompanyDTO;
 import model.Company;
 import persistence.CompanyDAO;
 
@@ -29,15 +31,30 @@ public class CompanyServiceTest {
 	@Test
 	public void testGetAll() {
 		Company company = new Company();
-		company.setId(23L);
-		company.setName("test");
-		List<Company> listCompany= new ArrayList<>();
-		listCompany.add(company);
+		List<Company> listCompanyModel= new ArrayList<>();
+		company.setId(2L);
+		company.setName("Thinking Machines");		
+		listCompanyModel.add(company);
+		Company company2 = new Company();
+		company2.setId(3L);
+		company2.setName("RCA");		
+		listCompanyModel.add(company2);
 		
-		when (companyDAO.getAll(5,10)).thenReturn(listCompany);
+		CompanyDTO companyDTO = new CompanyDTO();
+		List<CompanyDTO> listCompanyDTO= new ArrayList<>();
+		companyDTO.setId("2");
+		companyDTO.setName("Thinking Machines");		
+		listCompanyDTO.add(companyDTO);
+		
+		CompanyDTO companyDTO2 = new CompanyDTO();
+		companyDTO2.setId("3");
+		companyDTO2.setName("RCA");		
+		listCompanyDTO.add(companyDTO2);
+		
+		when (companyDAO.getAll(2,1)).thenReturn(listCompanyModel);
 		
 		
-		assertEquals(listCompany, companyService.getAll(5, 10));
+		assertEquals(listCompanyDTO, companyService.getAll(2, 1));
 		
 	}
 
