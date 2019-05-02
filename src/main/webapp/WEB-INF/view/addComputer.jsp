@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,9 +39,17 @@
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <input type="text" class="form-control" id="companyName" name="companyName" placeholder="companyId ">
+                                <select class="form-control" id="companyId" >
                                 
-                            </div>                  
+                                <c:forEach var="computer" items="${ListCompanies}">
+
+             	
+     			                  					    
+                             
+       		        <option value =      <c:out value="${company.name}">dfds </option>
+        					    </c:forEach>
+  								</select>
+                            </div>                   
                         </fieldset>
                         <div class="actions pull-right">
                             <input type="submit" value="Add" class="btn btn-primary">

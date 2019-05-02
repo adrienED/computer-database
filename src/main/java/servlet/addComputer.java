@@ -1,7 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +17,8 @@ import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
+import model.Company;
+import service.CompanyService;
 import service.ComputerService;
 
 /**
@@ -39,11 +43,14 @@ public class addComputer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		CompanyService companyService = CompanyService.getInstance();
 
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	List<CompanyDTO> ListCompanies = new ArrayList<CompanyDTO>();
+	ListCompanies = companyService.getAll(10, 1);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/addComputer.jsp");
-
+		request.setAttribute("ListCompanies", ListCompanies);
 		dispatcher.forward(request, response);
 	}
 
