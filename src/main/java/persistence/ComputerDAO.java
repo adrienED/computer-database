@@ -46,9 +46,6 @@ public class ComputerDAO {
 
 	public Computer populate(ResultSet resultSet) throws InvalidDateChronology {
 		Computer computer = new Computer();
-		CompanyDAO companyDAO = CompanyDAO.getInstance();
-		
-		
 		try {
 			computer.setId(resultSet.getLong("id"));
 			computer.setName(resultSet.getString("name"));
@@ -59,12 +56,8 @@ public class ComputerDAO {
 				computer.setDiscontinued(resultSet.getDate("discontinued").toLocalDate());
 			}
 		
-			Company company = new Company();
-			company = companyDAO.findById(resultSet.getLong("company_id"));
-			System.out.println(company);
-			
-			
-			computer.setCompany(company);
+			computer.setCompanyID(resultSet.getLong("company_id"));
+
 
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL ComputerPopulate", ex);
@@ -100,7 +93,7 @@ public class ComputerDAO {
 			statement.setString(1, computer.getName());
 			statement.setDate(2, Date.valueOf(computer.getIntroduced()));
 			statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
-			statement.setLong(4, computer.getCompany().getId());
+			statement.setLong(4, computer.getCompanyID());
 			statement.toString();
 			statement.executeUpdate();
 
@@ -138,7 +131,7 @@ public class ComputerDAO {
 			statement.setString(1, computer.getName());
 			statement.setDate(2, Date.valueOf(computer.getIntroduced()));
 			statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
-			statement.setLong(4, computer.getCompany().getId());
+			statement.setLong(4, computer.getCompanyID());
 			statement.setLong(5, computer.getId());
 			statement.executeUpdate();
 
@@ -171,10 +164,7 @@ public class ComputerDAO {
 				if (resultSet.getString("company_id") != null) {
 					company.setId(resultSet.getLong("company_id"));
 				}
-				if (resultSet.getString("company_name") != null) {
-					company.setName(resultSet.getString("company_name"));
-				}
-				computer.setCompany(company);
+				
 				return computer;
 			} else {
 				throw new ComputerNotFoundException(id);

@@ -9,13 +9,8 @@ public class Computer {
 	protected String name;
 	protected LocalDate introduced;
 	protected LocalDate discontinued;
-	protected Company company;
+	protected long companyID;
 
-	@Override
-	public String toString() {
-		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", company=" + company + "]";
-	}
 
 	public long getId() {
 		return id;
@@ -50,12 +45,12 @@ public class Computer {
 		this.discontinued = discontinued;
 	}
 
-	public Company getCompany() {
-		return company;
+	public long getCompanyID() {
+		return companyID;
 	}
 
-	public void setCompany(Company company) {
-		this.company = company;
+	public void setCompanyID(long companyID) {
+		this.companyID = companyID;
 	}
 
 
@@ -64,10 +59,16 @@ public class Computer {
 	}
 
 	@Override
+	public String toString() {
+		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
+				+ ", companyID=" + companyID + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((company == null) ? 0 : company.hashCode());
+		result = prime * result + (int) (companyID ^ (companyID >>> 32));
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
@@ -84,10 +85,7 @@ public class Computer {
 		if (getClass() != obj.getClass())
 			return false;
 		Computer other = (Computer) obj;
-		if (company == null) {
-			if (other.company != null)
-				return false;
-		} else if (!company.equals(other.company))
+		if (companyID != other.companyID)
 			return false;
 		if (discontinued == null) {
 			if (other.discontinued != null)
@@ -109,5 +107,8 @@ public class Computer {
 		return true;
 	}
 
+	
+
+	
 
 }

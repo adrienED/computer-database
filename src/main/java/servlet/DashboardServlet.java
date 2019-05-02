@@ -47,6 +47,8 @@ public class DashboardServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
 		request.setAttribute("ListComputer", computerDAOList);

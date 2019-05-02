@@ -11,5 +11,13 @@ public class AppMain {
 		
 		CompanyService companyService = CompanyService.getInstance();
 		ComputerService computerService = ComputerService.getInstance();
+
+		UI view = new UI();
+		Controller controller = new Controller(companyService, computerService, view);
+
+		controller.start();
+		
+		
+
 	}
 }

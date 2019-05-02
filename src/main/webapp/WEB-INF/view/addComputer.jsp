@@ -38,7 +38,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <input type="text" class="form-control" id="companyId" name="companyId" placeholder="companyId ">
+                                <input type="text" class="form-control" id="companyName" name="companyName" placeholder="companyId ">
                                 
                             </div>                  
                         </fieldset>

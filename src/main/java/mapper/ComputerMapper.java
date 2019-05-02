@@ -1,8 +1,11 @@
 package mapper;
 
+import java.lang.invoke.MethodHandles;
 import java.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
@@ -13,7 +16,7 @@ import persistence.CompanyDAO;
 
 public class ComputerMapper {
 
-	Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
+	//private Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
 	private ComputerMapper() {
 	}
@@ -46,18 +49,19 @@ public class ComputerMapper {
 				computer.setName(computerDTO.getName());
 				computer.setIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
 				computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
-				Company company = companyDAO.findById(Long.parseLong(computerDTO.getCompanyDTO().getId()));
-
-				computer.setCompany(company);
+				computer.setCompanyID(companyDAO.findByName(computerDTO.getCompanyName()));
+				
 			} catch (NullPointerException e) {
-				logger.error("null exception dtoToModel", e);
+				//logger.error("null exception dtoToModel", e);
 			}
+			
 
 		}
 		return computer;
 	}
 
 	public ComputerDTO modelToDto(Computer computer) {
+		CompanyDAO companyDAO = CompanyDAO.getInstance();
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setId(Long.toString(computer.getId()));
 		computerDTO.setName(computer.getName());
@@ -67,13 +71,11 @@ public class ComputerMapper {
 		if (computer.getDiscontinued() != null) {
 			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
 		}
-		CompanyDTO companyDTO = new CompanyDTO();
-		try {
-			companyDTO.setId(Long.toString(computer.getCompany().getId()));
-			computerDTO.setCompanyDTO(companyDTO);
-		} catch (NullPointerException e) {
-			logger.error("null exception ModelToDto", e);
-		}
+		
+			computerDTO.setCompanyName(companyDAO.findById(computer.getCompanyID()).getName());
+		
+			
+		
 		return computerDTO;
 	}
 

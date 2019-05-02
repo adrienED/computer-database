@@ -52,8 +52,9 @@ public class ComputerService {
 	public List<ComputerDTO> getAll(int limit, int offset) throws InvalidDateChronology{
 		ComputerDAO computerDAO = ComputerDAO.getInstance();
 		List<Computer> computerList = computerDAO.getAll(limit, offset);
+		System.out.println(computerList);
 		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream().map(s -> mapper.modelToDto(s)).collect(Collectors.toList());
-
+		System.out.println(computerDtoList);
 		return computerDtoList;
 }
 	

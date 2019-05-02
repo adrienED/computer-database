@@ -17,15 +17,25 @@ import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import service.ComputerService;
 
+/**
+ * Servlet implementation class addComputer
+ */
 @WebServlet("/addComputer")
 public class addComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
 	public addComputer() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -37,6 +47,10 @@ public class addComputer extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -60,26 +74,26 @@ public class addComputer extends HttpServlet {
 
 		// get idCompany
 
-		String IdCompany = request.getParameter("companyId");
-		inputsCreateComputer.put("idCompany", IdCompany);
+		String companyName = request.getParameter("companyName");
+		inputsCreateComputer.put("companyName", companyName);
 		ComputerDTO computerDTO = new ComputerDTO();
 
 		computerDTO.setName(inputsCreateComputer.get("computerName"));
 		computerDTO.setIntroduced(inputsCreateComputer.get("introduced"));
 		computerDTO.setDiscontinued(inputsCreateComputer.get("discontinued"));
-		CompanyDTO companyDTO = new CompanyDTO();
-		companyDTO.setId(inputsCreateComputer.get("idCompany"));
-		computerDTO.setCompanyDTO(companyDTO);
+		computerDTO.setCompanyName(inputsCreateComputer.get("companyName"));
+
+		System.out.println(computerDTO);
 
 		try {
 			long idCreate = computerService.create(computerDTO);
 			System.out.println("Ordinateur creer avec l'id : " + idCreate);
 		} catch (InvalidDateValueException | InvalidDateChronology | NumberFormatException e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+			System.out.println("ERREUR");
 		}
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/DashboardServlet");
 
 		dispatcher.forward(request, response);
 
