@@ -100,7 +100,7 @@ public class addComputer extends HttpServlet {
 			System.out.println("ERREUR");
 		}
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/DashboardServlet");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/addComputer.jsp");
 
 		dispatcher.forward(request, response);
 
