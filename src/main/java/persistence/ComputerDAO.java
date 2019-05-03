@@ -43,7 +43,7 @@ public class ComputerDAO {
 	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?,discontinued = ?,company_id = ? WHERE id = ?";
 	private static final String SQL_DELETE = "DELETE FROM computer WHERE id=?";
 	private static final String SQL_FIND_ALL_PAGINED = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY id LIMIT ? OFFSET ?";
-
+	private static final String SQL_COUNT_ALL = "SELECT COUNT(*) FROM computer";
 	public Computer populate(ResultSet resultSet) throws InvalidDateChronology {
 		Computer computer = new Computer();
 		try {
@@ -197,6 +197,25 @@ public class ComputerDAO {
 		}
 		return computeresultSet;
 	}
+	
+	public int getNbOfComputer() {
+			int nbOfComputer = 0;
+			try {
+				Connection connection = ConnectionDAO.getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_COUNT_ALL);
+				ResultSet resultSet = statement.executeQuery();
+				
+				resultSet.next();
+				nbOfComputer = resultSet.getInt(1);
+
+				
+				connection.close();
+			} catch (SQLException ex) {
+				logger.error("Erreur SQL ListComputer", ex);
+			}
+			return nbOfComputer;
+		}
+	
 	
 	
 }

@@ -39,14 +39,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select class="form-control" id="companyId" >
+                                <select class="form-control" id="companyId" name ="companyName" >
                                 
-                                <c:forEach var="computer" items="${ListCompanies}">
-
-             	
-     			                  					    
-                             
-       		        <option value =      <c:out value="${company.name}">dfds </option>
+                                <c:forEach var="company" items="${ListCompanies}">
+			   					     <option value="${company.name}"> <c:out value="${company.name}"> </c:out></option>
         					    </c:forEach>
   								</select>
                             </div>                   

@@ -11,7 +11,7 @@ import persistence.CompanyDAO;
 
 public class CompanyMapper {
 
-	//Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
+	Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
 	private CompanyMapper() {
 	}
@@ -32,7 +32,7 @@ public class CompanyMapper {
 			company.setName(companyDTO.getName());
 		} catch (NullPointerException e) {
 			System.out.print("dtoToModel null input");
-			//logger.error("dtoToModel null input", e);
+			logger.error("dtoToModel null input", e);
 
 		}
 		return company;
@@ -47,7 +47,7 @@ public class CompanyMapper {
 
 		} catch (NullPointerException e) {
 			System.out.print("modelToDto null");
-			//logger.error("ModeleTODto null input", e);
+			logger.error("ModeleTODto null input", e);
 		}
 		return companyDTO;
 	}

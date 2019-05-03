@@ -16,7 +16,7 @@ import persistence.CompanyDAO;
 
 public class ComputerMapper {
 
-	//private Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
+	private Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
 	private ComputerMapper() {
 	}
@@ -52,7 +52,7 @@ public class ComputerMapper {
 				computer.setCompanyID(companyDAO.findByName(computerDTO.getCompanyName()));
 				
 			} catch (NullPointerException e) {
-				//logger.error("null exception dtoToModel", e);
+				logger.error("null exception dtoToModel", e);
 			}
 			
 
@@ -61,7 +61,7 @@ public class ComputerMapper {
 	}
 
 	public ComputerDTO modelToDto(Computer computer) {
-		CompanyDAO companyDAO = CompanyDAO.getInstance();
+		
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setId(Long.toString(computer.getId()));
 		computerDTO.setName(computer.getName());

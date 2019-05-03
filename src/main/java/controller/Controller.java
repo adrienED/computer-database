@@ -1,9 +1,12 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
 
 import dto.CompanyDTO;
 import dto.ComputerDTO;
@@ -12,20 +15,19 @@ import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import exception.NotFoundException;
 import model.Company;
+import persistence.ComputerDAO;
 import service.CompanyService;
 import service.ComputerService;
 import ui.UI;
 
 public class Controller {
-	private CompanyService companyService;
-	private ComputerService computerService;
+	private CompanyService companyService = CompanyService.getInstance();
+	private ComputerService computerService = ComputerService.getInstance();
 	private UI vue;
 
-	public Controller(CompanyService companyService, ComputerService computerService, UI vue) {
+	public Controller() {
 		super();
-		this.companyService = companyService;
-		this.computerService = computerService;
-		this.vue = vue;
+	
 	}
 
 	public void start() {
@@ -92,7 +94,7 @@ public class Controller {
 		computerDTOCreate.setDiscontinued(inputsCreateComputer.get("discontinued"));
 		CompanyDTO companyDTO = new CompanyDTO();
 		companyDTO.setId(inputsCreateComputer.get("idCompany"));
-		computerDTOCreate.setCompanyDTO(companyDTO);
+		computerDTOCreate.setCompanyName(inputsCreateComputer.get("CompanyName"));
 		return computerDTOCreate;
 
 	}
@@ -183,10 +185,35 @@ public class Controller {
 					break;
 				}
 			}
+			
+		
 
 		} catch (InvalidDateChronology e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	public List<ComputerDTO> getComputerPage(String numeroDePage) {
+		List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
+		ComputerService computerService = ComputerService.getInstance();
+		try {
+			computerDAOList = computerService.getAll(10, Integer.parseInt(numeroDePage));
+		} catch (InvalidDateChronology e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return computerDAOList;
+		
+	}
+	
+	public int getNbOfComputer() {
+		
+		return computerService.getNbOfComputer();
+	}
+	
+	
+	
+	
+	
 }

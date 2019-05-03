@@ -66,7 +66,7 @@ public class addComputer extends HttpServlet {
 
 		// get name
 		String computerName = request.getParameter("computerName");
-		inputsCreateComputer.put("computername", computerName);
+		inputsCreateComputer.put("computerName", computerName);
 		System.out.println(computerName);
 
 		// get introducedDate
