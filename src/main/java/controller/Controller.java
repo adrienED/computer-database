@@ -194,11 +194,11 @@ public class Controller {
 		}
 	}
 	
-	public List<ComputerDTO> getComputerPage(String numeroDePage) {
+	public List<ComputerDTO> getComputerPage(int page) {
 		List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
 		ComputerService computerService = ComputerService.getInstance();
 		try {
-			computerDAOList = computerService.getAll(10, Integer.parseInt(numeroDePage));
+			computerDAOList = computerService.getAll(10, page);
 		} catch (InvalidDateChronology e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

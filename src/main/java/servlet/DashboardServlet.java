@@ -23,6 +23,9 @@ public class DashboardServlet extends HttpServlet {
 	
 	Controller controller = new Controller();
 	ComputerService computerService = ComputerService.getInstance();
+	
+	private int nbOfComputerByPage = 10;
+	private int page = 1;
 
 	
 	public DashboardServlet() {
@@ -35,23 +38,32 @@ public class DashboardServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		String nbOfComputerByPageString = request.getParameter("nbOfComputerByPage");
+		if(nbOfComputerByPageString!=null)
+			nbOfComputerByPage = Integer.parseInt(nbOfComputerByPageString);
+		
 		int nbOfComputer = computerService.getNbOfComputer();
 
-		String numeroDePage = request.getParameter("page");
-		System.out.println(numeroDePage);
+		String pageString = request.getParameter("page");
+		if(pageString!=null)
+			page = Integer.parseInt(pageString);
 
-		if (numeroDePage == null)
-			numeroDePage = "1";
 
-		request.setAttribute("page", numeroDePage);
+		int lastPage= nbOfComputer/nbOfComputerByPage;
 
-		List<ComputerDTO> computerDAOList = controller.getComputerPage(numeroDePage);
+
+		List<ComputerDTO> computerDAOList = controller.getComputerPage(page);
+		
+		
 		
 		
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
+		request.setAttribute("page", page);
+		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("nbOfComputer", nbOfComputer);
 		request.setAttribute("ListComputer", computerDAOList);
+		
 		dispatcher.forward(request, response);
 
 	}
