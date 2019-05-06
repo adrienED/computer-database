@@ -21,6 +21,7 @@ public class ComputerDAO {
 	
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	
+	
 
 	    private ComputerDAO()
 	    {}

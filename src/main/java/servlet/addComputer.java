@@ -20,6 +20,7 @@ import exception.InvalidDateValueException;
 import model.Company;
 import service.CompanyService;
 import service.ComputerService;
+import validator.ComputerValidator;
 
 /**
  * Servlet implementation class addComputer
@@ -27,6 +28,8 @@ import service.ComputerService;
 @WebServlet("/addComputer")
 public class addComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	ComputerValidator computerValidator = ComputerValidator.getInstance();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -89,7 +92,9 @@ public class addComputer extends HttpServlet {
 		computerDTO.setIntroduced(inputsCreateComputer.get("introduced"));
 		computerDTO.setDiscontinued(inputsCreateComputer.get("discontinued"));
 		computerDTO.setCompanyName(inputsCreateComputer.get("companyName"));
-
+		
+		computerValidator.validate(computerDTO);
+		
 		System.out.println(computerDTO);
 
 		try {

@@ -23,67 +23,10 @@ import ui.UI;
 public class Controller {
 	private CompanyService companyService = CompanyService.getInstance();
 	private ComputerService computerService = ComputerService.getInstance();
-	private UI vue;
 
 	public Controller() {
 		super();
 	
-	}
-
-	public void start() {
-
-		while (true) {
-			vue.showActions();
-			int choix = vue.readInputInt();
-			if (choix <1 || choix >6) {
-				System.out.println("Veuillez enter un chiffre entre 1 et 6");
-				break;
-			}
-			runChoice(choix);
-		}
-	}
-
-	public void runChoice(int choix) {
-
-		switch (choix) {
-
-		// List Computers
-		case 1:
-			listComputers();
-			break;
-
-		// List Companies
-		case 2:
-
-			List<CompanyDTO> companyList;
-			companyList = companyService.getAll(10, 10);
-			companyList.forEach(System.out::println);
-
-			break;
-
-		// show Computer
-		case 3:
-			showComputer();
-			break;
-
-		// create Computer
-		case 4:
-			createComputer();
-			break;
-
-		// update Computer
-		case 5:
-			updateComputer();
-			break;
-
-		// delete Computer
-		case 6:
-			deleteComputer();
-			break;
-		default:
-
-		}
-
 	}
 
 	private ComputerDTO inputsToComputerDTO(Map<String, String> inputsCreateComputer) {
@@ -99,27 +42,11 @@ public class Controller {
 
 	}
 
-	private void updateComputer()  {
-		try {
-			vue.updateComputer();
-			String idUpdate = vue.readInputs();
-			ComputerDTO computerDTOtoUpdate = computerService.findById(idUpdate);
-			System.out.println("Ordiateur a modifier : " + computerDTOtoUpdate.toString());
-			Map<String, String> inputsNewComputer = vue.createComputer();
-			ComputerDTO computerDTOUpdate = this.inputsToComputerDTO(inputsNewComputer);
-			computerDTOUpdate.setId(idUpdate);
-			computerService.update(computerDTOUpdate);
-		} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology | ComputerNotFoundException e1) {
-			
-			Logger.getLogger(Company.class.getName()).log(Level.SEVERE, null, e1);
-		}
-	}
+	
 
-	private void showComputer() {
+	public ComputerDTO showComputerDetails(long id) {
 
 		try {
-			vue.showComputer();
-			String id = vue.readInputs();
 			ComputerDTO computerDTO;
 			computerDTO = computerService.findById(id);
 			System.out.println(computerDTO);
@@ -157,42 +84,6 @@ public class Controller {
 		}
 	}
 
-	private void listComputers() {
-		try {
-			boolean returnMenu = false;
-			int n = 1;
-			while (!returnMenu) {
-				List<ComputerDTO> computerDAOList;
-				computerDAOList = computerService.getAll(10, n);
-				
-				for (ComputerDTO computerDTO : computerDAOList) {
-					System.out.println(computerDTO);
-				}
-				vue.menuNextPage();
-				String choix2 = vue.readInputs();
-				switch (choix2) {
-				// retour
-				case "0":
-					returnMenu = true;
-					break;
-				// page suivante
-				case "1":
-					n += 10;
-					break;
-				// page precedente
-				case "2":
-					n -= 10;
-					break;
-				}
-			}
-			
-		
-
-		} catch (InvalidDateChronology e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-		}
-	}
 	
 	public List<ComputerDTO> getComputerPage(int page) {
 		List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
@@ -212,6 +103,26 @@ public class Controller {
 		return computerService.getNbOfComputer();
 	}
 	
+	public List<CompanyDTO> getListCompany (){
+		List<CompanyDTO> companyList;
+		companyList = companyService.getAll(10, 10);
+		return companyList;
+	}
+	
+	public void updateComputer(ComputerDTO computerDTO)  {
+		try {
+			
+			ComputerDTO computerDTOtoUpdate = computerService.findById(idUpdate);
+			System.out.println("Ordiateur a modifier : " + computerDTOtoUpdate.toString());
+			Map<String, String> inputsNewComputer = vue.createComputer();
+			ComputerDTO computerDTOUpdate = this.inputsToComputerDTO(inputsNewComputer);
+			computerDTOUpdate.setId(idUpdate);
+			computerService.update(computerDTOUpdate);
+		} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology | ComputerNotFoundException e1) {
+			
+			Logger.getLogger(Company.class.getName()).log(Level.SEVERE, null, e1);
+		}
+	}
 	
 	
 	
