@@ -75,7 +75,7 @@
 
 						<tr>
 							<td>
-							<a href="EditComputerServlet" onclick=""><c:out value="${computer.name}" /></a>
+							<a href="EditComputerServlet?id=${computer.id}" onclick=""><c:out value="${computer.name}" /></a>
 							</td>
 							<td><c:out value="${computer.introduced}" /></td>
 							<td><c:out value="${computer.discontinued}" /></td>

@@ -26,7 +26,9 @@ public class ConnectionHikariCP {
 	
 
     public static Connection getConnection() throws SQLException {
+    	Properties properties = new Properties();
         Connection connection = null; 
+        
         
         try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -35,12 +37,17 @@ public class ConnectionHikariCP {
 			
 		}
       
-        FileInputStream f = new FileInputStream("../resources/dbHikari.properties");
-        
-        
+        FileInputStream f;
+		try {
+			f = new FileInputStream("src/main/resources/dbHikari.properties");
+
             
-            Properties properties = new Properties();
-            properties.load(f);
+
+				properties.load(f);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             
             HikariConfig hikariConfig = new HikariConfig(properties);
 

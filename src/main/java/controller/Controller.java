@@ -18,7 +18,6 @@ import model.Company;
 import persistence.ComputerDAO;
 import service.CompanyService;
 import service.ComputerService;
-import ui.UI;
 
 public class Controller {
 	private CompanyService companyService = CompanyService.getInstance();
@@ -44,15 +43,16 @@ public class Controller {
 
 	
 
-	public ComputerDTO showComputerDetails(long id) {
-
+	public ComputerDTO getComputerDTOById(String id) {
+		ComputerDTO computerDTO = new ComputerDTO();
 		try {
-			ComputerDTO computerDTO;
+			
 			computerDTO = computerService.findById(id);
-			System.out.println(computerDTO);
+			
 		} catch (NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
+		return computerDTO;
 	}
 
 	private void createComputer() {
@@ -105,20 +105,15 @@ public class Controller {
 	
 	public List<CompanyDTO> getListCompany (){
 		List<CompanyDTO> companyList;
-		companyList = companyService.getAll(10, 10);
+		companyList = companyService.getAll(200, 1);
 		return companyList;
 	}
 	
 	public void updateComputer(ComputerDTO computerDTO)  {
 		try {
 			
-			ComputerDTO computerDTOtoUpdate = computerService.findById(idUpdate);
-			System.out.println("Ordiateur a modifier : " + computerDTOtoUpdate.toString());
-			Map<String, String> inputsNewComputer = vue.createComputer();
-			ComputerDTO computerDTOUpdate = this.inputsToComputerDTO(inputsNewComputer);
-			computerDTOUpdate.setId(idUpdate);
-			computerService.update(computerDTOUpdate);
-		} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology | ComputerNotFoundException e1) {
+			computerService.update(computerDTO);
+		} catch (InvalidDateValueException | InvalidDateChronology e1) {
 			
 			Logger.getLogger(Company.class.getName()).log(Level.SEVERE, null, e1);
 		}
