@@ -20,7 +20,7 @@ public class ConnectionDAO {
 
 	static Logger logger = LoggerFactory.getLogger(ConnectionDAO.class);
 
-	private HikariConfig config = new HikariConfig("/dbHikari.properties");
+	private HikariConfig config = new HikariConfig("/db.properties");
 	private HikariDataSource ds = new HikariDataSource(config);
 
 	public Connection getConnection() throws SQLException {

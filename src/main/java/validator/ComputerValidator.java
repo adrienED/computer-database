@@ -22,12 +22,17 @@ public class ComputerValidator {
 
 	public boolean validate(ComputerDTO computerDTO) {
 		
-		boolean validateName, validateDateIntroduced ,validateDateDiscontinued, validateDateOrder;
+		boolean validateName, validateDateIntroduced 
+		,validateDateDiscontinued, validateDateOrder,
+		validateNameCompany;
 		
 		//validateID = validateId(computerDTO.getCompanyName());
 		
-		if (computerDTO.getCompanyName() != null) validateName = true;
+		if (computerDTO.getName() != null) validateName = true;
 		else validateName = false;
+		
+		if (computerDTO.getCompanyName() != null) validateNameCompany = true;
+		else validateNameCompany = false;
 		
 		if (computerDTO.getIntroduced() !=null)
 			validateDateIntroduced =validateDate(computerDTO.getIntroduced());
@@ -42,9 +47,11 @@ public class ComputerValidator {
 		else validateDateOrder =true;
 
 		
-		this.logger.info(validateName+ " "+validateDateIntroduced +" "+validateDateDiscontinued+" "+validateDateOrder);
+		this.logger.info(validateName+ " "+validateDateIntroduced 
+				+" "+validateDateDiscontinued+" "+validateDateOrder+" "+validateNameCompany);
 		
-		if ( validateName == true && validateDateIntroduced ==true && validateDateDiscontinued==true && validateDateOrder == true) 
+		if ( validateName == true && validateDateIntroduced ==true
+				&& validateDateDiscontinued==true && validateDateOrder == true) 
 			return true;
 		else return false;
 	

@@ -70,12 +70,10 @@ public class Controller {
 		}
 	}
 
-	private void deleteComputer() {
+	public void deleteComputer(String id) {
 		try {
-			vue.deleteComputer();
-			String idDelete = vue.readInputs();
-			
-			ComputerDTO computerDTOtoDelete = computerService.findById(idDelete);
+	
+			ComputerDTO computerDTOtoDelete = computerService.findById(id);
 			computerService.delete(computerDTOtoDelete);
 			
 		} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
@@ -88,6 +86,8 @@ public class Controller {
 	public List<ComputerDTO> getComputerPage(int page) {
 		List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
 		ComputerService computerService = ComputerService.getInstance();
+		
+		if (page != 1) page = page*10-10;
 		try {
 			computerDAOList = computerService.getAll(10, page);
 		} catch (InvalidDateChronology e) {
@@ -117,6 +117,18 @@ public class Controller {
 			
 			Logger.getLogger(Company.class.getName()).log(Level.SEVERE, null, e1);
 		}
+	}
+	
+	public List<ComputerDTO> search(String keyword){
+		computerService.search(keyword);
+		
+		
+		return null;
+		
+	}
+	
+	public void deleteCompany() {
+		
 	}
 	
 	

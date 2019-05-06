@@ -18,28 +18,23 @@ import model.Company;
 import model.Computer;
 
 public class ComputerDAO {
-	
+
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
-	
+
 	ConnectionDAO connectionDAO = new ConnectionDAO();
-	
-	
 
-	    private ComputerDAO()
-	    {}
+	private ComputerDAO() {
+	}
 
-	    private static ComputerDAO INSTANCE = null;
-	     
-	    public static ComputerDAO getInstance()
-	    {           
-	        if (INSTANCE == null)
-	        {   INSTANCE = new ComputerDAO(); 
-	        }
-	        return INSTANCE;
-	    }
+	private static ComputerDAO INSTANCE = null;
 
-	
-	
+	public static ComputerDAO getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new ComputerDAO();
+		}
+		return INSTANCE;
+	}
+
 	private static final String SQL_FIND_ALL = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.id";
 	private static final String SQL_FIND_WITH_ID = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id WHERE A.id = ?";
 	private static final String SQL_CREATE = "INSERT INTO computer (name, introduced,discontinued,company_id) VALUES (?,?,?,?)";
@@ -47,6 +42,8 @@ public class ComputerDAO {
 	private static final String SQL_DELETE = "DELETE FROM computer WHERE id=?";
 	private static final String SQL_FIND_ALL_PAGINED = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY id LIMIT ? OFFSET ?";
 	private static final String SQL_COUNT_ALL = "SELECT COUNT(*) FROM computer";
+	private static final String SQL_FIND_SEARCH_COMPUTER = "SELECT * FROM COMPUTER WHERE name = ?";
+
 	public Computer populate(ResultSet resultSet) throws InvalidDateChronology {
 		Computer computer = new Computer();
 		try {
@@ -58,9 +55,8 @@ public class ComputerDAO {
 			if (resultSet.getDate("discontinued") != null) {
 				computer.setDiscontinued(resultSet.getDate("discontinued").toLocalDate());
 			}
-		
-			computer.setCompanyID(resultSet.getLong("company_id"));
 
+			computer.setCompanyID(resultSet.getLong("company_id"));
 
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL ComputerPopulate", ex);
@@ -86,7 +82,6 @@ public class ComputerDAO {
 		return computeresultSet;
 	}
 
-
 	public long create(Computer computer) {
 		Long lastInsertedId = null;
 		try {
@@ -111,7 +106,6 @@ public class ComputerDAO {
 		return lastInsertedId;
 	}
 
-	
 	public boolean delete(Computer computer) {
 		try {
 			Connection connection = connectionDAO.getConnection();
@@ -124,7 +118,6 @@ public class ComputerDAO {
 		}
 		return true;
 	}
-
 
 	public boolean update(Computer computer) {
 		try {
@@ -144,7 +137,6 @@ public class ComputerDAO {
 		}
 		return false;
 	}
-
 
 	public Computer findById(long id) throws ComputerNotFoundException, InvalidDateChronology {
 
@@ -167,7 +159,7 @@ public class ComputerDAO {
 				if (resultSet.getString("company_id") != null) {
 					company.setId(resultSet.getLong("company_id"));
 				}
-				
+
 				return computer;
 			} else {
 				throw new ComputerNotFoundException(id);
@@ -179,7 +171,6 @@ public class ComputerDAO {
 		return null;
 
 	}
-
 
 	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
 		List<Computer> computeresultSet = new ArrayList<Computer>();
@@ -201,24 +192,44 @@ public class ComputerDAO {
 		return computeresultSet;
 	}
 	
-	public int getNbOfComputer() {
-			int nbOfComputer = 0;
-			try {
-				Connection connection = connectionDAO.getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_COUNT_ALL);
-				ResultSet resultSet = statement.executeQuery();
-				
-				resultSet.next();
-				nbOfComputer = resultSet.getInt(1);
+	
+	
+	public List<Computer> getSearchComputer(String name, int limit, int offset) throws InvalidDateChronology {
+		List<Computer> computeresultSet = new ArrayList<Computer>();
+		try {
+			Connection connection = connectionDAO.getConnection();
+			PreparedStatement statement = connection.prepareStatement(SQL_FIND_SEARCH_COMPUTER);
+			statement.setString(1, name);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Computer computer = populate(resultSet);
+				computeresultSet.add(computer);
 
-				
-				connection.close();
-			} catch (SQLException ex) {
-				logger.error("Erreur SQL ListComputer", ex);
 			}
-			return nbOfComputer;
+			connection.close();
+		} catch (SQLException ex) {
+			logger.error("Erreur SQL ListComputer", ex);
 		}
+		return computeresultSet;
+	}
+
+	public int getNbOfComputer() {
+		int nbOfComputer = 0;
+		try {
+			Connection connection = connectionDAO.getConnection();
+			PreparedStatement statement = connection.prepareStatement(SQL_COUNT_ALL);
+			ResultSet resultSet = statement.executeQuery();
+
+			resultSet.next();
+			nbOfComputer = resultSet.getInt(1);
+
+			connection.close();
+		} catch (SQLException ex) {
+			logger.error("Erreur SQL ListComputer", ex);
+		}
+		return nbOfComputer;
+	}
 	
 	
-	
+
 }

@@ -129,5 +129,9 @@ public class CompanyDAO {
 	        }
 	        return companies;
 		}
+		
+		public deleteCompany() {
+			
+		}
 
 	}

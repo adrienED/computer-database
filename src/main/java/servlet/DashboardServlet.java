@@ -53,10 +53,6 @@ public class DashboardServlet extends HttpServlet {
 
 
 		List<ComputerDTO> computerDAOList = controller.getComputerPage(page);
-		
-		
-		
-		
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
 		request.setAttribute("page", page);
@@ -70,7 +66,8 @@ public class DashboardServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		
 		
 	}
 
