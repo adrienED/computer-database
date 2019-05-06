@@ -16,6 +16,8 @@ import model.Company;
 public class CompanyDAO {
 	
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
+	
+	ConnectionDAO connectionDAO = new ConnectionDAO();
 
 	    private CompanyDAO()
 	    {}
@@ -54,7 +56,7 @@ public class CompanyDAO {
 		public List<Company> getAll() {
 	        List<Company> companies = new ArrayList<Company>();
 	        try {
-	            Connection connection = ConnectionDAO.getConnection();
+	            Connection connection = connectionDAO.getConnection();
 	            PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
 	            ResultSet resultSet = statement.executeQuery();
 	            while (resultSet.next()) {
@@ -73,7 +75,7 @@ public class CompanyDAO {
 		public Company findById(long id) {
 			Company Company = new Company();
 			try {
-				Connection connection = ConnectionDAO.getConnection();
+				Connection connection = connectionDAO.getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
 				statement.setLong(1, id);
 				ResultSet resultSet = statement.executeQuery();
@@ -92,7 +94,7 @@ public class CompanyDAO {
 		public long findByName(String name) {
 			Long id = 0L;
 			try {
-				Connection connection = ConnectionDAO.getConnection();
+				Connection connection = connectionDAO.getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_NAME);
 				statement.setString(1, name);
 				ResultSet resultSet = statement.executeQuery();
@@ -111,7 +113,7 @@ public class CompanyDAO {
 		public List<Company> getAll(int limit, int offset) {
 	        List<Company> companies = new ArrayList<Company>();
 	        try {
-	            Connection connection = ConnectionDAO.getConnection();
+	            Connection connection = connectionDAO.getConnection();
 	            PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
 	            statement.setLong(1, limit);
 	            statement.setLong(2, offset);

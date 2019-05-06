@@ -20,10 +20,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class ConnectionHikariCP {
 	
 	static Logger logger = LoggerFactory.getLogger(ConnectionHikariCP.class);
-	
-	
-	
-	
+
 
     public static Connection getConnection() throws SQLException {
     	Properties properties = new Properties();

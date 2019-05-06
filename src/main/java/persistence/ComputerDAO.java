@@ -21,6 +21,8 @@ public class ComputerDAO {
 	
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 	
+	ConnectionDAO connectionDAO = new ConnectionDAO();
+	
 	
 
 	    private ComputerDAO()
@@ -69,7 +71,7 @@ public class ComputerDAO {
 	public List<Computer> getAll() throws InvalidDateChronology {
 		List<Computer> computeresultSet = new ArrayList<Computer>();
 		try {
-			Connection connection = ConnectionDAO.getConnection();
+			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
@@ -88,7 +90,7 @@ public class ComputerDAO {
 	public long create(Computer computer) {
 		Long lastInsertedId = null;
 		try {
-			Connection connection = ConnectionDAO.getConnection();
+			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement;
 			statement = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, computer.getName());
@@ -112,7 +114,7 @@ public class ComputerDAO {
 	
 	public boolean delete(Computer computer) {
 		try {
-			Connection connection = ConnectionDAO.getConnection();
+			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
 			statement.setLong(1, computer.getId());
 			statement.executeUpdate();
@@ -126,7 +128,7 @@ public class ComputerDAO {
 
 	public boolean update(Computer computer) {
 		try {
-			Connection connection = ConnectionDAO.getConnection();
+			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement;
 			statement = connection.prepareStatement(SQL_UPDATE);
 			statement.setString(1, computer.getName());
@@ -146,7 +148,7 @@ public class ComputerDAO {
 
 	public Computer findById(long id) throws ComputerNotFoundException, InvalidDateChronology {
 
-		try (Connection connection = ConnectionDAO.getConnection()) {
+		try (Connection connection = connectionDAO.getConnection()) {
 
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
 			statement.setLong(1, id);
@@ -182,7 +184,7 @@ public class ComputerDAO {
 	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
 		List<Computer> computeresultSet = new ArrayList<Computer>();
 		try {
-			Connection connection = ConnectionDAO.getConnection();
+			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
 			statement.setLong(1, limit);
 			statement.setLong(2, offset);
@@ -202,7 +204,7 @@ public class ComputerDAO {
 	public int getNbOfComputer() {
 			int nbOfComputer = 0;
 			try {
-				Connection connection = ConnectionDAO.getConnection();
+				Connection connection = connectionDAO.getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_COUNT_ALL);
 				ResultSet resultSet = statement.executeQuery();
 				
