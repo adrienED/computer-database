@@ -14,9 +14,8 @@ import org.slf4j.LoggerFactory;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import ch.qos.logback.classic.db.DBAppender;
 
-public class ConnectionDAO {
+public class ConnectionDAOTest {
 
 	static Logger logger = LoggerFactory.getLogger(ConnectionDAO.class);
 
@@ -26,7 +25,7 @@ public class ConnectionDAO {
 	public Connection getConnection() throws SQLException {
 		
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName("org.h2.Driver");
 		} catch (ClassNotFoundException ex) {
 			logger.error("Erreur Driver jdbc not found", ex);
 			

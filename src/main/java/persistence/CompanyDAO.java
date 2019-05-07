@@ -80,8 +80,9 @@ public class CompanyDAO {
 				statement.setLong(1, id);
 				ResultSet resultSet = statement.executeQuery();
 				while (resultSet.next()) {
-					Company.setName(resultSet.getString("name"));
+					
 					Company.setId(resultSet.getLong("id"));
+					Company.setName(resultSet.getString("name"));
 				}
 				connection.close();
 			} catch (SQLException ex) {
@@ -101,6 +102,7 @@ public class CompanyDAO {
 				while (resultSet.next()) {
 					
 					id = resultSet.getLong("id");
+					System.out.println(id);
 				}
 				connection.close();
 			} catch (SQLException ex) {

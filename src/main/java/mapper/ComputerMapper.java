@@ -44,15 +44,17 @@ public class ComputerMapper {
 		}
 		if (!computerDTO.getDiscontinued().matches("\\d{4}-\\d{2}-\\d{2}")) {
 			throw new InvalidDateValueException(computerDTO.getDiscontinued());
-		} else {
+		} 
+		else {
 			try {
 				computer.setName(computerDTO.getName());
 				computer.setIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
 				computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
 				computer.setCompanyID(companyDAO.findByName(computerDTO.getCompanyName()));
-				
+				logger.info(computerDTO.toString());
 			} catch (NullPointerException e) {
 				logger.error("null exception dtoToModel", e);
+				
 			}
 			
 

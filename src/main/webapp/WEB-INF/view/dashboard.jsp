@@ -22,10 +22,11 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${nbOfComputer} Computer found</h1>
+			<h1 id="homeTitle">${nbOfComputer}Computer found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="DashboardServlet" method="GET" class="form-inline">
+					<form id="searchForm" action="DashboardServlet" method="GET"
+						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="Search name" /> <input
@@ -69,23 +70,20 @@
 					</tr>
 				</thead>
 				<tbody id="results">
-				 <tr>
-                        
-					<c:forEach var="computer" items="${ListComputer}">
-					<td class="editMode">
-                            <input type="checkbox" name="deleteComputer" class="cb" value="${computer.id}">
-                        </td>
-					<td>
+					<tr>
 
-							<a href="EditComputerServlet?id=${computer.id}" onclick=""><c:out value="${computer.name}" /></a>
+						<c:forEach var="computer" items="${ListComputer}">
+							<td class="editMode"><input type="checkbox"
+								name="deleteComputer" class="cb" value="${computer.id}">
 							</td>
+							<td><a href="EditComputerServlet?id=${computer.id}"
+								onclick=""><c:out value="${computer.name}" /></a></td>
 							<td><c:out value="${computer.introduced}" /></td>
 							<td><c:out value="${computer.discontinued}" /></td>
 							<td><c:out value="${computer.companyName }" /></td>
-
-						</tr>
+					</tr>
 					</c:forEach>
-						
+
 				</tbody>
 			</table>
 		</div>

@@ -28,6 +28,12 @@ public class CompanyDAOTest {
 	@Before
 	public void setUp() throws Exception {
 		
+		try {
+			Class.forName ("org.h2.Driver");
+		} catch (ClassNotFoundException ex) {
+			System.out.print("erreur");
+			
+		}
 		FileInputStream f;
 		try {
 			f = new FileInputStream("src/test/resources/db.properties");		

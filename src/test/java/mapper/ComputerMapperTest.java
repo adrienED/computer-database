@@ -41,10 +41,14 @@ public class ComputerMapperTest {
 		computerDTO.setIntroduced("2016-12-12");
 		computerDTO.setDiscontinued("2017-12-12");
 		computerDTO.setCompanyName("Apple Inc.");
+		
+		
+		System.out.println(computerMapper.dtoToModel(computerDTO));
 
 		assertEquals(23L, computerMapper.dtoToModel(computerDTO).getId());
 		assertEquals("test", computerMapper.dtoToModel(computerDTO).getName());
 		assertEquals(computer.getIntroduced(), computerMapper.dtoToModel(computerDTO).getIntroduced());
+		assertEquals(computer.getDiscontinued(), computerMapper.dtoToModel(computerDTO).getDiscontinued());
 		assertEquals(computer.getCompanyID(), computerMapper.dtoToModel(computerDTO).getCompanyID());
 		assertEquals(computer, computerMapper.dtoToModel(computerDTO));
 
@@ -98,6 +102,7 @@ public class ComputerMapperTest {
 		assertEquals(computerDTO.getName(), computerMapper.modelToDto(computer).getName());
 		assertEquals(computerDTO.getIntroduced(), computerMapper.modelToDto(computer).getIntroduced());
 		assertEquals(computerDTO.getDiscontinued(), computerMapper.modelToDto(computer).getDiscontinued());
+		System.out.println(computerMapper.modelToDto(computer));
 		assertEquals(computerDTO.getCompanyName(), computerMapper.modelToDto(computer).getCompanyName());
 
 		// invalid
