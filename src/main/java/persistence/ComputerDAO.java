@@ -42,7 +42,7 @@ public class ComputerDAO {
 	private static final String SQL_DELETE = "DELETE FROM computer WHERE id=?";
 	private static final String SQL_FIND_ALL_PAGINED = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY id LIMIT ? OFFSET ?";
 	private static final String SQL_COUNT_ALL = "SELECT COUNT(*) FROM computer";
-	private static final String SQL_FIND_SEARCH_COMPUTER = "SELECT * FROM COMPUTER WHERE name = ?";
+	private static final String SQL_FIND_SEARCH_COMPUTER = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id WHERE (A.name like ? OR B.name like ?) ";
 
 	public Computer populate(ResultSet resultSet) throws InvalidDateChronology {
 		Computer computer = new Computer();
@@ -194,12 +194,13 @@ public class ComputerDAO {
 	
 	
 	
-	public List<Computer> getSearchComputer(String name, int limit, int offset) throws InvalidDateChronology {
+	public List<Computer> getSearchComputer(String search) throws InvalidDateChronology {
 		List<Computer> computeresultSet = new ArrayList<Computer>();
 		try {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_SEARCH_COMPUTER);
-			statement.setString(1, name);
+			statement.setString(1, "%" + search + "%");
+			statement.setString(2, "%" + search + "%");
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				Computer computer = populate(resultSet);
@@ -210,6 +211,7 @@ public class ComputerDAO {
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL ListComputer", ex);
 		}
+		
 		return computeresultSet;
 	}
 

@@ -25,7 +25,7 @@
 			<h1 id="homeTitle">${nbOfComputer} Computer found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="#" method="GET" class="form-inline">
+					<form id="searchForm" action="DashboardServlet" method="GET" class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="Search name" /> <input
@@ -41,7 +41,7 @@
 			</div>
 		</div>
 
-		<form id="deleteForm" action="#" method="POST">
+		<form id="deleteForm" action="DeleteComputer" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -73,7 +73,7 @@
                         
 					<c:forEach var="computer" items="${ListComputer}">
 					<td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="0">
+                            <input type="checkbox" name="deleteComputer" class="cb" value="${computer.id}">
                         </td>
 					<td>
 

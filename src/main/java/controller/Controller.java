@@ -55,20 +55,6 @@ public class Controller {
 		return computerDTO;
 	}
 
-	private void createComputer() {
-		Map<String, String> inputsCreateComputer = vue.createComputer();
-
-		ComputerDTO computerDTO = this.inputsToComputerDTO(inputsCreateComputer);
-		
-		
-		try {
-			long idCreate = computerService.create(computerDTO);
-			System.out.println("Ordinateur creer avec l'id : " + idCreate);
-		} catch (InvalidDateValueException | InvalidDateChronology |NumberFormatException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-		}
-	}
 
 	public void deleteComputer(String id) {
 		try {
@@ -119,16 +105,24 @@ public class Controller {
 		}
 	}
 	
-	public List<ComputerDTO> search(String keyword){
-		computerService.search(keyword);
+	public List<ComputerDTO> search(String keyword) throws InvalidDateChronology{
+		List<ComputerDTO> listComputerDTOs =computerService.search(keyword);
 		
 		
-		return null;
+		return listComputerDTOs;
 		
 	}
 	
-	public void deleteCompany() {
-		
+	public void deleteComputerById(String id) {
+		try {
+	
+			ComputerDTO computerDTOtoDelete = computerService.findById(id);
+			computerService.delete(computerDTOtoDelete);
+			
+		} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	
