@@ -69,12 +69,14 @@
 					</tr>
 				</thead>
 				<tbody id="results">
+				 <tr>
+                        
 					<c:forEach var="computer" items="${ListComputer}">
+					<td class="editMode">
+                            <input type="checkbox" name="cb" class="cb" value="0">
+                        </td>
+					<td>
 
-						<!-- Browse attribute computers -->
-
-						<tr>
-							<td>
 							<a href="EditComputerServlet?id=${computer.id}" onclick=""><c:out value="${computer.name}" /></a>
 							</td>
 							<td><c:out value="${computer.introduced}" /></td>
