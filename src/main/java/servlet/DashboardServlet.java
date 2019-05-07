@@ -21,70 +21,60 @@ import service.ComputerService;
 @WebServlet("/DashboardServlet")
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	Controller controller = new Controller();
 	ComputerService computerService = ComputerService.getInstance();
-	
+
 	private int nbOfComputerByPage = 10;
 	private int page = 1;
 
-	
 	public DashboardServlet() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		List<ComputerDTO> listComputer = new ArrayList<ComputerDTO>();
-		int nbOfComputer;
-		
-		
+		int nbOfComputer=0;
+
 		if (request.getParameter("search") != null) {
-			nbOfComputer = listComputer.size();
+			
 			try {
-				listComputer =controller.search(request.getParameter("search"));
+				listComputer = controller.search(request.getParameter("search"));
 				request.setAttribute("ListComputer", listComputer);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
-				dispatcher.forward(request, response);
+				nbOfComputer = listComputer.size();
 			} catch (InvalidDateChronology e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else {
+			nbOfComputer = controller.getNbOfComputer();
+			listComputer = controller.getComputerPage(page);
+			request.setAttribute("ListComputer", listComputer);
+
 		}
-		else {
-		nbOfComputer = controller.getNbOfComputer();
-		listComputer = controller.getComputerPage(page);
-		request.setAttribute("ListComputer", listComputer);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
-		dispatcher.forward(request, response);
-		
-		}
-		
+
 		String nbOfComputerByPageString = request.getParameter("nbOfComputerByPage");
-		if(nbOfComputerByPageString!=null)
+		if (nbOfComputerByPageString != null)
 			nbOfComputerByPage = Integer.parseInt(nbOfComputerByPageString);
 
 		String pageString = request.getParameter("page");
-		if(pageString!=null)
+		if (pageString != null)
 			page = Integer.parseInt(pageString);
 
-
-		int lastPage= nbOfComputer/nbOfComputerByPage;
-		
-		
+		int lastPage = nbOfComputer / nbOfComputerByPage;
 
 		request.setAttribute("page", page);
 		request.setAttribute("lastPage", lastPage);
-		request.setAttribute("nbOfComputer", nbOfComputer );
+		request.setAttribute("nbOfComputer", nbOfComputer);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
+		dispatcher.forward(request, response);
 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {	
-		
+			throws ServletException, IOException {
+
 	}
 
 }

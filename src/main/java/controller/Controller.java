@@ -120,7 +120,6 @@ public class Controller {
 			computerService.delete(computerDTOtoDelete);
 			
 		} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 	}
