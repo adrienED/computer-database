@@ -70,6 +70,7 @@ public class ComputerDAO {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
 			ResultSet resultSet = statement.executeQuery();
+			
 			while (resultSet.next()) {
 				Computer computer = populate(resultSet);
 				computeresultSet.add(computer);

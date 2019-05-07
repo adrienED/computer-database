@@ -68,7 +68,7 @@ public class Controller {
 	public List<ComputerDTO> getComputerPage(int page) {
 		List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
 		ComputerService computerService = ComputerService.getInstance();
-
+		
 		if (page != 1)
 			page = page * 10 - 10;
 		try {
@@ -119,5 +119,7 @@ public class Controller {
 			logger.error("Error delete computer by id", e);
 		}
 	}
+		
+	}
 
-}
+

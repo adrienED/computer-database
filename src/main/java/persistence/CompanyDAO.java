@@ -32,8 +32,6 @@ public class CompanyDAO {
 	        }
 	        return INSTANCE;
 	    }
-	
-	
 
 	  	private static final String SQL_FIND_ALL = "SELECT id, name FROM company";
 	    private static final String SQL_FIND_WITH_ID = "SELECT id, name FROM company WHERE id = ?";
@@ -76,7 +74,7 @@ public class CompanyDAO {
 			Company Company = new Company();
 			try {
 				Connection connection = connectionDAO.getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
+			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
 				statement.setLong(1, id);
 				ResultSet resultSet = statement.executeQuery();
 				while (resultSet.next()) {

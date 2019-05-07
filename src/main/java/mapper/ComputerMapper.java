@@ -44,8 +44,7 @@ public class ComputerMapper {
 		}
 		if (!computerDTO.getDiscontinued().matches("\\d{4}-\\d{2}-\\d{2}")) {
 			throw new InvalidDateValueException(computerDTO.getDiscontinued());
-		} 
-		else {
+		} else {
 			try {
 				computer.setName(computerDTO.getName());
 				computer.setIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
@@ -54,16 +53,15 @@ public class ComputerMapper {
 				logger.info(computerDTO.toString());
 			} catch (NullPointerException e) {
 				logger.error("null exception dtoToModel", e);
-				
+
 			}
-			
 
 		}
 		return computer;
 	}
 
 	public ComputerDTO modelToDto(Computer computer) {
-		
+
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setId(Long.toString(computer.getId()));
 		computerDTO.setName(computer.getName());
@@ -73,11 +71,9 @@ public class ComputerMapper {
 		if (computer.getDiscontinued() != null) {
 			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
 		}
-		
-			computerDTO.setCompanyName(companyDAO.findById(computer.getCompanyID()).getName());
-		
-			
-		
+
+		computerDTO.setCompanyName(companyDAO.findById(computer.getCompanyID()).getName());
+
 		return computerDTO;
 	}
 

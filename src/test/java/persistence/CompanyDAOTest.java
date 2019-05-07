@@ -27,25 +27,7 @@ public class CompanyDAOTest {
 
 	@Before
 	public void setUp() throws Exception {
-		
-		try {
-			Class.forName ("org.h2.Driver");
-		} catch (ClassNotFoundException ex) {
-			System.out.print("erreur");
-			
-		}
-		FileInputStream f;
-		try {
-			f = new FileInputStream("src/test/resources/db.properties");		
-				Properties properties = new Properties();
-	            properties.load(f);
-	          
-	            
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
 	}
 	
 	@Test
@@ -79,56 +61,6 @@ public class CompanyDAOTest {
 		
 	}
 
-	@Test
-	public void testGetAll() throws SQLException {
-		
-		 CompanyDAO companyDAO = CompanyDAO.getInstance();
-		 
-		 when(resulSetMock.getLong("id")).thenReturn(1L);
-			when(resulSetMock.getString("name")).thenReturn("Apple Inc.");
-			when(resulSetMock.getLong("id")).thenReturn(2L);
-			when(resulSetMock.getString("name")).thenReturn("Thinking Machines");
-			when(resulSetMock.getLong("id")).thenReturn(3L);
-			when(resulSetMock.getString("name")).thenReturn("RCA");
-			when(resulSetMock.getLong("id")).thenReturn(4L);
-			when(resulSetMock.getString("name")).thenReturn("Netronics");
-			when(resulSetMock.getLong("id")).thenReturn(5L);
-			when(resulSetMock.getString("name")).thenReturn("Tandy Corporation");
-			when(resulSetMock.getLong("id")).thenReturn(6L);
-			when(resulSetMock.getString("name")).thenReturn("COmmodore International");
-			when(resulSetMock.getLong("id")).thenReturn(7L);
-			when(resulSetMock.getString("name")).thenReturn("MOS Technology");
-			when(resulSetMock.getLong("id")).thenReturn(8L);
-			when(resulSetMock.getString("name")).thenReturn("Micro Instrumentation and Telemetry Systems");
-			when(resulSetMock.getLong("id")).thenReturn(9L);
-			when(resulSetMock.getString("name")).thenReturn("IMS Associates, Inc.");
-			when(resulSetMock.getLong("id")).thenReturn(10L);
-			when(resulSetMock.getString("name")).thenReturn("Digital Equipment Corporation");
-			when(resulSetMock.getLong("id")).thenReturn(11L);
-			when(resulSetMock.getString("name")).thenReturn("Lincoln Laboratory");
-			when(resulSetMock.getLong("id")).thenReturn(12L);
-			when(resulSetMock.getString("name")).thenReturn("Moore School of Electrical Engineering");
-			when(resulSetMock.getLong("id")).thenReturn(13L);
-			when(resulSetMock.getString("name")).thenReturn("IBM");
-			when(resulSetMock.getLong("id")).thenReturn(14L);
-			when(resulSetMock.getString("name")).thenReturn("Amiga Corporation");
-			when(resulSetMock.getLong("id")).thenReturn(15L);
-			when(resulSetMock.getString("name")).thenReturn("Canon");
-			when(resulSetMock.getLong("id")).thenReturn(16L);
-			when(resulSetMock.getString("name")).thenReturn("Nokia");
-			when(resulSetMock.getLong("id")).thenReturn(17L);
-			when(resulSetMock.getString("name")).thenReturn("Moore School of Electrical Engineering");
-			when(resulSetMock.getLong("id")).thenReturn(18L);
-			when(resulSetMock.getString("name")).thenReturn("OQO");
-			when(resulSetMock.getLong("id")).thenReturn(19L);
-			when(resulSetMock.getString("name")).thenReturn("NeXT");
-			when(resulSetMock.getLong("id")).thenReturn(20L);
-			when(resulSetMock.getString("name")).thenReturn("Atari");
-			
-			when(resulSetMock.next()).thenReturn(true).thenReturn(false);
-			
-			assertEquals(resulSetMock,companyDAO.getAll());
-		}
 
 	@Test
 	public void testGetAllIntInt() throws SQLException {
@@ -157,7 +89,7 @@ public class CompanyDAOTest {
 			
 			when(resulSetMock.next()).thenReturn(true).thenReturn(false);
 			
-			assertEquals(resulSetMock,companyDAO.getAll(10,10) );
+			assertEquals(resulSetMock,companyDAO.getAll(10,1) );
 		}
 	}
 
