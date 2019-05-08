@@ -13,6 +13,7 @@ import exception.InvalidDateValueException;
 import model.Company;
 import model.Computer;
 import persistence.CompanyDAO;
+import validator.ComputerValidator;
 
 public class ComputerMapper {
 
@@ -23,6 +24,8 @@ public class ComputerMapper {
 
 	private static ComputerMapper INSTANCE = null;
 
+	private static ComputerValidator computerValidator= ComputerValidator.getInstance();
+	
 	public static ComputerMapper getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new ComputerMapper();
@@ -34,29 +37,32 @@ public class ComputerMapper {
 
 	public Computer dtoToModel(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
 		Computer computer = new Computer();
-
-		if (computerDTO.getId() != null) {
-			computer.setId(Long.parseLong(computerDTO.getId()));
-		}
-
-		if (!computerDTO.getIntroduced().matches("\\d{4}-\\d{2}-\\d{2}")) {
-			throw new InvalidDateValueException(computerDTO.getIntroduced());
-		}
-		if (!computerDTO.getDiscontinued().matches("\\d{4}-\\d{2}-\\d{2}")) {
-			throw new InvalidDateValueException(computerDTO.getDiscontinued());
-		} else {
+		
+			
+		
 			try {
+				
+				if (computerDTO.getId() != null)
+					computer.setId(Long.parseLong(computerDTO.getId()));
+				
+				
 				computer.setName(computerDTO.getName());
+				if(computerDTO.getIntroduced()=="") computer.setIntroduced(null);
+				else
 				computer.setIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
+				if(computerDTO.getDiscontinued()=="")  computer.setDiscontinued(null);
+				else
 				computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
+				
 				computer.setCompanyID(companyDAO.findByName(computerDTO.getCompanyName()));
 				logger.info(computerDTO.toString());
-			} catch (NullPointerException e) {
+			}
+			 catch (NullPointerException e) {
 				logger.error("null exception dtoToModel", e);
 
 			}
-
-		}
+		
+			
 		return computer;
 	}
 

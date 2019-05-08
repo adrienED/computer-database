@@ -89,20 +89,21 @@ public class addComputer extends HttpServlet {
 		ComputerDTO computerDTO = new ComputerDTO();
 
 		computerDTO.setName(inputsCreateComputer.get("computerName"));
-		computerDTO.setIntroduced(inputsCreateComputer.get("introduced"));
-		computerDTO.setDiscontinued(inputsCreateComputer.get("discontinued"));
+		computerDTO.setIntroduced(request.getParameter("introduced"));
+		computerDTO.setDiscontinued(request.getParameter("discontinued"));
 		computerDTO.setCompanyName(inputsCreateComputer.get("companyName"));
 		
-		computerValidator.validate(computerDTO);
+		if (computerValidator.validate(computerDTO) == true) {
 		
 		System.out.println(computerDTO);
-
+		
 		try {
 			long idCreate = computerService.create(computerDTO);
 			System.out.println("Ordinateur creer avec l'id : " + idCreate);
 		} catch (InvalidDateValueException | InvalidDateChronology | NumberFormatException e) {
 			// TODO Auto-generated catch block
-			System.out.println("ERREUR");
+			System.out.println(e.getMessage());
+		}
 		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/addComputer.jsp");

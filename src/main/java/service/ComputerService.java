@@ -33,7 +33,7 @@ public class ComputerService {
 		
 	 
 	public long create(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		
+		System.out.println("service create");
 		return this.computerDAO.create(computerMapper.dtoToModel(computerDTO));
 	}
 	

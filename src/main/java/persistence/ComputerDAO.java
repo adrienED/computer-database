@@ -90,7 +90,11 @@ public class ComputerDAO {
 			PreparedStatement statement;
 			statement = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, computer.getName());
+			if(computer.getIntroduced()==null) statement.setDate(2, null);
+			else
 			statement.setDate(2, Date.valueOf(computer.getIntroduced()));
+			if(computer.getDiscontinued()==null) statement.setDate(3, null);
+			else
 			statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
 			statement.setLong(4, computer.getCompanyID());
 			statement.toString();

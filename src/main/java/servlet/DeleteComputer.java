@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.IntConsumer;
+import java.util.stream.IntStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -51,11 +53,9 @@ public class DeleteComputer extends HttpServlet {
 		String [] list = listDelete.split(",");
 		System.out.println(listDelete);
 		
-		for (int i=0; i<list.length;i++) {
-			
-			controller.deleteComputerById(list[i]);
-			
-		}
+		IntStream.range(0,list.length).forEach(i -> { controller.deleteComputerById(list[i]);});
+		
+		
 		
 	
 	

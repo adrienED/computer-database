@@ -34,15 +34,15 @@ public class ComputerValidator {
 		if (computerDTO.getCompanyName() != null) validateNameCompany = true;
 		else validateNameCompany = false;
 		
-		if (computerDTO.getIntroduced() !=null)
+		if (computerDTO.getIntroduced() !="")
 			validateDateIntroduced =validateDate(computerDTO.getIntroduced());
 		else validateDateIntroduced =true;
 		
-		if (computerDTO.getDiscontinued() !=null)
+		if (computerDTO.getDiscontinued() !="")
 			validateDateDiscontinued =validateDate(computerDTO.getDiscontinued());
 		else validateDateDiscontinued =true;
 		
-		if (computerDTO.getIntroduced() !=null && computerDTO.getDiscontinued() !=null)
+		if (computerDTO.getIntroduced() !="" || computerDTO.getDiscontinued() !="")
 			validateDateOrder = validateDateOrder(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
 		else validateDateOrder =true;
 
@@ -78,15 +78,15 @@ public class ComputerValidator {
 	
 	private boolean validateDate(String date) {
 		boolean validate = false;
-		
+		if ( date.matches("\\d{4}-\\d{2}-\\d{2}")) {
 			try {
 				LocalDate localDate = LocalDate.parse(date);
 				LocalDate minDate = LocalDate.parse("1970-01-01");
 				if (localDate.isAfter(minDate)) validate = true;
 			} catch (Exception e) {
-				this.logger.error(e.getMessage());
+				this.logger.error(e.getMessage(),e);
 				
-			
+			}
 			
 		}
 		return validate;
@@ -94,6 +94,7 @@ public class ComputerValidator {
 	
 	private boolean validateDateOrder(String introducedString, String discontinuedString) {
 		boolean validateDateOrder=false;
+		if ( introducedString.matches("\\d{4}-\\d{2}-\\d{2}") && discontinuedString.matches("\\d{4}-\\d{2}-\\d{2}"));
 		
 		try {
 			LocalDate localIntroduceDate = LocalDate.parse(introducedString);
@@ -102,7 +103,7 @@ public class ComputerValidator {
 			
 			if (localIntroduceDate.isBefore(localDiscontinudDate)) validateDateOrder = true;
 		} catch (Exception e) {
-				this.logger.error(e.getMessage());
+				this.logger.error(e.getMessage(),e);
 			
 			}
 	
