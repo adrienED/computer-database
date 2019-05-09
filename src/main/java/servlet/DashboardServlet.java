@@ -11,45 +11,71 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import controller.Controller;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
-import persistence.ComputerDAO;
 import service.ComputerService;
 
-@WebServlet("/DashboardServlet")
+@WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
+	Controller controller = new Controller();
+	ComputerService computerService = ComputerService.getInstance();
+
+	static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
+
+	private int nbOfComputerByPage = 10;
+	private int page = 1;
+	private String orderParameter = "id";
+
 	public DashboardServlet() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 
-		String numeroDePage = request.getParameter("page");
-		System.out.println(numeroDePage);
+		List<ComputerDTO> listComputer = new ArrayList<ComputerDTO>();
+		int nbOfComputer = 10;
 
-		if (numeroDePage == null)
-			numeroDePage = "2";
+		if (request.getParameter("search") != null) {
 
-		request.setAttribute("page", numeroDePage);
+			try {
+				listComputer = controller.search(request.getParameter("search"));
+				request.setAttribute("ListComputer", listComputer);
 
-		List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
-		ComputerService computerService = ComputerService.getInstance();
-		try {
-			computerDAOList = computerService.getAll(10, Integer.parseInt(numeroDePage));
-		} catch (InvalidDateChronology e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				nbOfComputer = listComputer.size();
+			} catch (InvalidDateChronology e) {
+				logger.error("erreur create dashboard");
+			}
+		} else {
+
+			if (request.getParameter("nbByPage") != null)
+				nbOfComputerByPage = Integer.parseInt(request.getParameter("nbByPage"));
+
+			if (request.getParameter("OrderBy") != null)
+				orderParameter = request.getParameter("OrderBy");
+
+			nbOfComputer = controller.getNbOfComputer();
+			listComputer = controller.getComputerPageOrdered(nbOfComputer, nbOfComputerByPage, orderParameter);
+			request.setAttribute("ListComputer", listComputer);
+
 		}
 
+		String pageString = request.getParameter("page");
+		if (pageString != null)
+			page = Integer.parseInt(pageString);
+
+		int lastPage = nbOfComputer / nbOfComputerByPage;
+
+		request.setAttribute("page", page);
+		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("nbOfComputer", nbOfComputer);
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
-		request.setAttribute("ListComputer", computerDAOList);
 		dispatcher.forward(request, response);
 
 	}
@@ -58,5 +84,4 @@ public class DashboardServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 	}
-
 }

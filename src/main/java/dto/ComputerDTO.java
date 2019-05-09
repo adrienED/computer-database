@@ -6,7 +6,7 @@ public class ComputerDTO {
 	private String name;
 	private String introduced;
 	private String discontinued;
-	private CompanyDTO companyDTO;
+	private String companyName;
 
 	public String getId() {
 		return id;
@@ -33,22 +33,22 @@ public class ComputerDTO {
 		this.discontinued = discontinuedDate;
 	}
 
-	public CompanyDTO getCompanyDTO() {
-		return companyDTO;
+	public String getCompanyName() {
+		return companyName;
 	}
-	public void setCompanyDTO(CompanyDTO companyDTO) {
-		this.companyDTO = companyDTO;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 	@Override
 	public String toString() {
-		return "ComputerDTO [id = " + id + ", name=" + name + ", introducedDate=" + introduced + ", discontinuedDate="
-				+ discontinued + ", CompanyDTO=" + companyDTO.toString() + "]";
+		return "ComputerDTO [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
+				+ discontinued + ", companyName=" + companyName + "]";
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((companyDTO == null) ? 0 : companyDTO.hashCode());
+		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
@@ -64,10 +64,10 @@ public class ComputerDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		ComputerDTO other = (ComputerDTO) obj;
-		if (companyDTO == null) {
-			if (other.companyDTO != null)
+		if (companyName == null) {
+			if (other.companyName != null)
 				return false;
-		} else if (!companyDTO.equals(other.companyDTO))
+		} else if (!companyName.equals(other.companyName))
 			return false;
 		if (discontinued == null) {
 			if (other.discontinued != null)
@@ -91,7 +91,4 @@ public class ComputerDTO {
 			return false;
 		return true;
 	}
-	
-	
-
 }

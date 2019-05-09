@@ -43,7 +43,7 @@ public class ComputerServiceTest {
 		computer.setName("test");
 		computer.setIntroduced(LocalDate.parse("2016-12-12"));
 		computer.setDiscontinued(LocalDate.parse("2016-12-12"));
-		computer.setCompany(company);
+		computer.setCompanyID(36L);
 
 		List<Computer> listComputerModel = new ArrayList<>();
 		listComputerModel.add(computer);
@@ -54,7 +54,7 @@ public class ComputerServiceTest {
 		computer2.setName("test2");
 		computer2.setIntroduced(LocalDate.parse("2016-12-12"));
 		computer2.setDiscontinued(LocalDate.parse("2016-12-12"));
-		computer2.setCompany(company);
+		computer2.setCompanyID(36L);
 
 		listComputerModel.add(computer2);
 		
@@ -68,7 +68,7 @@ public class ComputerServiceTest {
 		computerDTO.setName("test");
 		computerDTO.setIntroduced("2016-12-12");
 		computerDTO.setDiscontinued("2016-12-12");
-		computerDTO.setCompanyDTO(companyDTO);
+		computerDTO.setCompanyName("Apple Inc.");
 
 		List<ComputerDTO> listComputerDTO = new ArrayList<>();
 		listComputerDTO.add(computerDTO);
@@ -77,7 +77,7 @@ public class ComputerServiceTest {
 		computerDTO2.setName("test2");
 		computerDTO2.setIntroduced("2016-12-12");
 		computerDTO2.setDiscontinued("2016-12-12");
-		computerDTO2.setCompanyDTO(companyDTO);
+		computerDTO.setCompanyName("Apple Inc.");
 
 		listComputerDTO.add(computerDTO2);
 

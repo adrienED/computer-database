@@ -1,33 +1,33 @@
 package persistence;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 public class ConnectionDAO {
-	
+
 	static Logger logger = LoggerFactory.getLogger(ConnectionDAO.class);
 
-    public static Connection getConnection() throws SQLException {
-        Connection connection = null;
-        
-        try {
+	private HikariConfig config = new HikariConfig("/db.properties");
+	private HikariDataSource ds = new HikariDataSource(config);
+
+	public Connection getConnection() throws SQLException {
+
+		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException ex) {
 			logger.error("Erreur Driver jdbc not found", ex);
-			
+
 		}
-		        
-        String user = "admincdb";
-        String password = "qwerty1234";
-        connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC", user, password);
-        return connection;
-    }
- 
+		System.out.println("serveur ok");
+
+		return ds.getConnection();
+
+	}
+
 }

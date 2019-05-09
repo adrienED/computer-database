@@ -47,11 +47,13 @@ public class ComputerDAOTest {
 
 	@Test
 	public void testPopulate() throws SQLException {
+		
+		LocalDate date = LocalDate.parse("2018-12-12");
 
 
 		when (resulSetMock.getLong("id")).thenReturn(13L);
 		when (resulSetMock.getString("name")).thenReturn("IBM");
-		//when (resulSetMock.getDate("introduced")).thenReturn(2017-12-12);
+		//when (resulSetMock.getDate("introduced")).thenReturn(date);
 		//when (resulSetMock.getDate("discontinued")).thenReturn(2018-12-12);
 		when (resulSetMock.getLong("company_id")).thenReturn(36L);
 		
@@ -61,15 +63,12 @@ public class ComputerDAOTest {
 		
 		LocalDate.parse("2016-12-12");
 		LocalDate.parse("2017-12-12");		
-		Company company = new Company();
-		company.setId(1L);
-		company.setName("Apple Inc.");
 		
 		computer.setId(23L);
 		computer.setName("test");
 		computer.setIntroduced(LocalDate.parse("2016-12-12"));
 		computer.setDiscontinued(LocalDate.parse("2017-12-12"));	
-		computer.setCompany(company);
+		computer.setCompanyID(1L);
 		
 		//assertEquals(computer, computerDAO.populate(resulSetMock));
 	}
@@ -86,19 +85,15 @@ public class ComputerDAOTest {
 		Computer computer = new Computer();
 		
 		ComputerDAO computerDAO = ComputerDAO.getInstance();
-		computer = computerDAO.findById(13L);
+		computer = computerDAO.findById(23L);
 		
 		Computer computerRef = new Computer();
-		
-		Company company = new Company();
-		company.setId(1L);
-		company.setName("Apple Inc.");
 		
 		computerRef.setId(23L);
 		computerRef.setName("test");
 		computerRef.setIntroduced(LocalDate.parse("2016-12-12"));
 		computerRef.setDiscontinued(LocalDate.parse("2017-12-12"));	
-		computerRef.setCompany(company);
+		computerRef.setCompanyID(1L);
 		
 		
 		assertEquals(computerRef, computer);

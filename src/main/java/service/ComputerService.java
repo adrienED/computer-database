@@ -1,6 +1,5 @@
 package service;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,49 +13,69 @@ import model.Computer;
 import persistence.ComputerDAO;
 
 public class ComputerService {
-	
-	    private ComputerService()
-	    {}
 
-	    private static ComputerService INSTANCE = null;
+	private ComputerService() {
+	}
 
-	    public static ComputerService getInstance()
-	    {           
-	        if (INSTANCE == null)
-	        {   INSTANCE = new ComputerService(); 
-	        }
-	        return INSTANCE;
-	    }
+	private static ComputerService INSTANCE = null;
 
-	private ComputerMapper mapper = ComputerMapper.getInstance();
-	private ComputerDAO dao =ComputerDAO.getInstance();
-		
-	 
+	public static ComputerService getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new ComputerService();
+		}
+		return INSTANCE;
+	}
+
+	private ComputerMapper computerMapper = ComputerMapper.getInstance();
+	private ComputerDAO computerDAO = ComputerDAO.getInstance();
+
 	public long create(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		
-		return this.dao.create(mapper.dtoToModel(computerDTO));
-	};
-	
+		return this.computerDAO.create(computerMapper.dtoToModel(computerDTO));
+	}
+
 	public boolean update(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		return this.dao.update(this.mapper.dtoToModel(computerDTO));
-	};
-	
+		return this.computerDAO.update(this.computerMapper.dtoToModel(computerDTO));
+	}
+
 	public boolean delete(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		return this.dao.delete(this.mapper.dtoToModel(computerDTO));
-	};
-	
+		return this.computerDAO.delete(this.computerMapper.dtoToModel(computerDTO));
+	}
+
 	public ComputerDTO findById(String id) throws NotFoundException, InvalidDateChronology, ComputerNotFoundException {
-		return this.mapper.modelToDto(this.dao.findById(this.mapper.idToInt(id)));
-	};
-	
-	public List<ComputerDTO> getAll(int limit, int offset) throws InvalidDateChronology{
-		ComputerDAO computerDAO = ComputerDAO.getInstance();
+		return this.computerMapper.modelToDto(this.computerDAO.findById(this.computerMapper.idToInt(id)));
+	}
+
+	public List<ComputerDTO> getAll(int limit, int offset) throws InvalidDateChronology {
+
 		List<Computer> computerList = computerDAO.getAll(limit, offset);
-		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream().map(s -> mapper.modelToDto(s)).collect(Collectors.toList());
+		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream()
+				.map(s -> computerMapper.modelToDto(s)).collect(Collectors.toList());
+		return computerDtoList;
+	}
+
+	public List<ComputerDTO> getAllOrderedBy(int limit, int offset, String orderByParameter)
+			throws InvalidDateChronology {
+
+		List<Computer> computerList = computerDAO.getAllOrderedBy(limit, offset, orderByParameter);
+		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream()
+				.map(s -> computerMapper.modelToDto(s)).collect(Collectors.toList());
+		return computerDtoList;
+	}
+
+	public int getNbOfComputer() {
+		int nbOfComputer = computerDAO.getNbOfComputer();
+		return nbOfComputer;
+
+	}
+
+	public List<ComputerDTO> search(String keyword) throws InvalidDateChronology {
+
+		List<Computer> computerList;
+		computerList = computerDAO.getSearchComputer(keyword);
+		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream()
+				.map(s -> computerMapper.modelToDto(s)).collect(Collectors.toList());
 
 		return computerDtoList;
-}
-	
-	
-	
+
+	}
 }
