@@ -39,5 +39,9 @@ public class CompanyService {
 		Company company =companyDAO.findById(id);
 		return company;
 	}
+	
+	public void deleteCompanyById (long id) {
+		companyDAO.deleteCompanyById(id);
+	}
 
 }
