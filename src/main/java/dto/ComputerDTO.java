@@ -91,10 +91,4 @@ public class ComputerDTO {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
-
 }

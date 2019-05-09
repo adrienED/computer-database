@@ -49,8 +49,6 @@ public class ComputerDAO {
 	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name LIMIT ? OFFSET ?";
 
 	
-	
-	
 	public Computer populate(ResultSet resultSet) throws InvalidDateChronology {
 		Computer computer = new Computer();
 		try {
@@ -138,7 +136,11 @@ public class ComputerDAO {
 			PreparedStatement statement;
 			statement = connection.prepareStatement(SQL_UPDATE);
 			statement.setString(1, computer.getName());
+			if(computer.getIntroduced()==null) statement.setDate(2, null);
+			else
 			statement.setDate(2, Date.valueOf(computer.getIntroduced()));
+			if (computer.getDiscontinued()==null) statement.setDate(3, null);
+			else
 			statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
 			statement.setLong(4, computer.getCompanyID());
 			statement.setLong(5, computer.getId());
@@ -182,7 +184,6 @@ public class ComputerDAO {
 			logger.error("Erreur SQL ComputerFindById", ex);
 		}
 		return null;
-
 	}
 
 	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
@@ -230,7 +231,6 @@ public class ComputerDAO {
 			  case "id":
 				   statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
 			    break;
-			    
 			  default:
 				   statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
 			}

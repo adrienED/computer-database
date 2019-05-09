@@ -26,7 +26,6 @@ public class CompanyService {
 	        }
 	        return INSTANCE;
 	    }
-	
 
 	public List<CompanyDTO> getAll(int limit, int offset){
 		

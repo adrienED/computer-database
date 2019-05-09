@@ -42,7 +42,7 @@
 			</div>
 		</div>
 
-		<form id="deleteForm" action="DeleteComputer" method="POST">
+		<form id="deleteForm" action="deleteComputer" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -76,7 +76,7 @@
 							<td class="editMode"><input type="checkbox"
 								name="deleteComputer" class="cb" value="${computer.id}">
 							</td>
-							<td><a href="EditComputerServlet?id=${computer.id}"
+							<td><a href="editComputer?id=${computer.id}"
 								onclick=""><c:out value="${computer.name}" /></a></td>
 							<td><c:out value="${computer.introduced}" /></td>
 							<td><c:out value="${computer.discontinued}" /></td>

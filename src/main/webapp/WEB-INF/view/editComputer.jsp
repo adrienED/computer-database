@@ -26,12 +26,12 @@
                     </div>
                     <h1>Edit Computer</h1>
 
-                    <form action="EditComputerServlet?id=${computer.id}" method="POST">
+                    <form action="editComputer?id=${computer.id}" method="POST">
                         <input type="hidden" value="0" id="id"/> <!-- TODO: Change this value with the computer id -->
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" placeholder="Name" name ="computerName" value =${computer.name}> 
+                                <input type="text" class="form-control" id="computerName" placeholder="Name computer " name ="computerName" value =${computer.name}> 
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>

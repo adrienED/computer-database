@@ -17,8 +17,6 @@ import org.slf4j.LoggerFactory;
 import controller.Controller;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
-import model.Computer;
-import persistence.ComputerDAO;
 import service.ComputerService;
 
 @WebServlet("/dashboard")
@@ -62,7 +60,7 @@ public class DashboardServlet extends HttpServlet {
 				orderParameter = request.getParameter("OrderBy");
 
 			nbOfComputer = controller.getNbOfComputer();
-			listComputer = controller.getComputerPageOrder(nbOfComputer, nbOfComputerByPage, orderParameter);
+			listComputer = controller.getComputerPageOrdered(nbOfComputer, nbOfComputerByPage, orderParameter);
 			request.setAttribute("ListComputer", listComputer);
 
 		}
@@ -86,5 +84,4 @@ public class DashboardServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 	}
-
 }

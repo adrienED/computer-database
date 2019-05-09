@@ -11,7 +11,6 @@ public class Computer {
 	protected LocalDate discontinued;
 	protected long companyID;
 
-
 	public long getId() {
 		return id;
 	}
