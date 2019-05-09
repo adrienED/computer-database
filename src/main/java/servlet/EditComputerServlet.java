@@ -31,13 +31,13 @@ public class EditComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	Controller controller = new Controller();
-	ComputerValidator computerValidator=ComputerValidator.getInstance();
+	ComputerValidator computerValidator = ComputerValidator.getInstance();
 	ComputerService computerService = ComputerService.getInstance();
 	ComputerMapper computerMapper = ComputerMapper.getInstance();
 	CompanyService companyService = CompanyService.getInstance();
-	
+
 	static Logger logger = LoggerFactory.getLogger(EditComputerServlet.class);
-	
+
 	public EditComputerServlet() {
 		super();
 	}
@@ -55,8 +55,7 @@ public class EditComputerServlet extends HttpServlet {
 			logger.error("Erreur getComputerDTO", e);
 		}
 
-
-		List<CompanyDTO> listCompanyDTO = companyService.getAll(100,1);
+		List<CompanyDTO> listCompanyDTO = companyService.getAll(100, 1);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/editComputer.jsp");
 		request.setAttribute("computer", computerDTO);
@@ -67,7 +66,7 @@ public class EditComputerServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		Computer computer = new Computer();
 
 		ComputerDTO computerDTO = new ComputerDTO();
@@ -76,10 +75,8 @@ public class EditComputerServlet extends HttpServlet {
 		computerDTO.setIntroduced(request.getParameter("Introduced").toString());
 		computerDTO.setDiscontinued(request.getParameter("Discontinued").toString());
 		computerDTO.setCompanyName(request.getParameter("companyName").toString());
-		
-		
-		if (computerValidator.validate(computerDTO) == true)
-		{ 
+
+		if (computerValidator.validate(computerDTO) == true) {
 			try {
 				computer = computerMapper.dtoToModel(computerDTO);
 				computerService.update(computer);

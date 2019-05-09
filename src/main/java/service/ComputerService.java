@@ -37,8 +37,8 @@ public class ComputerService {
 		return this.computerDAO.update(computer);
 	}
 
-	public boolean delete(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		return this.computerDAO.delete(this.computerMapper.dtoToModel(computerDTO));
+	public boolean delete(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
+		return this.computerDAO.delete(computer);
 	}
 
 	public ComputerDTO findById(String id) throws NotFoundException, InvalidDateChronology, ComputerNotFoundException {

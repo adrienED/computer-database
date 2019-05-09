@@ -17,6 +17,8 @@ import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import exception.NotFoundException;
+import mapper.ComputerMapper;
+import model.Computer;
 import service.ComputerService;
 
 @WebServlet("/deleteComputer")
@@ -25,6 +27,7 @@ public class DeleteComputer extends HttpServlet {
        
     Controller controller = new Controller();
     ComputerService computerService = ComputerService.getInstance();
+    ComputerMapper computerMapper = ComputerMapper.getInstance();
     
     static Logger logger = LoggerFactory.getLogger(DeleteComputer.class);
     
@@ -46,7 +49,9 @@ public class DeleteComputer extends HttpServlet {
 			try {
 
 				ComputerDTO computerDTOtoDelete = computerService.findById(list[i]);
-				computerService.delete(computerDTOtoDelete);
+				Computer computer = new Computer();
+				computer = computerMapper.dtoToModel(computerDTOtoDelete);
+				computerService.delete(computer);
 
 			} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
 				logger.error("Error delete computer by id", e);

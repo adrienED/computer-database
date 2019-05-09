@@ -1,17 +1,14 @@
 package mapper;
-
-import java.lang.invoke.MethodHandles;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dto.CompanyDTO;
 import model.Company;
-import persistence.CompanyDAO;
+
 
 public class CompanyMapper {
 
-	Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
+	Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
 
 	private CompanyMapper() {
 	}
