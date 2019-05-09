@@ -40,11 +40,16 @@ public class DashboardServlet extends HttpServlet {
 
 		List<ComputerDTO> listComputer = new ArrayList<ComputerDTO>();
 		int nbOfComputer = 10;
+		
+		String pageString = request.getParameter("page");
+		if (pageString != null)
+			page = Integer.parseInt(pageString);
 
 		if (request.getParameter("search") != null) {
 
 			try {
-				listComputer = controller.search(request.getParameter("search"));
+				
+				listComputer = computerService.search(request.getParameter("search"));
 				request.setAttribute("ListComputer", listComputer);
 
 				nbOfComputer = listComputer.size();
@@ -59,15 +64,20 @@ public class DashboardServlet extends HttpServlet {
 			if (request.getParameter("OrderBy") != null)
 				orderParameter = request.getParameter("OrderBy");
 
-			nbOfComputer = controller.getNbOfComputer();
-			listComputer = controller.getComputerPageOrdered(nbOfComputer, nbOfComputerByPage, orderParameter);
+			nbOfComputer = computerService.getNbOfComputer();
+			
+			ComputerService computerService = ComputerService.getInstance();
+
+			if (page != 1)
+				page = page * 10 - 10;
+			try {
+				listComputer = computerService.getAllOrderedBy( nbOfComputerByPage,page,orderParameter);
+			} catch (InvalidDateChronology e) {
+				logger.error("Date invalid controller", e);
+			}
 			request.setAttribute("ListComputer", listComputer);
 
 		}
-
-		String pageString = request.getParameter("page");
-		if (pageString != null)
-			page = Integer.parseInt(pageString);
 
 		int lastPage = nbOfComputer / nbOfComputerByPage;
 

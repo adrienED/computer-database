@@ -29,12 +29,12 @@ public class ComputerService {
 	private ComputerMapper computerMapper = ComputerMapper.getInstance();
 	private ComputerDAO computerDAO = ComputerDAO.getInstance();
 
-	public long create(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		return this.computerDAO.create(computerMapper.dtoToModel(computerDTO));
+	public long create(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
+		return this.computerDAO.create(computer);
 	}
 
-	public boolean update(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		return this.computerDAO.update(this.computerMapper.dtoToModel(computerDTO));
+	public boolean update(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
+		return this.computerDAO.update(computer);
 	}
 
 	public boolean delete(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {

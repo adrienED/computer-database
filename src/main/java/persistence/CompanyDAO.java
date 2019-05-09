@@ -132,6 +132,8 @@ public class CompanyDAO {
 			PreparedStatement deleteCompanyPreparedStatement = connection.prepareStatement(SQL_DELETE_COMPANY_BY_ID);
 
 			connection.setAutoCommit(false);
+			
+			try {
 
 			deleteComputerPreparedStatement.setLong(1, idL);
 			deleteComputerPreparedStatement.executeUpdate();
@@ -140,7 +142,14 @@ public class CompanyDAO {
 			deleteCompanyPreparedStatement.executeUpdate();
 
 			connection.commit();
+			
+			}
+			catch (Exception e) {
+				connection.rollback();
+			}
+			
 			connection.setAutoCommit(true);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

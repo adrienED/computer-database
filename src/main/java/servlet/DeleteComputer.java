@@ -8,13 +8,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import controller.Controller;
+import dto.ComputerDTO;
+import exception.ComputerNotFoundException;
+import exception.InvalidDateChronology;
+import exception.InvalidDateValueException;
+import exception.NotFoundException;
+import service.ComputerService;
 
 @WebServlet("/deleteComputer")
 public class DeleteComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     Controller controller = new Controller();
+    ComputerService computerService = ComputerService.getInstance();
+    
+    static Logger logger = LoggerFactory.getLogger(DeleteComputer.class);
     
     public DeleteComputer() {
         super();
@@ -30,9 +42,17 @@ public class DeleteComputer extends HttpServlet {
 		String [] list = listDelete.split(",");
 		System.out.println(listDelete);
 		
-		IntStream.range(0,list.length).forEach(i -> { controller.deleteComputerById(list[i]);});
+		IntStream.range(0,list.length).forEach(i -> { 
+			try {
+
+				ComputerDTO computerDTOtoDelete = computerService.findById(list[i]);
+				computerService.delete(computerDTOtoDelete);
+
+			} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
+				logger.error("Error delete computer by id", e);
+			}});
 
 		getServletContext().getRequestDispatcher("/dashboard").forward(request, response);
+	
 	}
-
 }

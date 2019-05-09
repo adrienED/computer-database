@@ -54,20 +54,7 @@ public class Controller {
 		}
 	}
 
-	public List<ComputerDTO> getComputerPageOrdered(int page, int nbComputerByPage, String orderParameter) {
-		List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
-		ComputerService computerService = ComputerService.getInstance();
 
-		if (page != 1)
-			page = page * 10 - 10;
-		try {
-			computerDAOList = computerService.getAllOrderedBy(page, nbComputerByPage, orderParameter);
-		} catch (InvalidDateChronology e) {
-			logger.error("Date invalid controller", e);
-		}
-		return computerDAOList;
-
-	}
 
 	public int getNbOfComputer() {
 

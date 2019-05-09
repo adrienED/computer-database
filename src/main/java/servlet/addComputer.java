@@ -15,6 +15,8 @@ import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
+import mapper.ComputerMapper;
+import model.Computer;
 import service.CompanyService;
 import service.ComputerService;
 import validator.ComputerValidator;
@@ -26,6 +28,7 @@ public class addComputer extends HttpServlet {
 	static Logger logger = LoggerFactory.getLogger(addComputer.class);
 
 	ComputerValidator computerValidator = ComputerValidator.getInstance();
+	ComputerMapper computerMapper = ComputerMapper.getInstance();
 
 	public addComputer() {
 		super();
@@ -50,6 +53,7 @@ public class addComputer extends HttpServlet {
 
 		ComputerService computerService = ComputerService.getInstance();
 		ComputerDTO computerDTO = new ComputerDTO();
+		Computer computer = new Computer();	
 
 		computerDTO.setName(request.getParameter("computerName"));
 		computerDTO.setIntroduced(request.getParameter("introduced"));
@@ -57,9 +61,9 @@ public class addComputer extends HttpServlet {
 		computerDTO.setCompanyName(request.getParameter("companyName"));
 
 		if (computerValidator.validate(computerDTO) == true) {
-
 			try {
-				long idCreate = computerService.create(computerDTO);
+				computer = computerMapper.dtoToModel(computerDTO);
+				long idCreate = computerService.create(computer);
 				logger.info("Ordinateur ajouter id = " + idCreate);
 			} catch (InvalidDateValueException | InvalidDateChronology | NumberFormatException e) {
 				logger.error(e.getMessage());
