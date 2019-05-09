@@ -34,11 +34,11 @@ public class ComputerValidator {
 		if (computerDTO.getCompanyName() != null) validateNameCompany = true;
 		else validateNameCompany = false;
 		
-		if (computerDTO.getIntroduced() !="")
+		if (computerDTO.getIntroduced() !="" || computerDTO.getIntroduced() !=null)
 			validateDateIntroduced =validateDate(computerDTO.getIntroduced());
 		else validateDateIntroduced =true;
 		
-		if (computerDTO.getDiscontinued() !="")
+		if (computerDTO.getDiscontinued() !="" || computerDTO.getDiscontinued() !=null)
 			validateDateDiscontinued =validateDate(computerDTO.getDiscontinued());
 		else validateDateDiscontinued =true;
 		
@@ -56,26 +56,7 @@ public class ComputerValidator {
 		else return false;
 	
 	}
-	/*
-	private boolean validateId(String id) {
-		boolean validateId = false;
-		try {
-			int localId = Integer.parseInt(id);
-			
-			if (localId > 0) {
-				validateId = true;
-			}
-			
-		} catch (Exception e) {
 
-			this.logger.error(e.getMessage(),e);	
-		}
-		return validateId;
-	}
-	*/
-	
-	 
-	
 	private boolean validateDate(String date) {
 		boolean validate = false;
 		if ( date.matches("\\d{4}-\\d{2}-\\d{2}")) {

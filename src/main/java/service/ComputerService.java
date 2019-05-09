@@ -55,6 +55,12 @@ public class ComputerService {
 		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream().map(s -> computerMapper.modelToDto(s)).collect(Collectors.toList());
 		return computerDtoList;
 }
+	public List<ComputerDTO> getAllOrderedBy(int limit, int offset,String orderByParameter) throws InvalidDateChronology{
+		
+		List<Computer> computerList = computerDAO.getAllOrderedBy(limit, offset, orderByParameter);
+		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream().map(s -> computerMapper.modelToDto(s)).collect(Collectors.toList());
+		return computerDtoList;
+	}
 	
 	public int getNbOfComputer () {
 		int nbOfComputer = computerDAO.getNbOfComputer();

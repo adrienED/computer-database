@@ -19,28 +19,18 @@ import persistence.CompanyDAO;
 import persistence.ComputerDAO;
 import service.CompanyService;
 import service.ComputerService;
+import validator.ComputerValidator;
 
 public class Controller {
 	private CompanyService companyService = CompanyService.getInstance();
 	private ComputerService computerService = ComputerService.getInstance();
+	private ComputerValidator computerValidator = ComputerValidator.getInstance();
 	
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
 	public Controller() {
 	}
 
-	private ComputerDTO inputsToComputerDTO(Map<String, String> inputsCreateComputer) {
-
-		ComputerDTO computerDTOCreate = new ComputerDTO();
-		computerDTOCreate.setName(inputsCreateComputer.get("name"));
-		computerDTOCreate.setIntroduced(inputsCreateComputer.get("introduced"));
-		computerDTOCreate.setDiscontinued(inputsCreateComputer.get("discontinued"));
-		CompanyDTO companyDTO = new CompanyDTO();
-		companyDTO.setId(inputsCreateComputer.get("idCompany"));
-		computerDTOCreate.setCompanyName(inputsCreateComputer.get("CompanyName"));
-		return computerDTOCreate;
-
-	}
 	public ComputerDTO getComputerDTOById(String id) {
 		ComputerDTO computerDTO = new ComputerDTO();
 		try {
@@ -65,14 +55,31 @@ public class Controller {
 		}
 	}
 
-	public List<ComputerDTO> getComputerPage(int page) {
+	public List<ComputerDTO> getComputerPage(int page,int nbComputerByPage) {
 		List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
 		ComputerService computerService = ComputerService.getInstance();
 		
 		if (page != 1)
 			page = page * 10 - 10;
 		try {
-			computerDAOList = computerService.getAll(10, page);
+			computerDAOList = computerService.getAll(nbComputerByPage, page);
+		} catch (InvalidDateChronology e) {
+			// TODO Auto-generated catch block
+			logger.error("Date invalid controller", e);
+		}
+		return computerDAOList;
+
+	}
+	
+	
+	public List<ComputerDTO> getComputerPageOrder(int page,int nbComputerByPage,String orderParameter) {
+		List<ComputerDTO> computerDAOList = new ArrayList<ComputerDTO>();
+		ComputerService computerService = ComputerService.getInstance();
+		
+		if (page != 1)
+			page = page * 10 - 10;
+		try {
+			computerDAOList = computerService.getAllOrderedBy(page,nbComputerByPage,orderParameter);
 		} catch (InvalidDateChronology e) {
 			// TODO Auto-generated catch block
 			logger.error("Date invalid controller", e);
@@ -93,13 +100,27 @@ public class Controller {
 	}
 
 	public void updateComputer(ComputerDTO computerDTO) {
+		if (computerValidator.validate(computerDTO) == true) {
 		try {
-
+			
 			computerService.update(computerDTO);
 		} catch (InvalidDateValueException | InvalidDateChronology e1) {
 
 			logger.error("Date invalid", e1);
 		}
+		}
+	}
+	
+	public void create (ComputerDTO computerDTO) {
+		if (computerValidator.validate(computerDTO) == true) {
+			
+			try {
+				long idCreate = computerService.create(computerDTO);
+				logger.info("Ordinateur ajouter id = "+idCreate);
+			} catch (InvalidDateValueException | InvalidDateChronology | NumberFormatException e) {
+				logger.error(e.getMessage());
+			}
+			}
 	}
 
 	public List<ComputerDTO> search(String keyword) throws InvalidDateChronology {

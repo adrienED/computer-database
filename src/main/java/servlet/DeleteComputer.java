@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.Controller;
 
-/**
- * Servlet implementation class DeleteComputer
- */
-@WebServlet("/DeleteComputer")
+@WebServlet("/deleteComputer")
 public class DeleteComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -28,48 +25,24 @@ public class DeleteComputer extends HttpServlet {
     
     public DeleteComputer() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+		//getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
-		
-	
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		
+
 		String listDelete = request.getParameter("selection");
 		
 		String [] list = listDelete.split(",");
 		System.out.println(listDelete);
 		
 		IntStream.range(0,list.length).forEach(i -> { controller.deleteComputerById(list[i]);});
-		
-		
-		
-	
-	
-			//controller.deleteComputerById(temp);
-			
-		
-		
-			
-		
-		
-		
-		
-		
-		getServletContext().getRequestDispatcher("/DashboardServlet").forward(request, response);
+
+		getServletContext().getRequestDispatcher("/dashboard").forward(request, response);
 	}
 
 }

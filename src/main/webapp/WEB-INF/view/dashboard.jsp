@@ -22,7 +22,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${nbOfComputer}Computer found</h1>
+			<h1 id="homeTitle">${nbOfComputer} Computer found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="DashboardServlet" method="GET"
@@ -60,12 +60,12 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>Computer name</th>
-						<th>Introduced date</th>
+						<th><a href="dashboard?OrderBy=name&nbOfComputerByPage=10&page=1">Computer Name</a></th>
+						<th><a href="dashboard?OrderBy=introduced&nbOfComputerByPage=10&page=1">Introduced date</a></th>
 						<!-- Table header for Discontinued Date -->
-						<th>Discontinued date</th>
+						<th><a href="dashboard?OrderBy=discontinued&nbOfComputerByPage=10&page=1">Discontinued date</a></th>
 						<!-- Table header for Company -->
-						<th>Company</th>
+						<th><a href="dashboard?OrderBy=company&nbOfComputerByPage=10&page=1">Company</a></th>
 
 					</tr>
 				</thead>
@@ -118,9 +118,9 @@
 			</ul>
 
 			<div class="btn-group btn-group-sm pull-right" role="group">
-				<button type="button" class="btn btn-default">10</button>
-				<button type="button" class="btn btn-default">50</button>
-				<button type="button" class="btn btn-default">100</button>
+			<li><a href="dashboard?nbOfComputerByPage=10&page=1">10</a></li>
+        	<li><a href="dashboard?nbByPage=50&page=1">50</a></li>
+			<li><a href="dashboard?nbByPage=100&page=1">100</a></li>
 			</div>
 		</div>
 	</footer>

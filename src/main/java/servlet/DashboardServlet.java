@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import controller.Controller;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
@@ -18,15 +21,18 @@ import model.Computer;
 import persistence.ComputerDAO;
 import service.ComputerService;
 
-@WebServlet("/DashboardServlet")
+@WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	Controller controller = new Controller();
 	ComputerService computerService = ComputerService.getInstance();
 
+	static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
+
 	private int nbOfComputerByPage = 10;
 	private int page = 1;
+	private String orderParameter = "id";
 
 	public DashboardServlet() {
 	}
@@ -35,27 +41,31 @@ public class DashboardServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		List<ComputerDTO> listComputer = new ArrayList<ComputerDTO>();
-		int nbOfComputer=0;
+		int nbOfComputer = 10;
 
 		if (request.getParameter("search") != null) {
-			
+
 			try {
 				listComputer = controller.search(request.getParameter("search"));
 				request.setAttribute("ListComputer", listComputer);
+
 				nbOfComputer = listComputer.size();
 			} catch (InvalidDateChronology e) {
-				e.printStackTrace();
+				logger.error("erreur create dashboard");
 			}
 		} else {
+
+			if (request.getParameter("nbByPage") != null)
+				nbOfComputerByPage = Integer.parseInt(request.getParameter("nbByPage"));
+
+			if (request.getParameter("OrderBy") != null)
+				orderParameter = request.getParameter("OrderBy");
+
 			nbOfComputer = controller.getNbOfComputer();
-			listComputer = controller.getComputerPage(page);
+			listComputer = controller.getComputerPageOrder(nbOfComputer, nbOfComputerByPage, orderParameter);
 			request.setAttribute("ListComputer", listComputer);
 
 		}
-
-		String nbOfComputerByPageString = request.getParameter("nbOfComputerByPage");
-		if (nbOfComputerByPageString != null)
-			nbOfComputerByPage = Integer.parseInt(nbOfComputerByPageString);
 
 		String pageString = request.getParameter("page");
 		if (pageString != null)
@@ -66,7 +76,7 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("page", page);
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("nbOfComputer", nbOfComputer);
-		
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
 		dispatcher.forward(request, response);
 
