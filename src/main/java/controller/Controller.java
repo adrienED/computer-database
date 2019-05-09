@@ -122,5 +122,11 @@ public class Controller {
 			logger.error("Error delete computer by id", e);
 		}
 	}
+	
+	public void deleteCompanyById(long id) {
+		companyService.deleteCompanyById(id);
+	}
+	
+
 
 }

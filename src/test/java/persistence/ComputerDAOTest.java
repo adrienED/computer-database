@@ -30,18 +30,7 @@ public class ComputerDAOTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		FileInputStream f;
-		try {
-			f = new FileInputStream("src/test/resources/db.properties");		
-				Properties properties = new Properties();
-	            properties.load(f);
-	          
-	            
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
 	}
 	
 

@@ -34,6 +34,8 @@ public class CompanyDAO {
 	private static final String SQL_FIND_WITH_ID = "SELECT id, name FROM company WHERE id = ?";
 	private static final String SQL_FIND_WITH_NAME = "SELECT id FROM company WHERE name = ?";
 	private static final String SQL_FIND_ALL_PAGINED = "SELECT id,name FROM company ORDER BY id LIMIT ? OFFSET ?";
+	private static final String SQL_DELETE_COMPUTER_BY_ID = "DELETE FROM computer WHERE company_id=?";
+	private static final String SQL_DELETE_COMPANY_BY_ID = "DELETE FROM company WHERE id=?";
 
 	public Company populate(ResultSet resultSet) {
 		Company company = new Company();
@@ -120,5 +122,27 @@ public class CompanyDAO {
 			logger.error("Erreur SQL ListCompany", ex);
 		}
 		return companies;
+	}
+
+	public void deleteCompanyById(long idL) {
+		try {
+
+			Connection connection = connectionDAO.getConnection();
+			PreparedStatement deleteComputerPreparedStatement = connection.prepareStatement(SQL_DELETE_COMPUTER_BY_ID);
+			PreparedStatement deleteCompanyPreparedStatement = connection.prepareStatement(SQL_DELETE_COMPANY_BY_ID);
+
+			connection.setAutoCommit(false);
+
+			deleteComputerPreparedStatement.setLong(1, idL);
+			deleteComputerPreparedStatement.executeUpdate();
+
+			deleteCompanyPreparedStatement.setLong(1, idL);
+			deleteCompanyPreparedStatement.executeUpdate();
+
+			connection.commit();
+			connection.setAutoCommit(true);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
