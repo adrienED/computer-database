@@ -31,6 +31,7 @@ public class DashboardServlet extends HttpServlet {
 	private int nbOfComputerByPage = 10;
 	private int page = 1;
 	private String orderParameter = "id";
+	private int offset=1;
 
 	public DashboardServlet() {
 	}
@@ -41,9 +42,12 @@ public class DashboardServlet extends HttpServlet {
 		List<ComputerDTO> listComputer = new ArrayList<ComputerDTO>();
 		int nbOfComputer = 10;
 		
-		String pageString = request.getParameter("page");
-		if (pageString != null)
-			page = Integer.parseInt(pageString);
+		if( request.getParameter("page") != null)
+		page = Integer.parseInt(request.getParameter("page"));
+		
+		if (page !=1)
+		offset=10*page-10;
+		
 
 		if (request.getParameter("search") != null) {
 
@@ -68,10 +72,8 @@ public class DashboardServlet extends HttpServlet {
 			
 			ComputerService computerService = ComputerService.getInstance();
 
-			if (page != 1)
-				page = page * 10 - 10;
 			try {
-				listComputer = computerService.getAllOrderedBy( nbOfComputerByPage,page,orderParameter);
+				listComputer = computerService.getAllOrderedBy( nbOfComputerByPage,page = page * 10 - 10,orderParameter);
 			} catch (InvalidDateChronology e) {
 				logger.error("Date invalid controller", e);
 			}
@@ -81,9 +83,10 @@ public class DashboardServlet extends HttpServlet {
 
 		int lastPage = nbOfComputer / nbOfComputerByPage;
 
-		request.setAttribute("page", page);
+		request.setAttribute("page", request.getParameter("page"));
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("nbOfComputer", nbOfComputer);
+		request.setAttribute("OrderBy", orderParameter);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
 		dispatcher.forward(request, response);

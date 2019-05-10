@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -56,8 +57,26 @@ public class addComputer extends HttpServlet {
 		Computer computer = new Computer();	
 
 		computerDTO.setName(request.getParameter("computerName"));
-		computerDTO.setIntroduced(request.getParameter("introduced"));
-		computerDTO.setDiscontinued(request.getParameter("discontinued"));
+		if (request.getParameter("introduced") ==null)computerDTO.setIntroduced(null);
+		else {
+			try {
+				computerDTO.setIntroduced(LocalDate.parse(request.getParameter("introduced")));
+			}
+			catch (Exception e) {
+				logger.error("erreur parse introduced");
+			}
+		}
+		
+		if (request.getParameter("discontinued") ==null)computerDTO.setDiscontinued(null);
+		else {
+			try {
+				computerDTO.setDiscontinued(LocalDate.parse(request.getParameter("discontinued")));
+			}
+			catch (Exception e) {
+				logger.error("erreur parse discontinued");
+			}
+		}
+
 		computerDTO.setCompanyName(request.getParameter("companyName"));
 
 		if (computerValidator.validate(computerDTO) == true) {

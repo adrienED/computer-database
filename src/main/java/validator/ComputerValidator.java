@@ -32,17 +32,17 @@ public class ComputerValidator {
 		else
 			validateNameCompany = false;
 
-		if (computerDTO.getIntroduced() != "")
+		if (computerDTO.getIntroduced() != null)
 			validateDateIntroduced = validateDate(computerDTO.getIntroduced());
 		else
 			validateDateIntroduced = true;
 
-		if (computerDTO.getDiscontinued() != "")
+		if (computerDTO.getDiscontinued() != null)
 			validateDateDiscontinued = validateDate(computerDTO.getDiscontinued());
 		else
 			validateDateDiscontinued = true;
 
-		if (computerDTO.getIntroduced() != "" || computerDTO.getDiscontinued() != "")
+		if (computerDTO.getIntroduced() != null || computerDTO.getDiscontinued() != null)
 			validateDateOrder = validateDateOrder(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
 		else
 			validateDateOrder = true;
@@ -58,37 +58,25 @@ public class ComputerValidator {
 
 	}
 
-	private boolean validateDate(String date) {
+	private boolean validateDate(LocalDate date) {
 		boolean validate = false;
-		if (date.matches("\\d{4}-\\d{2}-\\d{2}")) {
+		
 			try {
-				LocalDate localDate = LocalDate.parse(date);
+				
 				LocalDate minDate = LocalDate.parse("1970-01-01");
-				if (localDate.isAfter(minDate))
+				if (date.isAfter(minDate))
 					validate = true;
 			} catch (Exception e) {
 				this.logger.error(e.getMessage(), e);
 			}
-		}
+		
 		return validate;
 	}
 
-	private boolean validateDateOrder(String introducedString, String discontinuedString) {
+	private boolean validateDateOrder(LocalDate introduced, LocalDate discontinued) {
 		boolean validateDateOrder=false;
-		if (introducedString.matches("\\d{4}-\\d{2}-\\d{2}") && discontinuedString.matches("\\d{4}-\\d{2}-\\d{2}"))
-		{
-
-		try {
-			LocalDate localIntroduceDate = LocalDate.parse(introducedString);
-			LocalDate localDiscontinudDate = LocalDate.parse(discontinuedString);
-
-			if (localIntroduceDate.isBefore(localDiscontinudDate))
+			if (introduced.isBefore(discontinued))
 				validateDateOrder = true;
-		} catch (Exception e) {
-			this.logger.error(e.getMessage(), e);
-
-		}
-		}
 		return validateDateOrder;
 	}
 }

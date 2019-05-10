@@ -44,11 +44,17 @@ public class ComputerDAO {
 	private static final String SQL_COUNT_ALL = "SELECT COUNT(*) FROM computer";
 	private static final String SQL_FIND_SEARCH_COMPUTER = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id WHERE (A.name like ? OR B.name like ?) ";
 	private static final String SQL_FIND_ALL_ORDERED_BY_NAME = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.name LIMIT ? OFFSET ?";
-	private static final String SQL_FIND_ALL_ORDERED_BY_INTRODUCED = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.introduced LIMIT ? OFFSET ?";
-	private static final String SQL_FIND_ALL_ORDERED_BY_DISCONTINUED = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.discontinued LIMIT ? OFFSET ?";
-	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name LIMIT ? OFFSET ?";
+	private static final String SQL_FIND_ALL_ORDERED_BY_NAME_DESC = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.name DESC LIMIT ? OFFSET ?";
 
-	
+	private static final String SQL_FIND_ALL_ORDERED_BY_INTRODUCED = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.introduced LIMIT ? OFFSET ?";
+	private static final String SQL_FIND_ALL_ORDERED_BY_INTRODUCED_DESC = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.introduced DESC LIMIT ? OFFSET ?";
+
+	private static final String SQL_FIND_ALL_ORDERED_BY_DISCONTINUED = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.discontinued LIMIT ? OFFSET ?";
+	private static final String SQL_FIND_ALL_ORDERED_BY_DISCONTINUED_DESC = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.discontinued DESC LIMIT ? OFFSET ?";
+
+	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name LIMIT ? OFFSET ?";
+	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name DESC LIMIT ? OFFSET ?";
+
 	public Computer populate(ResultSet resultSet) throws InvalidDateChronology {
 		Computer computer = new Computer();
 		try {
@@ -75,7 +81,7 @@ public class ComputerDAO {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
 			ResultSet resultSet = statement.executeQuery();
-			
+
 			while (resultSet.next()) {
 				Computer computer = populate(resultSet);
 				computeresultSet.add(computer);
@@ -95,12 +101,14 @@ public class ComputerDAO {
 			PreparedStatement statement;
 			statement = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, computer.getName());
-			if(computer.getIntroduced()==null) statement.setDate(2, null);
+			if (computer.getIntroduced() == null)
+				statement.setDate(2, null);
 			else
-			statement.setDate(2, Date.valueOf(computer.getIntroduced()));
-			if(computer.getDiscontinued()==null) statement.setDate(3, null);
+				statement.setDate(2, Date.valueOf(computer.getIntroduced()));
+			if (computer.getDiscontinued() == null)
+				statement.setDate(3, null);
 			else
-			statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
+				statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
 			statement.setLong(4, computer.getCompanyID());
 			statement.toString();
 			statement.executeUpdate();
@@ -136,12 +144,14 @@ public class ComputerDAO {
 			PreparedStatement statement;
 			statement = connection.prepareStatement(SQL_UPDATE);
 			statement.setString(1, computer.getName());
-			if(computer.getIntroduced()==null) statement.setDate(2, null);
+			if (computer.getIntroduced() == null)
+				statement.setDate(2, null);
 			else
-			statement.setDate(2, Date.valueOf(computer.getIntroduced()));
-			if (computer.getDiscontinued()==null) statement.setDate(3, null);
+				statement.setDate(2, Date.valueOf(computer.getIntroduced()));
+			if (computer.getDiscontinued() == null)
+				statement.setDate(3, null);
 			else
-			statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
+				statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
 			statement.setLong(4, computer.getCompanyID());
 			statement.setLong(5, computer.getId());
 			statement.executeUpdate();
@@ -205,41 +215,51 @@ public class ComputerDAO {
 		}
 		return computeresultSet;
 	}
-	
-	
+
 	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter) throws InvalidDateChronology {
 		List<Computer> computeresultSet = new ArrayList<Computer>();
-		
+
 		PreparedStatement statement;
 		try {
-		Connection connection = connectionDAO.getConnection();
-		
-			
-			switch(orderByParameter) {
-			  case "name":
-				  statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_NAME);
-			    break;
-			  case "introduced":
-				   statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_INTRODUCED);
-			    break;
-			  case "discontinued":
-				   statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED);
-			    break;
-			  case "company":
-				   statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_COMPANY);
-			    break;
-			  case "id":
-				   statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
-			    break;
-			  default:
-				   statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
+			Connection connection = connectionDAO.getConnection();
+
+			switch (orderByParameter) {
+			case "name":
+				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_NAME);
+				break;
+
+			case "nameDESC":
+				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_NAME_DESC);
+				break;
+
+			case "introduced":
+				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_INTRODUCED);
+				break;
+				
+			case "introducedDESC":
+				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_INTRODUCED_DESC);
+				break;
+			case "discontinued":
+				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED);
+				break;
+				
+			case "discontinuedDESC":
+				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED_DESC);
+				break;
+			case "companyDESC":
+				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC);
+				break;
+			case "id":
+				statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
+				break;
+			default:
+				statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
 			}
-			
 
 			statement.setLong(1, limit);
 			statement.setLong(2, offset);
 			System.out.println(statement);
-			
+
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				Computer computer = populate(resultSet);
@@ -252,9 +272,7 @@ public class ComputerDAO {
 		}
 		return computeresultSet;
 	}
-	
-	
-	
+
 	public List<Computer> getSearchComputer(String search) throws InvalidDateChronology {
 		List<Computer> computeresultSet = new ArrayList<Computer>();
 		try {
@@ -272,7 +290,7 @@ public class ComputerDAO {
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL ListComputer", ex);
 		}
-		
+
 		return computeresultSet;
 	}
 
@@ -292,7 +310,5 @@ public class ComputerDAO {
 		}
 		return nbOfComputer;
 	}
-	
-	
 
 }

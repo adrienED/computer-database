@@ -36,15 +36,15 @@ public class ComputerMapper {
 
 			computer.setName(computerDTO.getName());
 
-			if (computerDTO.getIntroduced() == "")
+			if (computerDTO.getIntroduced().equals(null))
 				computer.setIntroduced(null);
 			else
-				computer.setIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
+				computer.setIntroduced(computerDTO.getIntroduced());
 
-			if (computerDTO.getDiscontinued() == "")
+			if (computerDTO.getDiscontinued().equals(null))
 				computer.setDiscontinued(null);
 			else
-				computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
+				computer.setDiscontinued(computerDTO.getDiscontinued());
 
 			computer.setCompanyID(companyDAO.findByName(computerDTO.getCompanyName()));
 			logger.info(computerDTO.toString());
@@ -62,10 +62,10 @@ public class ComputerMapper {
 		computerDTO.setName(computer.getName());
 
 		if (computer.getIntroduced() != null)
-			computerDTO.setIntroduced(computer.getIntroduced().toString());
+			computerDTO.setIntroduced(computer.getIntroduced());
 
 		if (computer.getDiscontinued() != null)
-			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
+			computerDTO.setDiscontinued(computer.getDiscontinued());
 
 		computerDTO.setCompanyName(companyDAO.findById(computer.getCompanyID()).getName());
 
