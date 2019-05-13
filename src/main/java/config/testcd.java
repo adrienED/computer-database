@@ -3,6 +3,7 @@ package config;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -15,6 +16,8 @@ import mapper.ComputerMapper;
 import model.Company;
 import model.Computer;
 import persistence.CompanyDAO;
+import service.CompanyService;
+import service.ComputerService;
 
 public class testcd {
 	
@@ -55,8 +58,15 @@ public class testcd {
  		CompanyDAO companyDAO= (CompanyDAO) ctx.getBean("CompanyDAO");
    	 
  		System.out.println( companyDAO.getAll());
-
-
+ 		
+ 		
+ 		CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
+ 		
+ 		System.out.println(companyService.getAll(10, 2));
+ 		
+ 		ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+ 		
+ 		System.out.println(computerService.getAll(10, 2));
     	}
 
     

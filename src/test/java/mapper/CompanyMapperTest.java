@@ -10,23 +10,26 @@ import org.junit.Test;
 import org.junit.matchers.JUnitMatchers;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import dto.CompanyDTO;
 import model.Company;
 
 public class CompanyMapperTest {
 	
-	CompanyMapper companyMapper = null;
+	
 	Company company = new Company();
 	
 	CompanyDTO companyDTO = new CompanyDTO();
 	CompanyDTO companydto = new CompanyDTO();
+	
+	@Autowired
+	CompanyMapper companyMapper;
 
 
 	public void setUp() throws Exception {
 		
-	
-		companyMapper = CompanyMapper.getInstance();
+		
 		
 	}
 
@@ -36,7 +39,6 @@ public class CompanyMapperTest {
 
 	@Test
 	public void testDtoToModel() {
-		CompanyMapper companyMapper	=CompanyMapper.getInstance();
 				
 		company.setId(23L);
 		company.setName("test");
@@ -61,7 +63,7 @@ public class CompanyMapperTest {
 
 	@Test
 	public void testModelToDto() {
-		CompanyMapper companyMapper	=CompanyMapper.getInstance();
+	
 		
 		company.setId(23L);
 		company.setName("test");

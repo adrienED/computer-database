@@ -23,8 +23,6 @@ public class ComputerMapper {
 	public ComputerMapper() {
 	}
 
-
-
 	public Computer dtoToModel(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
 		Computer computer = new Computer();
 		try {
