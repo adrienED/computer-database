@@ -23,16 +23,7 @@ public class ComputerDAO {
 
 	ConnectionDAO connectionDAO = new ConnectionDAO();
 
-	private ComputerDAO() {
-	}
-
-	private static ComputerDAO INSTANCE = null;
-
-	public static ComputerDAO getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new ComputerDAO();
-		}
-		return INSTANCE;
+	public ComputerDAO() {
 	}
 
 	private static final String SQL_FIND_ALL = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.id";

@@ -1,6 +1,7 @@
 package config;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -13,6 +14,7 @@ import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import model.Company;
 import model.Computer;
+import persistence.CompanyDAO;
 
 public class testcd {
 	
@@ -33,15 +35,9 @@ public class testcd {
     		companyDTO.setName("testa");
     		
     		System.out.println(companyMapper.dtoToModel(companyDTO).getName());
-    		
-    		
-    		
-    		
+	
     	 ComputerMapper computerMapper= (ComputerMapper) ctx.getBean("ComputerMapper");
-    	 
-    	 
-    	 
-    	 
+
     	LocalDate introDate = LocalDate.parse("2016-12-12");
  		LocalDate disconDate = LocalDate.parse("2017-12-12");
  		ComputerDTO computerDTO = new ComputerDTO();
@@ -55,12 +51,12 @@ public class testcd {
  		
  		
  		System.out.println(computerMapper.dtoToModel(computerDTO).getName());
-    	 
-    	 
-    	 
-    	 
-    	 
-    	 
+
+ 		CompanyDAO companyDAO= (CompanyDAO) ctx.getBean("CompanyDAO");
+   	 
+ 		System.out.println( companyDAO.getAll());
+
+
     	}
 
     

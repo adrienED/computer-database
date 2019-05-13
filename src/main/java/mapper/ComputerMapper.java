@@ -3,6 +3,7 @@ package mapper;
 import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import dto.ComputerDTO;
@@ -15,8 +16,9 @@ import persistence.CompanyDAO;
 public class ComputerMapper {
 
 	private Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
-
-	private CompanyDAO companyDAO = CompanyDAO.getInstance();
+	
+	@Autowired
+	CompanyDAO companyDAO ;
 
 	public ComputerMapper() {
 	}

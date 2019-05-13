@@ -18,17 +18,9 @@ public class CompanyDAO {
 
 	ConnectionDAO connectionDAO = new ConnectionDAO();
 
-	private CompanyDAO() {
+	public CompanyDAO() {
 	}
 
-	private static CompanyDAO INSTANCE = null;
-
-	public static CompanyDAO getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new CompanyDAO();
-		}
-		return INSTANCE;
-	}
 
 	private static final String SQL_FIND_ALL = "SELECT id, name FROM company";
 	private static final String SQL_FIND_WITH_ID = "SELECT id, name FROM company WHERE id = ?";
