@@ -3,6 +3,11 @@ package service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+
+import Config.AppConfig;
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
@@ -12,23 +17,16 @@ import mapper.ComputerMapper;
 import model.Computer;
 import persistence.ComputerDAO;
 
+@Component("ComputerService")
 public class ComputerService {
 
-	private ComputerService() {
+	public ComputerService() {
 	}
 
-	private static ComputerService INSTANCE = null;
-
-	public static ComputerService getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new ComputerService();
-		}
-		return INSTANCE;
-	}
-
-	private ComputerMapper computerMapper = ComputerMapper.getInstance();
-	private ComputerDAO computerDAO = ComputerDAO.getInstance();
-
+	
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	private ComputerDAO computerDAO = ctx.getBean(ComputerDAO.class);
+	private ComputerMapper computerMapper = ctx.getBean(ComputerMapper.class);
 	public long create(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
 		return this.computerDAO.create(computer);
 	}

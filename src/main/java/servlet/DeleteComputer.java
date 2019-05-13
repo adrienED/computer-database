@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import Config.AppConfig;
 import controller.Controller;
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
@@ -25,9 +28,10 @@ import service.ComputerService;
 public class DeleteComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    Controller controller = new Controller();
-    ComputerService computerService = ComputerService.getInstance();
-    ComputerMapper computerMapper = ComputerMapper.getInstance();
+    ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	private ComputerService computerService = ctx.getBean(ComputerService.class);
+
+	ComputerMapper computerMapper = ctx.getBean(ComputerMapper.class);
     
     static Logger logger = LoggerFactory.getLogger(DeleteComputer.class);
     

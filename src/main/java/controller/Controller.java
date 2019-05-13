@@ -15,6 +15,7 @@ import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import exception.NotFoundException;
 import model.Company;
+import model.Computer;
 import persistence.CompanyDAO;
 import persistence.ComputerDAO;
 import service.CompanyService;
@@ -31,8 +32,8 @@ public class Controller {
 	public void deleteComputerById(String id) {
 		try {
 
-			ComputerDTO computerDTOtoDelete = computerService.findById(id);
-			computerService.delete(computerDTOtoDelete);
+			Computer computer = computerService.findById(id);
+			computerService.delete(computer);
 
 		} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
 			logger.error("Error delete computer by id", e);

@@ -13,18 +13,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import controller.Controller;
+import Config.AppConfig;
+
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
+import persistence.CompanyDAO;
 import service.ComputerService;
 
-@WebServlet("/dashboard")
+@Controller
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	Controller controller = new Controller();
-	ComputerService computerService = ComputerService.getInstance();
+
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	private ComputerService computerService = ctx.getBean(ComputerService.class);
 
 	static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 
@@ -35,7 +43,7 @@ public class DashboardServlet extends HttpServlet {
 
 	public DashboardServlet() {
 	}
-
+	@GetMapping("/dashboard")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -70,7 +78,6 @@ public class DashboardServlet extends HttpServlet {
 
 			nbOfComputer = computerService.getNbOfComputer();
 			
-			ComputerService computerService = ComputerService.getInstance();
 
 			try {
 				listComputer = computerService.getAllOrderedBy( nbOfComputerByPage,page = page * 10 - 10,orderParameter);

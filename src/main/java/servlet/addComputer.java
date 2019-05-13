@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import Config.AppConfig;
 import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
@@ -27,18 +31,21 @@ public class addComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	static Logger logger = LoggerFactory.getLogger(addComputer.class);
+	
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 
-	ComputerValidator computerValidator = ComputerValidator.getInstance();
-	ComputerMapper computerMapper = ComputerMapper.getInstance();
+	ComputerValidator computerValidator = ctx.getBean(ComputerValidator.class);
+	ComputerMapper computerMapper = ctx.getBean(ComputerMapper.class);
+	
 
 	public addComputer() {
-		super();
+		
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		CompanyService companyService = CompanyService.getInstance();
+		CompanyService companyService = ctx.getBean(CompanyService.class);
 
 		List<CompanyDTO> ListCompanies = new ArrayList<CompanyDTO>();
 		ListCompanies = companyService.getAll(100, 1);
@@ -52,7 +59,7 @@ public class addComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		ComputerService computerService = ComputerService.getInstance();
+		ComputerService computerService = ctx.getBean(ComputerService.class);
 		ComputerDTO computerDTO = new ComputerDTO();
 		Computer computer = new Computer();	
 

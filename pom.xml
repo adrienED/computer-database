@@ -25,6 +25,9 @@
 		<springContext.version>5.1.5.RELEASE</springContext.version>
 		<springCore.version>5.1.5.RELEASE</springCore.version>
 		<springBeans.version>5.1.5.RELEASE</springBeans.version>
+		<springWeb.version>5.1.5.RELEASE</springWeb.version>
+		<springMVC.version>5.1.5.RELEASE</springMVC.version>
+		
 		
 	</properties>
 
@@ -80,8 +83,6 @@
     <artifactId>spring-beans</artifactId>
     <version>${springBeans.version}</version>
 </dependency>
-	
-
 
 		<!-- Test -->
 

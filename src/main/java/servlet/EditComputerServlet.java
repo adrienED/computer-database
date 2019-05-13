@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import Config.AppConfig;
 import controller.Controller;
 import dto.CompanyDTO;
 import dto.ComputerDTO;
@@ -30,12 +33,13 @@ import validator.ComputerValidator;
 @WebServlet("/editComputer")
 public class EditComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	ComputerService computerService = ctx.getBean(ComputerService.class);
+	ComputerValidator computerValidator = ctx.getBean(ComputerValidator.class);
+	ComputerMapper computerMapper = ctx.getBean(ComputerMapper.class);
+	CompanyService companyService = ctx.getBean(CompanyService.class);
 
-	Controller controller = new Controller();
-	ComputerValidator computerValidator = ComputerValidator.getInstance();
-	ComputerService computerService = ComputerService.getInstance();
-	ComputerMapper computerMapper = ComputerMapper.getInstance();
-	CompanyService companyService = CompanyService.getInstance();
 
 	static Logger logger = LoggerFactory.getLogger(EditComputerServlet.class);
 

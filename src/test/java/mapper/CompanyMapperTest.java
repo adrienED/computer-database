@@ -10,9 +10,13 @@ import org.junit.Test;
 import org.junit.matchers.JUnitMatchers;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import Config.AppConfig;
 import dto.CompanyDTO;
 import model.Company;
+import service.ComputerService;
 
 public class CompanyMapperTest {
 	
@@ -21,22 +25,14 @@ public class CompanyMapperTest {
 	
 	CompanyDTO companyDTO = new CompanyDTO();
 	CompanyDTO companydto = new CompanyDTO();
-
-
-	public void setUp() throws Exception {
-		
 	
-		companyMapper = CompanyMapper.getInstance();
-		
-	}
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 
-	@After
-	public void tearDown() throws Exception {
-	}
+
 
 	@Test
 	public void testDtoToModel() {
-		CompanyMapper companyMapper	=CompanyMapper.getInstance();
+		companyMapper = ctx.getBean(CompanyMapper.class);
 				
 		company.setId(23L);
 		company.setName("test");
@@ -61,7 +57,7 @@ public class CompanyMapperTest {
 
 	@Test
 	public void testModelToDto() {
-		CompanyMapper companyMapper	=CompanyMapper.getInstance();
+		companyMapper = ctx.getBean(CompanyMapper.class);
 		
 		company.setId(23L);
 		company.setName("test");

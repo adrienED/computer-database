@@ -3,29 +3,28 @@ package service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+
+import Config.AppConfig;
 import dto.CompanyDTO;
 import mapper.CompanyMapper;
 import model.Company;
 import persistence.CompanyDAO;
 
-
+@Component("CompanyService")
 public class CompanyService {
 	
-	private CompanyMapper companyMapper = CompanyMapper.getInstance();
-	private CompanyDAO companyDAO = CompanyDAO.getInstance();
+	
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	
+	private CompanyDAO companyDAO = ctx.getBean(CompanyDAO.class);
+	private CompanyMapper companyMapper = ctx.getBean(CompanyMapper.class);
 
-	    private CompanyService()
-	    {}
+	    public CompanyService() {}
 
-	    private static CompanyService INSTANCE = null;
-
-	    public static CompanyService getInstance()
-	    {           
-	        if (INSTANCE == null)
-	        {   INSTANCE = new CompanyService(); 
-	        }
-	        return INSTANCE;
-	    }
 
 	public List<CompanyDTO> getAll(int limit, int offset){
 		
