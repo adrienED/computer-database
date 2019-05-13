@@ -17,6 +17,7 @@ public class CompanyService {
 	
 	@Autowired
 	private CompanyMapper companyMapper;
+	@Autowired
 	private CompanyDAO companyDAO;
 
 	    public CompanyService()
@@ -26,7 +27,7 @@ public class CompanyService {
 	public List<CompanyDTO> getAll(int limit, int offset){
 		
 		List<Company> companyList = companyDAO.getAll(limit, offset);
-		List<CompanyDTO> companyDtoList = (List<CompanyDTO>) companyList.stream().map(s -> companyMapper.modelToDto(s)).collect(Collectors.toList());
+		List<CompanyDTO> companyDtoList = companyList.stream().map(s -> companyMapper.modelToDto(s)).collect(Collectors.toList());
 		
 		return companyDtoList;
 	} 	  	 	
@@ -37,6 +38,7 @@ public class CompanyService {
 	}
 	
 	public void deleteCompanyById (long id) {
+		System.out.println(id);
 		companyDAO.deleteCompanyById(id);
 	}
 

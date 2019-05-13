@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import persistence.CompanyDAO;
+import persistence.ConnectionDAO;
 import service.CompanyService;
 import service.ComputerService;
 
@@ -36,9 +37,8 @@ public class AppConfig {
 	 	public ComputerService ComputerService() {
 		 return new ComputerService();
 	 }
-	 
-	 
-	 
-	 
-
+	 @Bean
+	 	public ConnectionDAO ConnectionDAO() {
+		 return new ConnectionDAO();
+	 }
 }

@@ -8,41 +8,53 @@ public class ComputerDTO {
 	private LocalDate introduced;
 	private LocalDate discontinued;
 	private String companyName;
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public LocalDate getIntroduced() {
 		return introduced;
 	}
+
 	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
+
 	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
+
 	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
+
 	public String getCompanyName() {
 		return companyName;
 	}
+
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
+
 	@Override
 	public String toString() {
 		return "ComputerDTO [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
 				+ discontinued + ", companyName=" + companyName + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -54,6 +66,7 @@ public class ComputerDTO {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

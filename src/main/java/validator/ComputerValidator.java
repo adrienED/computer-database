@@ -20,7 +20,8 @@ public class ComputerValidator {
 
 	public boolean validate(ComputerDTO computerDTO) {
 
-		boolean validateName, validateDateIntroduced, validateDateDiscontinued, validateDateOrder, validateNameCompany;
+		boolean validateName;
+		boolean validateDateIntroduced, validateDateDiscontinued, validateDateOrder, validateNameCompany;
 
 		if (computerDTO.getName() != null)
 			validateName = true;

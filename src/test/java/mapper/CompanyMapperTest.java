@@ -1,22 +1,23 @@
 package mapper;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.matchers.JUnitMatchers;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import dto.CompanyDTO;
 import model.Company;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration
+
 public class CompanyMapperTest {
-	
 	
 	Company company = new Company();
 	
@@ -24,7 +25,7 @@ public class CompanyMapperTest {
 	CompanyDTO companydto = new CompanyDTO();
 	
 	@Autowired
-	CompanyMapper companyMapper;
+	private CompanyMapper companyMapper;
 
 
 	public void setUp() throws Exception {

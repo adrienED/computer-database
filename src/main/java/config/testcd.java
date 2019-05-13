@@ -66,7 +66,10 @@ public class testcd {
  		
  		ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
  		
- 		System.out.println(computerService.getAll(10, 2));
+ 		System.out.println(companyService);
+ 		
+ 		companyService.deleteCompanyById(4L);
+ 		
     	}
 
     

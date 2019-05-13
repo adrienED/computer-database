@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.Company;
@@ -17,8 +18,8 @@ import model.Company;
 public class CompanyDAO {
 
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
-
-	ConnectionDAO connectionDAO = new ConnectionDAO();
+	@Autowired
+	ConnectionDAO connectionDAO;
 
 	public CompanyDAO() {
 	}
@@ -136,7 +137,6 @@ public class CompanyDAO {
 			deleteCompanyPreparedStatement.executeUpdate();
 
 			connection.commit();
-			
 			}
 			catch (Exception e) {
 				connection.rollback();
@@ -145,7 +145,7 @@ public class CompanyDAO {
 			connection.setAutoCommit(true);
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Erreur delete Company", e);
 		}
 	}
 }
