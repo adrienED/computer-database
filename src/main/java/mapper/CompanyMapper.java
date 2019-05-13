@@ -1,25 +1,17 @@
 package mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import dto.CompanyDTO;
 import model.Company;
 
-
-public class CompanyMapper {
+@Component("CompanyMapper")
+	public class CompanyMapper {
 
 	Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
 
-	private CompanyMapper() {
-	}
-
-	private static CompanyMapper INSTANCE = null;
-
-	public static CompanyMapper getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new CompanyMapper();
-		}
-		return INSTANCE;
+	public CompanyMapper() {
 	}
 
 	public Company dtoToModel(CompanyDTO companyDTO) {

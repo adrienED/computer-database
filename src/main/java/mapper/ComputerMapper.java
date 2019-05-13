@@ -3,29 +3,25 @@ package mapper;
 import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import model.Computer;
 import persistence.CompanyDAO;
 
+@Component("ComputerMapper")
 public class ComputerMapper {
 
 	private Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 
 	private CompanyDAO companyDAO = CompanyDAO.getInstance();
 
-	private ComputerMapper() {
+	public ComputerMapper() {
 	}
 
-	private static ComputerMapper INSTANCE = null;
 
-	public static ComputerMapper getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new ComputerMapper();
-		}
-		return INSTANCE;
-	}
 
 	public Computer dtoToModel(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
 		Computer computer = new Computer();
