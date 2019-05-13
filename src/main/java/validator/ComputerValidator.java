@@ -76,7 +76,8 @@ public class ComputerValidator {
 	private boolean validateDateOrder(LocalDate introduced, LocalDate discontinued) {
 		boolean validateDateOrder=false;
 			if (introduced.isBefore(discontinued))
-				validateDateOrder = true;
+				validateDateOrder = true;			
+			
 		return validateDateOrder;
 	}
 }
