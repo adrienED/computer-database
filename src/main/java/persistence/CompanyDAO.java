@@ -1,5 +1,6 @@
 package persistence;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,8 +24,6 @@ public class CompanyDAO {
 
 	public CompanyDAO() {
 	}
-
-
 	private static final String SQL_FIND_ALL = "SELECT id, name FROM company";
 	private static final String SQL_FIND_WITH_ID = "SELECT id, name FROM company WHERE id = ?";
 	private static final String SQL_FIND_WITH_NAME = "SELECT id FROM company WHERE name = ?";
@@ -45,8 +44,8 @@ public class CompanyDAO {
 	}
 
 	public List<Company> getAll() {
-		List<Company> companies = new ArrayList<Company>();
-		try {
+		List<Company> companies = new ArrayList<>();
+		try  {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
 			ResultSet resultSet = statement.executeQuery();
@@ -56,14 +55,16 @@ public class CompanyDAO {
 
 			}
 			connection.close();
+			statement.close();
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL ListCompany", ex);
 		}
+
 		return companies;
 	}
 
 	public Company findById(long id) {
-		Company Company = new Company();
+		Company company = new Company();
 		try {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
@@ -71,14 +72,14 @@ public class CompanyDAO {
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 
-				Company.setId(resultSet.getLong("id"));
-				Company.setName(resultSet.getString("name"));
+				company.setId(resultSet.getLong("id"));
+				company.setName(resultSet.getString("name"));
 			}
 			connection.close();
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL findById", ex);
 		}
-		return Company;
+		return company;
 	}
 
 	public long findByName(String name) {
@@ -91,7 +92,7 @@ public class CompanyDAO {
 			while (resultSet.next()) {
 
 				id = resultSet.getLong("id");
-				System.out.println(id);
+				
 			}
 			connection.close();
 		} catch (SQLException ex) {
@@ -101,7 +102,7 @@ public class CompanyDAO {
 	}
 
 	public List<Company> getAll(int limit, int offset) {
-		List<Company> companies = new ArrayList<Company>();
+		List<Company> companies = new ArrayList<>();
 		try {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);

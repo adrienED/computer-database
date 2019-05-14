@@ -22,8 +22,9 @@ public class ComputerService {
 	}
 
 	@Autowired
-	private ComputerMapper computerMapper;
-	private ComputerDAO computerDAO;
+	ComputerMapper computerMapper;
+	@Autowired
+	ComputerDAO computerDAO;
 
 	public long create(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
 		return this.computerDAO.create(computer);

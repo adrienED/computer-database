@@ -4,14 +4,24 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.servlet.ViewResolver;
+
+import config.AppConfig;
 import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
@@ -27,9 +37,21 @@ public class addComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	static Logger logger = LoggerFactory.getLogger(addComputer.class);
+	
+	@Autowired
+	ViewResolver ViewResolver;
+	
+	@Autowired
+	ComputerValidator computerValidator;
+	@Autowired
+	ComputerMapper computerMapper;
+	@Autowired
+	ComputerService computerService;
+	
 
-	ComputerValidator computerValidator = ComputerValidator.getInstance();
-	ComputerMapper computerMapper = ComputerMapper.getInstance();
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
+
 
 	public addComputer() {
 		super();
@@ -38,13 +60,12 @@ public class addComputer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		CompanyService companyService = CompanyService.getInstance();
-
-		List<CompanyDTO> ListCompanies = new ArrayList<CompanyDTO>();
-		ListCompanies = companyService.getAll(100, 1);
+		
+		List<CompanyDTO> listCompanies = new ArrayList<CompanyDTO>();
+		listCompanies = companyService.getAll(100, 0);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/addComputer.jsp");
-		request.setAttribute("ListCompanies", ListCompanies);
+		request.setAttribute("ListCompanies", listCompanies);
 		dispatcher.forward(request, response);
 	}
 
@@ -52,7 +73,6 @@ public class addComputer extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		ComputerService computerService = ComputerService.getInstance();
 		ComputerDTO computerDTO = new ComputerDTO();
 		Computer computer = new Computer();	
 

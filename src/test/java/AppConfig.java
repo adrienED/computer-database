@@ -1,12 +1,18 @@
-package config;
+
+
+import java.util.ResourceBundle;
+
+import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import persistence.CompanyDAO;
-import persistence.ComputerDAO;
 import persistence.ConnectionDAO;
 import service.CompanyService;
 import service.ComputerService;
@@ -31,11 +37,6 @@ public class AppConfig {
 	 }
 	 
 	 @Bean
-	 	public ComputerDAO ComputerDAO() {
-		 return new ComputerDAO();
-	 }
-	 
-	 @Bean
 	 	public CompanyService CompanyService() {
 		 return new CompanyService();
 	 }
@@ -53,5 +54,7 @@ public class AppConfig {
 	 	public ComputerValidator ComputerValidator() {
 		 return new ComputerValidator();
 	 }
+	 
 
+		
 }

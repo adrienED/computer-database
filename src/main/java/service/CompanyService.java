@@ -16,9 +16,9 @@ import persistence.CompanyDAO;
 public class CompanyService {
 	
 	@Autowired
-	private CompanyMapper companyMapper;
+	CompanyMapper companyMapper;
 	@Autowired
-	private CompanyDAO companyDAO;
+	CompanyDAO companyDAO;
 
 	    public CompanyService()
 	    {}
@@ -38,7 +38,6 @@ public class CompanyService {
 	}
 	
 	public void deleteCompanyById (long id) {
-		System.out.println(id);
 		companyDAO.deleteCompanyById(id);
 	}
 

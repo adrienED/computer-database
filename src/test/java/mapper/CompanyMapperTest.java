@@ -7,31 +7,38 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import config.AppConfig;
 import dto.CompanyDTO;
 import model.Company;
+import persistence.CompanyDAO;
+import service.CompanyService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration(classes = AppConfig.class)
 
 public class CompanyMapperTest {
+	
+	@Autowired
+	CompanyMapper companyMapper;
+
+	@Autowired
+	CompanyDAO companyDAO;
 	
 	Company company = new Company();
 	
 	CompanyDTO companyDTO = new CompanyDTO();
 	CompanyDTO companydto = new CompanyDTO();
-	
-	@Autowired
-	private CompanyMapper companyMapper;
+
 
 
 	public void setUp() throws Exception {
-		
-		
-		
+	
 	}
 
 	@After

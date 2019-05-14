@@ -31,8 +31,6 @@ public class ConnectionDAO {
 			logger.error("Erreur Driver jdbc not found", ex);
 
 		}
-		System.out.println("serveur ok");
-
 		return ds.getConnection();
 
 	}

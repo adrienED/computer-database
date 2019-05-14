@@ -8,20 +8,17 @@ import dto.ComputerDTO;
 
 public class ComputerValidator {
 
-	private static ComputerValidator instance;
-
-	public static ComputerValidator getInstance() {
-		if (instance == null)
-			instance = new ComputerValidator();
-		return instance;
-	}
+	public ComputerValidator() {}
 
 	Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 
 	public boolean validate(ComputerDTO computerDTO) {
 
 		boolean validateName;
-		boolean validateDateIntroduced, validateDateDiscontinued, validateDateOrder, validateNameCompany;
+		boolean validateDateIntroduced;
+		boolean validateDateDiscontinued;
+		boolean validateDateOrder;
+		boolean validateNameCompany;
 
 		if (computerDTO.getName() != null)
 			validateName = true;

@@ -4,21 +4,28 @@ import static org.junit.Assert.*;
 import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import config.AppConfig;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import model.Computer;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
 public class ComputerMapperTest {
 
-	ComputerMapper computerMapper = null;
+	@Autowired
+	ComputerMapper computerMapper;
 
 	ComputerDTO computerDTO = new ComputerDTO();
 
-	@Before
-	public void setUp() throws Exception {
-		computerMapper = ComputerMapper.getInstance();
-	}
+	
 
 	@Test
 	public void testDtoToModel() throws InvalidDateValueException, InvalidDateChronology {
@@ -38,8 +45,8 @@ public class ComputerMapperTest {
 
 		computerDTO.setId("23");
 		computerDTO.setName("test");
-		computerDTO.setIntroduced("2016-12-12");
-		computerDTO.setDiscontinued("2017-12-12");
+		computerDTO.setIntroduced(introDate);
+		computerDTO.setDiscontinued(disconDate);
 		computerDTO.setCompanyName("Apple Inc.");
 		
 		
@@ -65,8 +72,8 @@ public class ComputerMapperTest {
 
 		computerDTO.setId("24");
 		computerDTO.setName("tes");
-		computerDTO.setIntroduced("2018-12-12");
-		computerDTO.setDiscontinued("2019-12-12");
+		computerDTO.setIntroduced(introDate);
+		computerDTO.setDiscontinued(disconDate);
 		computerDTO.setCompanyName("RCA");
 
 		assertNotEquals(23L, computerMapper.dtoToModel(computerDTO).getId());
@@ -94,8 +101,8 @@ public class ComputerMapperTest {
 
 		computerDTO.setId("23");
 		computerDTO.setName("test");
-		computerDTO.setIntroduced("2016-12-12");
-		computerDTO.setDiscontinued("2017-12-12");
+		computerDTO.setIntroduced(introDate);
+		computerDTO.setDiscontinued(disconDate);
 		computerDTO.setCompanyName("Apple Inc.");
 
 		assertEquals(computerDTO.getId(), computerMapper.modelToDto(computer).getId());
@@ -118,8 +125,8 @@ public class ComputerMapperTest {
 
 		computerDTO.setId("24");
 		computerDTO.setName("tes");
-		computerDTO.setIntroduced("2018-12-12");
-		computerDTO.setDiscontinued("2019-12-12");
+		computerDTO.setIntroduced(introDate);
+		computerDTO.setDiscontinued(disconDate);
 		computerDTO.setCompanyName("TEST");
 
 		assertNotEquals(computerDTO.getId(), computerMapper.modelToDto(computer).getId());

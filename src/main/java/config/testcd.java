@@ -21,6 +21,10 @@ import service.ComputerService;
 
 public class testcd {
 	
+	//@Autowired
+	//static
+	//ComputerService computerService;
+	
     
 
     public static void main (String [] args) throws InvalidDateValueException, InvalidDateChronology {
@@ -32,14 +36,14 @@ public class testcd {
     	
     	CompanyDTO companyDTO = new CompanyDTO();
 
-    	CompanyMapper companyMapper	= (CompanyMapper) ctx.getBean("CompanyMapper");
+    	//CompanyMapper companyMapper	= (CompanyMapper) ctx.getBean("CompanyMapper");
     		
     		companyDTO.setId("25");
     		companyDTO.setName("testa");
     		
-    		System.out.println(companyMapper.dtoToModel(companyDTO).getName());
+    		//System.out.println(companyMapper.dtoToModel(companyDTO).getName());
 	
-    	 ComputerMapper computerMapper= (ComputerMapper) ctx.getBean("ComputerMapper");
+    	 //ComputerMapper computerMapper= (ComputerMapper) ctx.getBean("ComputerMapper");
 
     	LocalDate introDate = LocalDate.parse("2016-12-12");
  		LocalDate disconDate = LocalDate.parse("2017-12-12");
@@ -53,22 +57,22 @@ public class testcd {
  		computerDTO.setCompanyName("Apple Inc.");
  		
  		
- 		System.out.println(computerMapper.dtoToModel(computerDTO).getName());
+ 		//System.out.println(computerMapper.dtoToModel(computerDTO).getName());
 
- 		CompanyDAO companyDAO= (CompanyDAO) ctx.getBean("CompanyDAO");
+ 		//CompanyDAO companyDAO= (CompanyDAO) ctx.getBean("CompanyDAO");
    	 
- 		System.out.println( companyDAO.getAll());
+ 		//System.out.println( companyDAO.getAll());
  		
  		
- 		CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
+ 		//CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
  		
- 		System.out.println(companyService.getAll(10, 2));
+ 		//System.out.println(companyService.getAll(10, 2));
  		
  		ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
  		
- 		System.out.println(companyService);
+ 		System.out.println(computerService.getAll(100, 0));
  		
- 		companyService.deleteCompanyById(4L);
+ 		//companyService.deleteCompanyById(4L);
  		
     	}
 
