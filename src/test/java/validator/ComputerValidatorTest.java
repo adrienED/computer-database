@@ -2,6 +2,8 @@ package validator;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+
 import org.junit.Test;
 
 import dto.ComputerDTO;
@@ -17,8 +19,8 @@ public class ComputerValidatorTest {
 		ComputerValidator computerValidator = ComputerValidator.getInstance();
 		
 		computerDTO.setName("test");
-		computerDTO.setIntroduced("2017-12-12");
-		computerDTO.setDiscontinued("2018-12-12");
+		computerDTO.setIntroduced(LocalDate.parse("2017-12-12"));
+		computerDTO.setDiscontinued(LocalDate.parse("2018-12-12"));
 		computerDTO.setCompanyName("Apple");
 
 		assertEquals(true, (computerValidator.validate(computerDTO)));

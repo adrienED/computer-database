@@ -175,9 +175,9 @@ public class ComputerDAO {
 				if (resultSet.getDate("discontinued") != null) {
 					computer.setDiscontinued(resultSet.getDate("discontinued").toLocalDate());
 				}
-				Company company = new Company();
+				
 				if (resultSet.getString("company_id") != null) {
-					company.setId(resultSet.getLong("company_id"));
+					computer.setCompanyID(resultSet.getLong("company_id"));
 				}
 
 				return computer;

@@ -9,13 +9,16 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import dto.CompanyDTO;
 import dto.ComputerDTO;
+import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
+import exception.NotFoundException;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import model.Company;
 import model.Computer;
 import persistence.CompanyDAO;
+import persistence.ComputerDAO;
 import service.CompanyService;
 import service.ComputerService;
 
@@ -27,7 +30,7 @@ public class testcd {
 	
     
 
-    public static void main (String [] args) throws InvalidDateValueException, InvalidDateChronology {
+    public static void main (String [] args) throws InvalidDateValueException, InvalidDateChronology, NotFoundException, ComputerNotFoundException {
     	
     	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 
@@ -55,6 +58,12 @@ public class testcd {
  		computerDTO.setIntroduced(introDate);
  		computerDTO.setDiscontinued(disconDate);
  		computerDTO.setCompanyName("Apple Inc.");
+ 		
+ 		ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+ 		
+ 		ComputerDAO computerDAO = (ComputerDAO) ctx.getBean("ComputerDAO");
+ 		System.out.println(computerDAO.findById(13L));
+ 		//System.out.println(computerService.findById("13"));
  		
  		
  		//System.out.println(computerMapper.dtoToModel(computerDTO).getName());

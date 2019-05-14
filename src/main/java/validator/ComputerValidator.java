@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dto.ComputerDTO;
+import exception.InvalidDateChronology;
 
 public class ComputerValidator {
 
@@ -12,7 +13,7 @@ public class ComputerValidator {
 
 	Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 
-	public boolean validate(ComputerDTO computerDTO) {
+	public boolean validate(ComputerDTO computerDTO) throws InvalidDateChronology {
 
 		boolean validateName;
 		boolean validateDateIntroduced;
@@ -56,17 +57,12 @@ public class ComputerValidator {
 
 	}
 
-	private boolean validateDate(LocalDate date) {
+	private boolean validateDate(LocalDate date) throws InvalidDateChronology {
 		boolean validate = false;
 		
-			try {
-				
-				LocalDate minDate = LocalDate.parse("1970-01-01");
-				if (date.isAfter(minDate))
-					validate = true;
-			} catch (Exception e) {
-				this.logger.error(e.getMessage(), e);
-			}
+			LocalDate minDate = LocalDate.parse("1970-01-01");
+			if (date.isAfter(minDate))
+				validate = true;
 		
 		return validate;
 	}
