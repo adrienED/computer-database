@@ -25,7 +25,6 @@ import service.ComputerService;
 public class DeleteComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    Controller controller = new Controller();
     ComputerService computerService = ComputerService.getInstance();
     ComputerMapper computerMapper = ComputerMapper.getInstance();
     

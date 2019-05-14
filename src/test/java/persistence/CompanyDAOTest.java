@@ -17,24 +17,35 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import config.AppConfig;
 import model.Company;
 
 public class CompanyDAOTest {
-	ConnectionDAO connectionDAO = new ConnectionDAO();
 	
 	ResultSet resulSetMock = mock(ResultSet.class);
+	
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+
+	
+	@Autowired
+	CompanyDAO companyDAO;
+	
 
 	@Before
 	public void setUp() throws Exception {
+		
+		companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
 
 	}
 	
 	@Test
 	public void testFindById() throws SQLException {
 		Company company = new Company();
-		
-		CompanyDAO companyDAO = CompanyDAO.getInstance();
+
 		company = companyDAO.findById(13L);
 		
 		Company companyRef = new Company();
@@ -51,8 +62,6 @@ public class CompanyDAOTest {
 		when (resulSetMock.getLong("id")).thenReturn(13L);
 		when (resulSetMock.getString("name")).thenReturn("IBM");
 		
-		CompanyDAO companyDAO = CompanyDAO.getInstance();
-		
 		Company companyRef = new Company();
 		companyRef.setId(13L);
 		companyRef.setName("IBM");
@@ -64,32 +73,25 @@ public class CompanyDAOTest {
 
 	@Test
 	public void testGetAllIntInt() throws SQLException {
-		CompanyDAO companyDAO = CompanyDAO.getInstance();
+
+		
+		ArrayList<Company> companies = new ArrayList<Company>();
+		Company company = new Company();
 		 
-			when(resulSetMock.getLong("id")).thenReturn(1L);
-			when(resulSetMock.getString("name")).thenReturn("Apple Inc.");
-			when(resulSetMock.getLong("id")).thenReturn(2L);
-			when(resulSetMock.getString("name")).thenReturn("Thinking Machines");
-			when(resulSetMock.getLong("id")).thenReturn(3L);
-			when(resulSetMock.getString("name")).thenReturn("RCA");
-			when(resulSetMock.getLong("id")).thenReturn(4L);
-			when(resulSetMock.getString("name")).thenReturn("Netronics");
-			when(resulSetMock.getLong("id")).thenReturn(5L);
-			when(resulSetMock.getString("name")).thenReturn("Tandy Corporation");
-			when(resulSetMock.getLong("id")).thenReturn(6L);
-			when(resulSetMock.getString("name")).thenReturn("COmmodore International");
-			when(resulSetMock.getLong("id")).thenReturn(7L);
-			when(resulSetMock.getString("name")).thenReturn("MOS Technology");
-			when(resulSetMock.getLong("id")).thenReturn(8L);
-			when(resulSetMock.getString("name")).thenReturn("Micro Instrumentation and Telemetry Systems");
-			when(resulSetMock.getLong("id")).thenReturn(9L);
-			when(resulSetMock.getString("name")).thenReturn("IMS Associates, Inc.");
-			when(resulSetMock.getLong("id")).thenReturn(10L);
+			company.setId(1L);
+			company.setName("Apple Inc.");
 			
+			companies.add(company);
+			Company company1 = new Company();
+			company1.setId(2L);
+			company1.setName("Thinking Machines");
+			companies.add(company1);
+			Company company2 = new Company();
+			company2.setId(3L);
+			company2.setName("RCA");
+			companies.add(company2);
 			
-			when(resulSetMock.next()).thenReturn(true).thenReturn(false);
-			
-			assertEquals(resulSetMock,companyDAO.getAll(10,1) );
+			assertEquals(companies,companyDAO.getAll(3,0) );
 		}
 	}
 
