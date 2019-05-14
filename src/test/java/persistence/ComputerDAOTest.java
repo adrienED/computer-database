@@ -13,7 +13,11 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import config.AppConfig;
 import dto.CompanyDTO;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
@@ -24,6 +28,11 @@ public class ComputerDAOTest {
 	
 	
 	ConnectionDAO connectionDAO = new ConnectionDAO();
+	
+	
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	ComputerDAO computerDAO = (ComputerDAO) ctx.getBean("ComputerDAO");
+
 	
 	ResultSet resulSetMock = mock(ResultSet.class);
 
@@ -46,7 +55,6 @@ public class ComputerDAOTest {
 		//when (resulSetMock.getDate("discontinued")).thenReturn(2018-12-12);
 		when (resulSetMock.getLong("company_id")).thenReturn(36L);
 		
-		ComputerDAO computerDAO = ComputerDAO.getInstance();
 		
 		Computer computer = new Computer();	
 		
@@ -63,8 +71,23 @@ public class ComputerDAOTest {
 	}
 
 	@Test
-	public void testGetAll() {
-		fail("Not yet implemented");
+	public void testGetAllIntInt() {
+		
+		Computer computer = new Computer();
+		
+		computer.setId(23L);
+		computer.setName("Macintosh Plus");
+		computer.setIntroduced(LocalDate.parse("1986-01-16"));
+		computer.setDiscontinued(LocalDate.parse("1990-10-15"));	
+		computer.setCompanyID(0);
+		
+		Computer computerRef = new Computer();
+		
+		computerRef.setId(23L);
+		computerRef.setName("Macintosh Plus");
+		computerRef.setIntroduced(LocalDate.parse("1986-01-16"));
+		computerRef.setDiscontinued(LocalDate.parse("1990-10-15"));	
+		computerRef.setCompanyID(0);
 	}
 
 
@@ -73,16 +96,15 @@ public class ComputerDAOTest {
 
 		Computer computer = new Computer();
 		
-		ComputerDAO computerDAO = ComputerDAO.getInstance();
 		computer = computerDAO.findById(23L);
 		
 		Computer computerRef = new Computer();
 		
 		computerRef.setId(23L);
-		computerRef.setName("test");
-		computerRef.setIntroduced(LocalDate.parse("2016-12-12"));
-		computerRef.setDiscontinued(LocalDate.parse("2017-12-12"));	
-		computerRef.setCompanyID(1L);
+		computerRef.setName("Macintosh Plus");
+		computerRef.setIntroduced(LocalDate.parse("1986-01-16"));
+		computerRef.setDiscontinued(LocalDate.parse("1990-10-15"));	
+		computerRef.setCompanyID(0);
 		
 		
 		assertEquals(computerRef, computer);

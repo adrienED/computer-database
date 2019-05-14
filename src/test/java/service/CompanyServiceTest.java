@@ -9,15 +9,20 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import config.AppConfig;
 import dto.CompanyDTO;
 import model.Company;
 import persistence.CompanyDAO;
+import persistence.ComputerDAO;
 
 
 public class CompanyServiceTest {
 	
-	CompanyService companyService = null;
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
 	
 	
 	CompanyDAO companyDAO = mock(CompanyDAO.class);
@@ -25,7 +30,6 @@ public class CompanyServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		companyService=companyService.getInstance();
 	}
 
 	@Test

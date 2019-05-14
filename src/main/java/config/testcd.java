@@ -36,12 +36,12 @@ public class testcd {
     	
     	CompanyDTO companyDTO = new CompanyDTO();
 
-    	//CompanyMapper companyMapper	= (CompanyMapper) ctx.getBean("CompanyMapper");
+    	CompanyMapper companyMapper	= (CompanyMapper) ctx.getBean("CompanyMapper");
     		
     		companyDTO.setId("25");
     		companyDTO.setName("testa");
     		
-    		//System.out.println(companyMapper.dtoToModel(companyDTO).getName());
+    	System.out.println(companyMapper.dtoToModel(companyDTO).getName());
 	
     	 //ComputerMapper computerMapper= (ComputerMapper) ctx.getBean("ComputerMapper");
 
@@ -68,9 +68,9 @@ public class testcd {
  		
  		//System.out.println(companyService.getAll(10, 2));
  		
- 		ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+ 		//ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
  		
- 		System.out.println(computerService.getAll(100, 0));
+ 		//System.out.println(computerService.getAll(100, 0));
  		
  		//companyService.deleteCompanyById(4L);
  		
