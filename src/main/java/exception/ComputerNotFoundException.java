@@ -10,7 +10,6 @@ public class ComputerNotFoundException extends Exception {
 
 	public ComputerNotFoundException(Long id) {
 		super("computer id = " + id + " not found");
-		// TODO Auto-generated constructor stub
 	}
 
 }

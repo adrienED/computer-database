@@ -35,8 +35,6 @@ public class CompanyMapperTest {
 	CompanyDTO companyDTO = new CompanyDTO();
 	CompanyDTO companydto = new CompanyDTO();
 
-
-
 	public void setUp() throws Exception {
 	
 	}

@@ -92,17 +92,20 @@ public class addComputer extends HttpServlet {
 
 		computerDTO.setCompanyName(request.getParameter("companyName"));
 
-		if (computerValidator.validate(computerDTO) == true) {
+		System.out.println(computerDTO);
+		
 			try {
+				if (computerValidator.validate(computerDTO) == true) {
 				computer = computerMapper.dtoToModel(computerDTO);
 				long idCreate = computerService.create(computer);
 				logger.info("Ordinateur ajouter id = " + idCreate);
+				}
 			} catch (InvalidDateValueException | InvalidDateChronology | NumberFormatException e) {
 				logger.error(e.getMessage());
 			}
-		}
+		
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/addComputer.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
 
 		dispatcher.forward(request, response);
 

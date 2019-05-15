@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import config.AppConfig;
 import controller.Controller;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
@@ -25,17 +28,19 @@ import service.ComputerService;
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	@Autowired
-	ComputerService computerService;
-	@Autowired
-	CompanyDAO companyDAO;
 
 	static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
+	
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+
+	ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+
+	CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
 
 	private int nbOfComputerByPage = 10;
 	private int page = 1;
 	private String orderParameter = "id";
-	private int offset=1;
+	private int offset=0;
 
 	public DashboardServlet() {
 	}

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -44,30 +45,26 @@ public class ComputerDAOTest {
 	
 
 	@Test
-	public void testPopulate() throws SQLException {
+	public void testPopulate() throws SQLException, InvalidDateChronology {
 		
-		LocalDate date = LocalDate.parse("2018-12-12");
+		Date date = Date.valueOf("2016-12-12");
+		Date date2 = Date.valueOf("2017-12-12");
 
-
-		when (resulSetMock.getLong("id")).thenReturn(13L);
+		when (resulSetMock.getLong("id")).thenReturn(23L);
 		when (resulSetMock.getString("name")).thenReturn("IBM");
-		//when (resulSetMock.getDate("introduced")).thenReturn(date);
-		//when (resulSetMock.getDate("discontinued")).thenReturn(2018-12-12);
-		when (resulSetMock.getLong("company_id")).thenReturn(36L);
-		
-		
+		when (resulSetMock.getDate("introduced")).thenReturn(date);
+		when (resulSetMock.getDate("discontinued")).thenReturn(date2);
+		when (resulSetMock.getLong("company_id")).thenReturn(1L);
+	
 		Computer computer = new Computer();	
-		
-		LocalDate.parse("2016-12-12");
-		LocalDate.parse("2017-12-12");		
-		
+
 		computer.setId(23L);
-		computer.setName("test");
+		computer.setName("IBM");
 		computer.setIntroduced(LocalDate.parse("2016-12-12"));
 		computer.setDiscontinued(LocalDate.parse("2017-12-12"));	
 		computer.setCompanyID(1L);
 		
-		//assertEquals(computer, computerDAO.populate(resulSetMock));
+		assertEquals(computer, computerDAO.populate(resulSetMock));
 	}
 
 	@Test
@@ -104,7 +101,7 @@ public class ComputerDAOTest {
 		computerRef.setName("Macintosh Plus");
 		computerRef.setIntroduced(LocalDate.parse("1986-01-16"));
 		computerRef.setDiscontinued(LocalDate.parse("1990-10-15"));	
-		computerRef.setCompanyID(0);
+		computerRef.setCompanyID(1);
 		
 		
 		assertEquals(computerRef, computer);

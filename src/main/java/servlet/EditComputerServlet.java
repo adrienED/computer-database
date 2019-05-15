@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import config.AppConfig;
 import controller.Controller;
 import dto.CompanyDTO;
 import dto.ComputerDTO;
@@ -23,6 +26,7 @@ import exception.InvalidDateValueException;
 import exception.NotFoundException;
 import mapper.ComputerMapper;
 import model.Computer;
+import persistence.CompanyDAO;
 import service.CompanyService;
 import service.ComputerService;
 import validator.ComputerValidator;
@@ -31,11 +35,12 @@ import validator.ComputerValidator;
 public class EditComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	Controller controller = new Controller();
-	ComputerValidator computerValidator = ComputerValidator.getInstance();
-	ComputerService computerService = ComputerService.getInstance();
-	ComputerMapper computerMapper = ComputerMapper.getInstance();
-	CompanyService companyService = CompanyService.getInstance();
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+	CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
+	ComputerMapper computerMapper = (ComputerMapper) ctx.getBean("ComputerMapper");
+	ComputerValidator computerValidator = (ComputerValidator) ctx.getBean("ComputerValidator");
+	CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
 
 	static Logger logger = LoggerFactory.getLogger(EditComputerServlet.class);
 
@@ -47,20 +52,21 @@ public class EditComputerServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		ComputerDTO computerDTO = new ComputerDTO();
+		
 
 		try {
 
 			computerDTO = computerService.findById(request.getParameter("id"));
+			System.out.println(computerService.findById(request.getParameter("id")));
 
 		} catch (NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
 			logger.error("Erreur getComputerDTO", e);
 		}
 
-		List<CompanyDTO> listCompanyDTO = companyService.getAll(100, 1);
+		List<CompanyDTO> listCompanyDTO = companyService.getAll(100, 0);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/editComputer.jsp");
 		request.setAttribute("computer", computerDTO);
-		System.out.println(computerDTO.getName());
 		request.setAttribute("listCompanies", listCompanyDTO);
 		dispatcher.forward(request, response);
 	}
@@ -72,7 +78,7 @@ public class EditComputerServlet extends HttpServlet {
 
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setId(request.getParameter("id"));
-		computerDTO.setName(request.getParameter("computerName").toString());
+		computerDTO.setName(request.getParameter("computerName"));
 		if (request.getParameter("introduced") ==null)computerDTO.setIntroduced(null);
 		else {
 			try {
@@ -92,16 +98,18 @@ public class EditComputerServlet extends HttpServlet {
 				logger.error("erreur parse discontinued");
 			}
 		}
-		computerDTO.setCompanyName(request.getParameter("companyName").toString());
+		computerDTO.setCompanyName(request.getParameter("companyName"));
 
-		if (computerValidator.validate(computerDTO) == true) {
+		
 			try {
+				if (computerValidator.validate(computerDTO) == true) {
 				computer = computerMapper.dtoToModel(computerDTO);
 				computerService.update(computer);
+				}
 			} catch (InvalidDateValueException | InvalidDateChronology e1) {
 				logger.error("Date invalid", e1);
 			}
 		}
 
 	}
-}
+

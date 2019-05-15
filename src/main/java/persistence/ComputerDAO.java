@@ -165,10 +165,13 @@ public class ComputerDAO {
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
 			statement.setLong(1, id);
 			ResultSet resultSet = statement.executeQuery();
+			
 			if (resultSet.next()) {
 				Computer computer = new Computer();
+				
 				computer.setId(resultSet.getLong("id"));
 				computer.setName(resultSet.getString("name"));
+				
 				if (resultSet.getDate("introduced") != null) {
 					computer.setIntroduced(resultSet.getDate("introduced").toLocalDate());
 				}

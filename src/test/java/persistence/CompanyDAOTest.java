@@ -1,6 +1,7 @@
 package persistence;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -35,9 +36,26 @@ public class CompanyDAOTest {
 		companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
 
 	}
-	
+
 	@Test
-	public void testFindById() throws SQLException {
+	public void testPopulate() throws SQLException {
+		when (resulSetMock.getLong("id")).thenReturn(13L);
+		when (resulSetMock.getString("name")).thenReturn("IBM");
+		
+		Company companyRef = new Company();
+		companyRef.setId(13L);
+		companyRef.setName("IBM");
+		
+		assertEquals(companyRef, companyDAO.populate(resulSetMock));
+	}
+
+	@Test
+	public void testGetAll() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testFindById() {
 		Company company = new Company();
 
 		company = companyDAO.findById(13L);
@@ -47,28 +65,17 @@ public class CompanyDAOTest {
 		companyRef.setName("IBM");
 		
 		assertEquals(companyRef, company);
-		
 	}
 
 	@Test
-	public void testPopulate() throws SQLException, IOException {
-
-		when (resulSetMock.getLong("id")).thenReturn(13L);
-		when (resulSetMock.getString("name")).thenReturn("IBM");
+	public void testFindByName() {
+		Company company = new Company();
 		
-		Company companyRef = new Company();
-		companyRef.setId(13L);
-		companyRef.setName("IBM");
-		
-		assertEquals(companyRef, companyDAO.populate(resulSetMock));
-		
+		assertEquals(13L, companyDAO.findByName("IBM"));
 	}
 
-
 	@Test
-	public void testGetAllIntInt() throws SQLException {
-
-		
+	public void testGetAllIntInt() {
 		ArrayList<Company> companies = new ArrayList<Company>();
 		Company company = new Company();
 		 
@@ -87,6 +94,11 @@ public class CompanyDAOTest {
 			
 			assertEquals(companies,companyDAO.getAll(3,0) );
 		}
+	
+
+	@Test
+	public void testDeleteCompanyById() {
+		fail("Not yet implemented"); // TODO
 	}
 
-
+}

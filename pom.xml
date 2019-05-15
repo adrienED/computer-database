@@ -22,10 +22,10 @@
 		<selenium.version>3.141.59</selenium.version>
 		<webdrivermanager.version>3.4.0</webdrivermanager.version>
 		<phantomjsdriver.version>1.4.4</phantomjsdriver.version>
-		<springContext.version>5.1.5.RELEASE</springContext.version>
-		<springCore.version>5.1.5.RELEASE</springCore.version>
-		<springBeans.version>5.1.5.RELEASE</springBeans.version>
-		<springTest.version>5.1.5.RELEASE</springTest.version>
+		<spring.version>5.1.5.RELEASE</spring.version>
+		<jcl.version>1.7.25</jcl.version>
+		<logback.version>1.2.3</logback.version>
+
 		
 	</properties>
 
@@ -67,34 +67,58 @@
 	<dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-context</artifactId>
-    <version>${springContext.version}</version>
+    <version>${spring.version}</version>
 	</dependency>
 	
 	<dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-core</artifactId>
-    <version>${springCore.version}</version>
+    <version>${spring.version}</version>
 	</dependency>
 	
 <dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-beans</artifactId>
-    <version>${springBeans.version}</version>
+    <version>${spring.version}</version>
 </dependency>
 
 <dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-test</artifactId>
-    <version>${springTest.version}</version>
+    <version>${spring.version}</version>
     <scope>test</scope>
 </dependency>
 
 <dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-web</artifactId>
-    <version>5.1.5.RELEASE</version>
+    <version>${spring.version}</version>
 </dependency>
 
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-core</artifactId>
+		<version>${spring.version}</version>
+		<exclusions>
+		  <exclusion>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+		  </exclusion>
+		</exclusions>
+	</dependency>
+
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>jcl-over-slf4j</artifactId>
+    <version>${jcl.version}</version>
+</dependency>
+
+<dependency>
+    <groupId>ch.qos.logback</groupId>
+    <artifactId>logback-classic</artifactId>
+    <version>${logback.version}</version>
+    <scope>test</scope>
+</dependency>
 
 
 	

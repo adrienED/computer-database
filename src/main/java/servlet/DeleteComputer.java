@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import config.AppConfig;
 import controller.Controller;
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
@@ -19,14 +22,19 @@ import exception.InvalidDateValueException;
 import exception.NotFoundException;
 import mapper.ComputerMapper;
 import model.Computer;
+import persistence.CompanyDAO;
 import service.ComputerService;
 
 @WebServlet("/deleteComputer")
 public class DeleteComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    ComputerService computerService = ComputerService.getInstance();
-    ComputerMapper computerMapper = ComputerMapper.getInstance();
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+
+	ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+
+	CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
+	ComputerMapper computerMapper = (ComputerMapper) ctx.getBean("ComputerMapper");
     
     static Logger logger = LoggerFactory.getLogger(DeleteComputer.class);
     
