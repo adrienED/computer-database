@@ -91,17 +91,19 @@ public class ComputerDAO {
 
 	public long create(Computer computer) {
 		Long lastInsertedId = null;
+		
 		try {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement;
 			statement = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, computer.getName());
 			if (computer.getIntroduced() == null)
-				statement.setDate(2, null);
+				statement.setNull(2, java.sql.Types.DATE);
 			else
 				statement.setDate(2, Date.valueOf(computer.getIntroduced()));
-			if (computer.getDiscontinued() == null)
-				statement.setDate(3, null);
+			if (computer.getDiscontinued() == null) {
+				statement.setNull(3, java.sql.Types.DATE);
+			}
 			else
 				statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
 			statement.setLong(4, computer.getCompanyID());

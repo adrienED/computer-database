@@ -32,12 +32,12 @@ public class ComputerMapper {
 
 			computer.setName(computerDTO.getName());
 
-			if (computerDTO.getIntroduced().equals(null))
+			if (computerDTO.getIntroduced()==null)
 				computer.setIntroduced(null);
 			else
 				computer.setIntroduced(computerDTO.getIntroduced());
 
-			if (computerDTO.getDiscontinued().equals(null))
+			if (computerDTO.getDiscontinued()== null)
 				computer.setDiscontinued(null);
 			else
 				computer.setDiscontinued(computerDTO.getDiscontinued());

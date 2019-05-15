@@ -97,6 +97,7 @@ public class addComputer extends HttpServlet {
 			try {
 				if (computerValidator.validate(computerDTO) == true) {
 				computer = computerMapper.dtoToModel(computerDTO);
+				System.out.println(computer);
 				long idCreate = computerService.create(computer);
 				logger.info("Ordinateur ajouter id = " + idCreate);
 				}
@@ -105,9 +106,8 @@ public class addComputer extends HttpServlet {
 			}
 		
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
+			getServletContext().getRequestDispatcher("/dashboard").forward(request, response);
 
-		dispatcher.forward(request, response);
 
 	}
 }

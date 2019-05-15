@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.util.stream.IntStream;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +15,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import config.AppConfig;
-import controller.Controller;
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
@@ -29,12 +29,10 @@ import service.ComputerService;
 public class DeleteComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-
-	ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
-
-	CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
-	ComputerMapper computerMapper = (ComputerMapper) ctx.getBean("ComputerMapper");
+	static ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	static ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+	static CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
+	static ComputerMapper computerMapper = (ComputerMapper) ctx.getBean("ComputerMapper");
     
     static Logger logger = LoggerFactory.getLogger(DeleteComputer.class);
     

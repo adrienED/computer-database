@@ -17,7 +17,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import config.AppConfig;
-import controller.Controller;
 import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
@@ -35,19 +34,20 @@ import validator.ComputerValidator;
 public class EditComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-	ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
-	CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
-	ComputerMapper computerMapper = (ComputerMapper) ctx.getBean("ComputerMapper");
-	ComputerValidator computerValidator = (ComputerValidator) ctx.getBean("ComputerValidator");
-	CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
+	static ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	static ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+	static CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
+	static ComputerMapper computerMapper = (ComputerMapper) ctx.getBean("ComputerMapper");
+	static ComputerValidator computerValidator = (ComputerValidator) ctx.getBean("ComputerValidator");
+	static CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
 
 	static Logger logger = LoggerFactory.getLogger(EditComputerServlet.class);
 
 	public EditComputerServlet() {
 		super();
 	}
-
+	
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -57,8 +57,7 @@ public class EditComputerServlet extends HttpServlet {
 		try {
 
 			computerDTO = computerService.findById(request.getParameter("id"));
-			System.out.println(computerService.findById(request.getParameter("id")));
-
+			
 		} catch (NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
 			logger.error("Erreur getComputerDTO", e);
 		}
@@ -68,13 +67,19 @@ public class EditComputerServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/editComputer.jsp");
 		request.setAttribute("computer", computerDTO);
 		request.setAttribute("listCompanies", listCompanyDTO);
-		dispatcher.forward(request, response);
+		try {
+			dispatcher.forward(request, response);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		Computer computer = new Computer();
+		Computer computer;
 
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setId(request.getParameter("id"));
@@ -102,7 +107,7 @@ public class EditComputerServlet extends HttpServlet {
 
 		
 			try {
-				if (computerValidator.validate(computerDTO) == true) {
+				if (computerValidator.validate(computerDTO)) {
 				computer = computerMapper.dtoToModel(computerDTO);
 				computerService.update(computer);
 				}

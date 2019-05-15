@@ -41,7 +41,7 @@ public class ComputerValidator {
 		else
 			validateDateDiscontinued = true;
 
-		if (computerDTO.getIntroduced() != null || computerDTO.getDiscontinued() != null)
+		if (computerDTO.getIntroduced() != null && computerDTO.getDiscontinued() != null)
 			validateDateOrder = validateDateOrder(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
 		else
 			validateDateOrder = true;

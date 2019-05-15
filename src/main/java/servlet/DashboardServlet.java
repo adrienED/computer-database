@@ -13,12 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import config.AppConfig;
-import controller.Controller;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import persistence.CompanyDAO;
@@ -31,11 +29,11 @@ public class DashboardServlet extends HttpServlet {
 
 	static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 	
-	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	static ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 
-	ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+	static ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
 
-	CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
+	static CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
 
 	private int nbOfComputerByPage = 10;
 	private int page = 1;
