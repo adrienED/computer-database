@@ -54,7 +54,7 @@ public class DeleteComputer extends HttpServlet {
 			try {
 
 				ComputerDTO computerDTOtoDelete = computerService.findById(list[i]);
-				Computer computer = new Computer();
+				Computer computer;
 				computer = computerMapper.dtoToModel(computerDTOtoDelete);
 				computerService.delete(computer);
 

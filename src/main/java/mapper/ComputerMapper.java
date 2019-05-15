@@ -10,6 +10,7 @@ import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import model.Computer;
+import model.Company.Builder;
 import persistence.CompanyDAO;
 
 @Component("ComputerMapper")
@@ -24,30 +25,34 @@ public class ComputerMapper {
 	}
 
 	public Computer dtoToModel(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		Computer computer = new Computer();
+		Computer.Builder builder = new Computer.Builder();
 		try {
 
-			if (computerDTO.getId() != null)
-				computer.setId(Long.parseLong(computerDTO.getId()));
-
-			computer.setName(computerDTO.getName());
-
+			if (computerDTO.getId() != null) {
+				builder.withId(Long.parseLong(computerDTO.getId()));
+						
+			
+				builder.withName(computerDTO.getName());
+						
+					
+			}
 			if (computerDTO.getIntroduced()==null)
-				computer.setIntroduced(null);
+				builder.withIntroduced(null);
 			else
-				computer.setIntroduced(computerDTO.getIntroduced());
+				builder.withIntroduced(computerDTO.getIntroduced());
 
 			if (computerDTO.getDiscontinued()== null)
-				computer.setDiscontinued(null);
+				builder.withDiscontinued(null);
 			else
-				computer.setDiscontinued(computerDTO.getDiscontinued());
+				builder.withDiscontinued(computerDTO.getDiscontinued());
 
-			computer.setCompanyID(companyDAO.findByName(computerDTO.getCompanyName()));
+			builder.withCompanyID(companyDAO.findByName(computerDTO.getCompanyName()));
 			logger.info(computerDTO.toString());
 		} catch (NullPointerException e) {
 			logger.error("null exception dtoToModel", e);
 
 		}
+		Computer computer = builder.build();
 		return computer;
 	}
 

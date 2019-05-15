@@ -67,7 +67,7 @@ public class addComputer extends HttpServlet {
 			throws ServletException, IOException {
 
 		ComputerDTO computerDTO = new ComputerDTO();
-		Computer computer = new Computer();	
+		Computer computer;
 
 		computerDTO.setName(request.getParameter("computerName"));
 		if (request.getParameter("introduced") ==null)computerDTO.setIntroduced(null);

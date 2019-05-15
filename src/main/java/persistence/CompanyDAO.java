@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.Company;
+import model.Company.Builder;
 
 @Component("CompanyDAO")
 public class CompanyDAO {
@@ -31,14 +32,15 @@ public class CompanyDAO {
 	private static final String SQL_DELETE_COMPANY_BY_ID = "DELETE FROM company WHERE id=?";
 
 	public Company populate(ResultSet resultSet) {
-		Company company = new Company();
+		Builder builder = new Company.Builder();
 		try {
-			company.setId(resultSet.getLong("id"));
-			company.setName(resultSet.getString("name"));
+			builder.withParameter(resultSet.getLong("id"), resultSet.getString("name"));
+			
 
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL populate", ex);
 		}
+		Company company = builder.build();
 		return company;
 	}
 
@@ -63,7 +65,7 @@ public class CompanyDAO {
 	}
 
 	public Company findById(long id) {
-		Company company = new Company();
+		Builder builder = new Company.Builder();
 		try {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
@@ -71,13 +73,16 @@ public class CompanyDAO {
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 
-				company.setId(resultSet.getLong("id"));
-				company.setName(resultSet.getString("name"));
+				builder.withParameter(resultSet.getLong("id"), resultSet.getString("name"));	
 			}
 			connection.close();
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL findById", ex);
+			
+			
 		}
+		builder.build();
+		Company company = builder.build();
 		return company;
 	}
 

@@ -18,6 +18,7 @@ import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
 import model.Company;
 import model.Computer;
+import model.Company.Builder;
 
 @Component("ComputerDAO")
 public class ComputerDAO {
@@ -51,22 +52,24 @@ public class ComputerDAO {
 	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name DESC LIMIT ? OFFSET ?";
 
 	public Computer populate(ResultSet resultSet) throws InvalidDateChronology {
-		Computer computer = new Computer();
+		Computer.Builder builder = new Computer.Builder();
 		try {
-			computer.setId(resultSet.getLong("id"));
-			computer.setName(resultSet.getString("name"));
+			builder.withId(resultSet.getLong("id"));
+			
+			builder.withName(resultSet.getString("name"));
 			if (resultSet.getDate("introduced") != null) {
-				computer.setIntroduced(resultSet.getDate("introduced").toLocalDate());
+				builder.withIntroduced(resultSet.getDate("introduced").toLocalDate());
 			}
 			if (resultSet.getDate("discontinued") != null) {
-				computer.setDiscontinued(resultSet.getDate("discontinued").toLocalDate());
+				builder.withDiscontinued(resultSet.getDate("discontinued").toLocalDate());
 			}
 
-			computer.setCompanyID(resultSet.getLong("company_id"));
+			builder.withCompanyID(resultSet.getLong("company_id"));
 
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL ComputerPopulate", ex);
 		}
+		Computer computer = builder.build();
 		return computer;
 	}
 
@@ -169,22 +172,23 @@ public class ComputerDAO {
 			ResultSet resultSet = statement.executeQuery();
 			
 			if (resultSet.next()) {
-				Computer computer = new Computer();
-				
-				computer.setId(resultSet.getLong("id"));
-				computer.setName(resultSet.getString("name"));
-				
+				Computer.Builder builder = new Computer.Builder();
+
+				builder.withId(resultSet.getLong("id"));
+								
+				builder.withName(resultSet.getString("name"));
 				if (resultSet.getDate("introduced") != null) {
-					computer.setIntroduced(resultSet.getDate("introduced").toLocalDate());
+					builder.withIntroduced(resultSet.getDate("introduced").toLocalDate());
 				}
 				if (resultSet.getDate("discontinued") != null) {
-					computer.setDiscontinued(resultSet.getDate("discontinued").toLocalDate());
+					builder.withDiscontinued(resultSet.getDate("discontinued").toLocalDate());
 				}
 				
 				if (resultSet.getString("company_id") != null) {
-					computer.setCompanyID(resultSet.getLong("company_id"));
+					builder.withCompanyID(resultSet.getLong("company_id"));
 				}
 
+				Computer computer = builder.build();
 				return computer;
 			} else {
 				throw new ComputerNotFoundException(id);

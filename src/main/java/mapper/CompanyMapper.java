@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import dto.CompanyDTO;
 import model.Company;
+import model.Company.Builder;
 
 @Component("CompanyMapper")
 	public class CompanyMapper {
@@ -15,15 +16,14 @@ import model.Company;
 	}
 
 	public Company dtoToModel(CompanyDTO companyDTO) {
-		Company company = new Company();
+		Builder builder = new Company.Builder();
 		try {
-			company.setId(Long.parseLong(companyDTO.getId()));
-			company.setName(companyDTO.getName());
+			builder.withParameter(Long.parseLong(companyDTO.getId()), companyDTO.getName());
 		} catch (NullPointerException e) {
 			System.out.print("dtoToModel null input");
 			logger.error("dtoToModel null input", e);
-
 		}
+		Company company = builder.build();
 		return company;
 	}
 
