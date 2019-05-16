@@ -7,9 +7,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import model.Company;
@@ -21,6 +25,9 @@ public class CompanyDAO {
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 	@Autowired
 	ConnectionDAO connectionDAO;
+	
+	@Autowired
+	DataSource mysqDataSource;
 
 	public CompanyDAO() {
 	}
@@ -45,81 +52,34 @@ public class CompanyDAO {
 	}
 
 	public List<Company> getAll() {
-		List<Company> companies = new ArrayList<>();
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				Company company = populate(resultSet);
-				companies.add(company);
-
-			}
-			connection.close();
-			statement.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL ListCompany", ex);
-		}
-
+		List<Company> companies = new ArrayList<Company>();
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		companies = vJdbcTemplate.query(SQL_FIND_ALL,
+				new BeanPropertyRowMapper<Company>(Company.class));
+			
 		return companies;
 	}
 
 	public Company findById(long id) {
-		Builder builder = new Company.Builder();
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
-			statement.setLong(1, id);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-
-				builder.withParameter(resultSet.getLong("id"), resultSet.getString("name"));
-			}
-			connection.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL findById", ex);
-
-		}
-		builder.build();
-		Company company = builder.build();
+		
+		Company company = (Company) new JdbcTemplate(mysqDataSource).queryForObject(
+				SQL_FIND_WITH_ID, new Object[] { id }, 
+				new BeanPropertyRowMapper<Company>(Company.class));
 		return company;
 	}
 
 	public long findByName(String name) {
-		Long id = 0L;
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_NAME);
-			statement.setString(1, name);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-
-				id = resultSet.getLong("id");
-
-			}
-			connection.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL findById", ex);
-		}
+		long id = (long) new JdbcTemplate(mysqDataSource).queryForObject(
+				SQL_FIND_WITH_NAME, new Object[] { name }, Long.class);
 		return id;
 	}
 
 	public List<Company> getAll(int limit, int offset) {
-		List<Company> companies = new ArrayList<>();
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
-			statement.setLong(1, limit);
-			statement.setLong(2, offset);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				Company company = populate(resultSet);
-				companies.add(company);
-			}
-			connection.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL ListCompany", ex);
-		}
+		List<Company> companies = new ArrayList<Company>();
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		companies = vJdbcTemplate.query(SQL_FIND_ALL_PAGINED, new Object[] {limit , offset},
+				new BeanPropertyRowMapper<Company>(Company.class));
+			
 		return companies;
 	}
 

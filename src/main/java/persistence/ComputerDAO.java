@@ -8,10 +8,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
+import java.time.LocalDate;
+
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import exception.ComputerNotFoundException;
@@ -27,12 +33,15 @@ public class ComputerDAO {
 
 	@Autowired
 	ConnectionDAO connectionDAO;
+	
+	@Autowired
+	DataSource mysqDataSource;
 
 	public ComputerDAO() {
 	}
 
 	private static final String SQL_FIND_ALL = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.id";
-	private static final String SQL_FIND_WITH_ID = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id WHERE A.id = ?";
+	private static final String SQL_FIND_BY_ID = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id WHERE A.id = ?";
 	private static final String SQL_CREATE = "INSERT INTO computer (name, introduced,discontinued,company_id) VALUES (?,?,?,?)";
 	private static final String SQL_UPDATE = "UPDATE computer SET name = ?, introduced = ?,discontinued = ?,company_id = ? WHERE id = ?";
 	private static final String SQL_DELETE = "DELETE FROM computer WHERE id=?";
@@ -92,131 +101,77 @@ public class ComputerDAO {
 		return computeresultSet;
 	}
 
-	public long create(Computer computer) {
-		Long lastInsertedId = null;
-
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement;
-			statement = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, computer.getName());
-			if (computer.getIntroduced() == null)
-				statement.setNull(2, java.sql.Types.DATE);
-			else
-				statement.setDate(2, Date.valueOf(computer.getIntroduced()));
-			if (computer.getDiscontinued() == null) {
-				statement.setNull(3, java.sql.Types.DATE);
-			} else
-				statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
-			statement.setLong(4, computer.getCompanyID());
-			statement.toString();
-			statement.executeUpdate();
-
-			ResultSet resultSet = statement.getGeneratedKeys();
-			if (resultSet.next()) {
-				lastInsertedId = resultSet.getLong(1);
-			}
-			connection.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL createComputer", ex);
-		}
+	public long create(Computer computer) throws SQLException {
+		Long lastInsertedId = 1L;
+		
+		
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		vJdbcTemplate.update(SQL_CREATE, new Object[] {computer.getName(),
+														computer.getIntroduced(),
+														computer.getDiscontinued(),
+														computer.getCompanyID()});
 		return lastInsertedId;
 	}
 
-	public boolean delete(Computer computer) {
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
-			statement.setLong(1, computer.getId());
-			statement.executeUpdate();
-			connection.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL DeleteComputer", ex);
-		}
+	public boolean delete(Computer computer) throws SQLException {
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		vJdbcTemplate.update(SQL_DELETE, new Object[] {computer.getId(),
+														});
 		logger.info("computer effacer");
 		return true;
 	}
 
-	public boolean update(Computer computer) {
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement;
-			statement = connection.prepareStatement(SQL_UPDATE);
-			statement.setString(1, computer.getName());
-			if (computer.getIntroduced() == null)
-				statement.setDate(2, null);
-			else
-				statement.setDate(2, Date.valueOf(computer.getIntroduced()));
-			if (computer.getDiscontinued() == null)
-				statement.setDate(3, null);
-			else
-				statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
-			statement.setLong(4, computer.getCompanyID());
-			statement.setLong(5, computer.getId());
-			statement.executeUpdate();
-
-			connection.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL updateComputer", ex);
-		}
-		return false;
+	public void update(Computer computer) throws SQLException {
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		vJdbcTemplate.update(SQL_UPDATE, new Object[] {computer.getName(),
+														computer.getIntroduced(),
+														computer.getDiscontinued(),
+														computer.getCompanyID(),
+														computer.getId()});
+	
 	}
 
 	public Computer findById(long id) throws ComputerNotFoundException, InvalidDateChronology {
 
-		try (Connection connection = connectionDAO.getConnection()) {
-
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
-			statement.setLong(1, id);
-			ResultSet resultSet = statement.executeQuery();
-
-			if (resultSet.next()) {
-				Computer.Builder builder = new Computer.Builder();
-
-				builder.withId(resultSet.getLong("id"));
-
-				builder.withName(resultSet.getString("name"));
-				if (resultSet.getDate("introduced") != null) {
-					builder.withIntroduced(resultSet.getDate("introduced").toLocalDate());
-				}
-				if (resultSet.getDate("discontinued") != null) {
-					builder.withDiscontinued(resultSet.getDate("discontinued").toLocalDate());
-				}
-
-				if (resultSet.getString("company_id") != null) {
-					builder.withCompanyID(resultSet.getLong("company_id"));
-				}
-
-				Computer computer = builder.build();
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		
+		Computer computer = 
+		vJdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[] {id},
+				new BeanPropertyRowMapper<Computer>(Computer.class));
+		
+		System.out.println(computer);
+		if (computer.getId() != 0)	
 				return computer;
-			} else {
-				throw new ComputerNotFoundException(id);
-			}
-
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL ComputerFindById", ex);
+		else {
+			return null;
 		}
-		return null;
 	}
 
-	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
-		List<Computer> computeresultSet = new ArrayList<Computer>();
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
-			statement.setLong(1, limit);
-			statement.setLong(2, offset);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				Computer computer = populate(resultSet);
-				computeresultSet.add(computer);
 
+	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
+		List<Computer> computers = new ArrayList<Computer>();
+		try {
+			 
+		
+			
+			List<Map> rows = new JdbcTemplate(mysqDataSource).queryForList(SQL_FIND_ALL_PAGINED);
+			for (Map row : rows) {
+				Computer computer = new Computer.Builder()
+						.withId((long)row.get("id"))
+						.withName((String)(row.get("name")))
+						.withIntroduced(LocalDate.parse((CharSequence) (row.get("introduced"))))
+						.withDiscontinued(LocalDate.parse((CharSequence) (row.get("discontinued"))))
+				.build();
+						
+						computers.add(computer);
 			}
-			connection.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL ListComputer", ex);
+				
+			return computers;
+
+	}
+		catch (Exception e) {
+			// TODO: handle exception
 		}
-		return computeresultSet;
 	}
 
 	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter) throws InvalidDateChronology {
@@ -300,14 +255,10 @@ public class ComputerDAO {
 	public int getNbOfComputer() {
 		int nbOfComputer = 0;
 		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_COUNT_ALL);
-			ResultSet resultSet = statement.executeQuery();
+			
 
-			resultSet.next();
-			nbOfComputer = resultSet.getInt(1);
-
-			connection.close();
+			JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+			nbOfComputer = vJdbcTemplate.query(SQL_COUNT_ALL, (Integer.class));
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL ListComputer", ex);
 		}
