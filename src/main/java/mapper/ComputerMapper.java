@@ -28,14 +28,14 @@ public class ComputerMapper {
 		Computer.Builder builder = new Computer.Builder();
 		try {
 
-			if (computerDTO.getId() != null) {
+			if (computerDTO.getId() != null) 
 				builder.withId(Long.parseLong(computerDTO.getId()));
-						
+			
 			
 				builder.withName(computerDTO.getName());
 						
-					
-			}
+				
+			
 			if (computerDTO.getIntroduced()==null)
 				builder.withIntroduced(null);
 			else
