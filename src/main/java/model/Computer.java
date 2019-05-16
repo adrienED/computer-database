@@ -1,66 +1,104 @@
 package model;
 
-
 import java.time.LocalDate;
 
+import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
+
+import model.Company.Builder;
+
 public class Computer {
-	
-	protected long id;
-	protected String name;
-	protected LocalDate introduced;
-	protected LocalDate discontinued;
-	protected long companyID;
+
+	public static class Builder {
+
+		private long id;
+		private String name;
+		private LocalDate introduced;
+		private LocalDate discontinued;
+		private long companyID;
+		
+		
+		public Builder () {
+		}
+
+		public Builder withId(long id) {
+
+			this.id = id;
+			
+			return this;
+		}
+		
+		public Builder withName(String name) {
+			this.name = name;
+			return this;
+		}
+			
+		public Builder withIntroduced (LocalDate introduced) {
+			
+			this.introduced = introduced;
+			return this;
+
+		}
+		
+		public Builder withDiscontinued (LocalDate discontinued) {
+			this.discontinued = discontinued;
+			return this;
+		}
+		
+		public Builder withCompanyID (long companyID) {
+			this.companyID = companyID;
+			return this;
+		}
+		
+
+		public Computer build() {
+
+			Computer computer = new Computer();
+
+			computer.id = this.id;
+
+			computer.name = this.name;
+			
+			computer.introduced = this.introduced;
+			
+			computer.discontinued = this.discontinued;
+			
+			computer.companyID = this.companyID;
+			
+
+			return computer;
+
+		}
+
+	}
+
+	private long id;
+	private String name;
+	private LocalDate introduced;
+	private LocalDate discontinued;
+	private long companyID;
+
+	private Computer() {
+
+	}
 
 	public long getId() {
 		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
 	public LocalDate getIntroduced() {
 		return introduced;
-	}
-
-	public void setIntroduced(LocalDate introduced) {
-		this.introduced = introduced;
 	}
 
 	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(LocalDate discontinued) {
-		this.discontinued = discontinued;
-	}
-
 	public long getCompanyID() {
 		return companyID;
-	}
-
-	public void setCompanyID(long companyID) {
-		this.companyID = companyID;
-	}
-
-
-	public Computer() {
-	
-	}
-
-	@Override
-	public String toString() {
-		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", companyID=" + companyID + "]";
 	}
 
 	@Override
@@ -106,8 +144,13 @@ public class Computer {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
+				+ ", companyID=" + companyID + "]";
+	}
+	
 	
 
-	
 
 }

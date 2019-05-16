@@ -14,7 +14,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.html"> Application - Computer Database </a>
+            <a class="navbar-brand" href="/computer-database/dashboard"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -31,11 +31,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced" name="introduced" placeholder="YYYY-MM-dd" min="1970-01-01" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])[ /](2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]">
+                                <input type="date" class="form-control" id="introduced" name="introduced" placeholder="YYYY-MM-dd" min="1970-01-01" pattern="([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))">
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued" name="discontinued"  placeholder="YYYY-MM-dd" min="1970-01-01" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])[ /](2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]">
+                                <input type="date" class="form-control" id="discontinued" name="discontinued"  placeholder="YYYY-MM-dd" min="1970-01-01" pattern="([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))">
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>

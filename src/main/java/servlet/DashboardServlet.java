@@ -13,24 +13,32 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import controller.Controller;
+import config.AppConfig;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
+import persistence.CompanyDAO;
 import service.ComputerService;
 
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	Controller controller = new Controller();
-	ComputerService computerService = ComputerService.getInstance();
 
 	static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
+	
+	static ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+
+	static ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+
+	static CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
 
 	private int nbOfComputerByPage = 10;
 	private int page = 1;
 	private String orderParameter = "id";
+	private int offset=0;
 
 	public DashboardServlet() {
 	}
@@ -40,11 +48,19 @@ public class DashboardServlet extends HttpServlet {
 
 		List<ComputerDTO> listComputer = new ArrayList<ComputerDTO>();
 		int nbOfComputer = 10;
+		
+		if( request.getParameter("page") != null)
+		page = Integer.parseInt(request.getParameter("page"));
+		
+		if (page !=1)
+		offset=10*page-10;
+		
 
 		if (request.getParameter("search") != null) {
 
 			try {
-				listComputer = controller.search(request.getParameter("search"));
+				
+				listComputer = computerService.search(request.getParameter("search"));
 				request.setAttribute("ListComputer", listComputer);
 
 				nbOfComputer = listComputer.size();
@@ -59,21 +75,24 @@ public class DashboardServlet extends HttpServlet {
 			if (request.getParameter("OrderBy") != null)
 				orderParameter = request.getParameter("OrderBy");
 
-			nbOfComputer = controller.getNbOfComputer();
-			listComputer = controller.getComputerPageOrdered(nbOfComputer, nbOfComputerByPage, orderParameter);
+			nbOfComputer = computerService.getNbOfComputer();
+			
+
+			try {
+				listComputer = computerService.getAllOrderedBy( nbOfComputerByPage,page = page * 10 - 10,orderParameter);
+			} catch (InvalidDateChronology e) {
+				logger.error("Date invalid controller", e);
+			}
 			request.setAttribute("ListComputer", listComputer);
 
 		}
 
-		String pageString = request.getParameter("page");
-		if (pageString != null)
-			page = Integer.parseInt(pageString);
-
 		int lastPage = nbOfComputer / nbOfComputerByPage;
 
-		request.setAttribute("page", page);
+		request.setAttribute("page", request.getParameter("page"));
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("nbOfComputer", nbOfComputer);
+		request.setAttribute("OrderBy", orderParameter);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
 		dispatcher.forward(request, response);

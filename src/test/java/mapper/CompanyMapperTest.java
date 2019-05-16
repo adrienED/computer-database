@@ -1,33 +1,42 @@
 package mapper;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.matchers.JUnitMatchers;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import config.AppConfig;
 import dto.CompanyDTO;
 import model.Company;
+import persistence.CompanyDAO;
+import service.CompanyService;
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
 
 public class CompanyMapperTest {
 	
-	CompanyMapper companyMapper = null;
+	@Autowired
+	CompanyMapper companyMapper;
+
+	@Autowired
+	CompanyDAO companyDAO;
+	
 	Company company = new Company();
 	
 	CompanyDTO companyDTO = new CompanyDTO();
 	CompanyDTO companydto = new CompanyDTO();
 
-
 	public void setUp() throws Exception {
-		
 	
-		companyMapper = CompanyMapper.getInstance();
-		
 	}
 
 	@After
@@ -36,7 +45,6 @@ public class CompanyMapperTest {
 
 	@Test
 	public void testDtoToModel() {
-		CompanyMapper companyMapper	=CompanyMapper.getInstance();
 				
 		company.setId(23L);
 		company.setName("test");
@@ -61,7 +69,7 @@ public class CompanyMapperTest {
 
 	@Test
 	public void testModelToDto() {
-		CompanyMapper companyMapper	=CompanyMapper.getInstance();
+	
 		
 		company.setId(23L);
 		company.setName("test");

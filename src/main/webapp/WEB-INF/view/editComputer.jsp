@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
                     <div class="label label-default pull-right">
-                        id: 0
+                        id: ${computer.id}
                     </div>
                     <h1>Edit Computer</h1>
 
@@ -35,11 +35,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced" placeholder="Introduced date" name ="Introduced" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])[ /](2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]" value =${computer.introduced} >
+                                <input type="date" class="form-control" id="introduced" placeholder="Introduced date" name ="Introduced" pattern="([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))" value =${computer.introduced} >
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued" placeholder="Discontinued date" name ="Discontinued" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])[ /](2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]" value =${computer.discontinued}>
+                                <input type="date" class="form-control" id="discontinued" placeholder="Discontinued date" name ="Discontinued" pattern="([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))" value =${computer.discontinued}>
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>

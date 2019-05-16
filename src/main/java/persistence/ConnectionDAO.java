@@ -5,11 +5,18 @@ import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+@Component("ConnectionDAO")
 public class ConnectionDAO {
+	
+	
+	public ConnectionDAO(){
+		
+	}
 
 	static Logger logger = LoggerFactory.getLogger(ConnectionDAO.class);
 
@@ -24,8 +31,6 @@ public class ConnectionDAO {
 			logger.error("Erreur Driver jdbc not found", ex);
 
 		}
-		System.out.println("serveur ok");
-
 		return ds.getConnection();
 
 	}

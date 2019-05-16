@@ -1,6 +1,7 @@
 package service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -9,23 +10,24 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import config.AppConfig;
 import dto.CompanyDTO;
 import model.Company;
 import persistence.CompanyDAO;
 
-
 public class CompanyServiceTest {
 	
-	CompanyService companyService = null;
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
 	
 	
 	CompanyDAO companyDAO = mock(CompanyDAO.class);
 
 	@Before
 	public void setUp() throws Exception {
-		
-		companyService=companyService.getInstance();
 	}
 
 	@Test
@@ -56,6 +58,16 @@ public class CompanyServiceTest {
 		
 		assertEquals(listCompanyDTO, companyService.getAll(2, 1));
 		
+	}
+
+	@Test
+	public void testGetNameById() {
+		fail("Not yet implemented"); // TODO
+	}
+
+	@Test
+	public void testDeleteCompanyById() {
+		fail("Not yet implemented"); // TODO
 	}
 
 }

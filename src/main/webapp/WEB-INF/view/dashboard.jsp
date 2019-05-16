@@ -15,7 +15,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> Application -
+			<a class="navbar-brand" href="/dashboard"> Application -
 				Computer Database </a>
 		</div>
 	</header>
@@ -60,12 +60,23 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th><a href="dashboard?OrderBy=name&nbOfComputerByPage=10&page=1">Computer Name</a></th>
-						<th><a href="dashboard?OrderBy=introduced&nbOfComputerByPage=10&page=1">Introduced date</a></th>
-						<!-- Table header for Discontinued Date -->
-						<th><a href="dashboard?OrderBy=discontinued&nbOfComputerByPage=10&page=1">Discontinued date</a></th>
-						<!-- Table header for Company -->
-						<th><a href="dashboard?OrderBy=company&nbOfComputerByPage=10&page=1">Company</a></th>
+						<th>Computer Name
+                            <a href="dashboard?OrderBy=name&nbOfComputerByPage=10&page=1">&#9650;</a>
+                            <a href="dashboard?OrderBy=nameDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+                            </th>
+						<th>Introduced date
+						<a href="dashboard?OrderBy=introduced&nbOfComputerByPage=10&page=1">&#9650;</a>
+                        <a href="dashboard?OrderBy=introducedDESC&nbOfComputerByPage=10&page=1">&#9660;</a></th>
+			
+						<th>Discontinued date
+						<a href="dashboard?OrderBy=discontinued&nbOfComputerByPage=10&page=1">&#9650;</a>
+                        <a href="dashboard?OrderBy=discontinuedDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+						</th>
+						
+						<th>Company</a>
+						<a href="dashboard?OrderBy=company&nbOfComputerByPage=10&page=1">&#9650;</a>
+                        <a href="dashboard?OrderBy=companyDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+                        </th>
 
 					</tr>
 				</thead>
@@ -99,16 +110,16 @@
 				</c:if>
 				<li><a href="?page=${page}">${page}</a></li>
 				<c:if test="${page+1<=lastPage}">
-					<li><a href="?page=${page+1}">${page+1}</a></li>
+					<li><a href="?page=${page+1}&orderBy=${OrderBy}">${page+1}</a></li>
 				</c:if>
 				<c:if test="${page+2<=lastPage}">
-					<li><a href="?page=${page+2}">${page+2}</a></li>
+					<li><a href="?page=${page+2}&orderBy=${OrderBy}">${page+2}</a></li>
 				</c:if>
 				<c:if test="${page+3<=lastPage}">
-					<li><a href="?page=${page+3}">${page+3}</a></li>
+					<li><a href="?page=${page+3}&orderBy=${OrderBy}">${page+3}</a></li>
 				</c:if>
 				<c:if test="${page+4<=lastPage}">
-					<li><a href="?page=${page+4}">${page+4}</a></li>
+					<li><a href="?page=${page+4}&orderBy=${OrderBy}">${page+4}</a></li>
 				</c:if>
 				<c:if test="${page+1<=lastPage}">
 					<li><a href="?page=${page+1}" aria-label="Next"> <span

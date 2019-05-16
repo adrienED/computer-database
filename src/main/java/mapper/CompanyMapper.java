@@ -1,40 +1,29 @@
 package mapper;
-
-import java.lang.invoke.MethodHandles;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import dto.CompanyDTO;
 import model.Company;
-import persistence.CompanyDAO;
+import model.Company.Builder;
 
-public class CompanyMapper {
+@Component("CompanyMapper")
+	public class CompanyMapper {
 
-	Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
+	Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
 
-	private CompanyMapper() {
-	}
-
-	private static CompanyMapper INSTANCE = null;
-
-	public static CompanyMapper getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new CompanyMapper();
-		}
-		return INSTANCE;
+	public CompanyMapper() {
 	}
 
 	public Company dtoToModel(CompanyDTO companyDTO) {
-		Company company = new Company();
+		Builder builder = new Company.Builder();
 		try {
-			company.setId(Long.parseLong(companyDTO.getId()));
-			company.setName(companyDTO.getName());
+			builder.withParameter(Long.parseLong(companyDTO.getId()), companyDTO.getName());
 		} catch (NullPointerException e) {
 			System.out.print("dtoToModel null input");
 			logger.error("dtoToModel null input", e);
-
 		}
+		Company company = builder.build();
 		return company;
 	}
 

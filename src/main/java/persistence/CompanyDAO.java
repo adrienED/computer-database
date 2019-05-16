@@ -9,27 +9,21 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import model.Company;
+import model.Company.Builder;
 
+@Component("CompanyDAO")
 public class CompanyDAO {
 
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
+	@Autowired
+	ConnectionDAO connectionDAO;
 
-	ConnectionDAO connectionDAO = new ConnectionDAO();
-
-	private CompanyDAO() {
+	public CompanyDAO() {
 	}
-
-	private static CompanyDAO INSTANCE = null;
-
-	public static CompanyDAO getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new CompanyDAO();
-		}
-		return INSTANCE;
-	}
-
 	private static final String SQL_FIND_ALL = "SELECT id, name FROM company";
 	private static final String SQL_FIND_WITH_ID = "SELECT id, name FROM company WHERE id = ?";
 	private static final String SQL_FIND_WITH_NAME = "SELECT id FROM company WHERE name = ?";
@@ -38,20 +32,21 @@ public class CompanyDAO {
 	private static final String SQL_DELETE_COMPANY_BY_ID = "DELETE FROM company WHERE id=?";
 
 	public Company populate(ResultSet resultSet) {
-		Company company = new Company();
+		Builder builder = new Company.Builder();
 		try {
-			company.setId(resultSet.getLong("id"));
-			company.setName(resultSet.getString("name"));
+			builder.withParameter(resultSet.getLong("id"), resultSet.getString("name"));
+			
 
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL populate", ex);
 		}
+		Company company = builder.build();
 		return company;
 	}
 
 	public List<Company> getAll() {
-		List<Company> companies = new ArrayList<Company>();
-		try {
+		List<Company> companies = new ArrayList<>();
+		try  {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
 			ResultSet resultSet = statement.executeQuery();
@@ -61,14 +56,16 @@ public class CompanyDAO {
 
 			}
 			connection.close();
+			statement.close();
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL ListCompany", ex);
 		}
+
 		return companies;
 	}
 
 	public Company findById(long id) {
-		Company Company = new Company();
+		Builder builder = new Company.Builder();
 		try {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
@@ -76,14 +73,17 @@ public class CompanyDAO {
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 
-				Company.setId(resultSet.getLong("id"));
-				Company.setName(resultSet.getString("name"));
+				builder.withParameter(resultSet.getLong("id"), resultSet.getString("name"));	
 			}
 			connection.close();
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL findById", ex);
+			
+			
 		}
-		return Company;
+		builder.build();
+		Company company = builder.build();
+		return company;
 	}
 
 	public long findByName(String name) {
@@ -96,7 +96,7 @@ public class CompanyDAO {
 			while (resultSet.next()) {
 
 				id = resultSet.getLong("id");
-				System.out.println(id);
+				
 			}
 			connection.close();
 		} catch (SQLException ex) {
@@ -106,7 +106,7 @@ public class CompanyDAO {
 	}
 
 	public List<Company> getAll(int limit, int offset) {
-		List<Company> companies = new ArrayList<Company>();
+		List<Company> companies = new ArrayList<>();
 		try {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
@@ -132,6 +132,8 @@ public class CompanyDAO {
 			PreparedStatement deleteCompanyPreparedStatement = connection.prepareStatement(SQL_DELETE_COMPANY_BY_ID);
 
 			connection.setAutoCommit(false);
+			
+			try {
 
 			deleteComputerPreparedStatement.setLong(1, idL);
 			deleteComputerPreparedStatement.executeUpdate();
@@ -140,9 +142,15 @@ public class CompanyDAO {
 			deleteCompanyPreparedStatement.executeUpdate();
 
 			connection.commit();
+			}
+			catch (Exception e) {
+				connection.rollback();
+			}
+			
 			connection.setAutoCommit(true);
+			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Erreur delete Company", e);
 		}
 	}
 }

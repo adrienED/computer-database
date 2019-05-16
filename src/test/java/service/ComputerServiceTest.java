@@ -4,29 +4,46 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.applet.Applet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import config.AppConfig;
 import dto.CompanyDTO;
 import dto.ComputerDTO;
+import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
+import exception.NotFoundException;
 import model.Company;
 import model.Computer;
 import persistence.ComputerDAO;
 
 public class ComputerServiceTest {
 
-	ComputerService computerService = null;
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+	
 
 	ComputerDAO computerDAO = mock(ComputerDAO.class);
 
 	@Test
-	public void testFindById() {
-
+	public void testFindById() throws NotFoundException, InvalidDateChronology, ComputerNotFoundException {
+		
+		ComputerDTO computerDTO = new ComputerDTO();
+		computerDTO.setId("12");
+		computerDTO.setName("Apple III");
+		computerDTO.setIntroduced(LocalDate.parse("1980-05-01"));
+		computerDTO.setDiscontinued(LocalDate.parse("1984-04-01"));
+		computerDTO.setCompanyName("Apple Inc.");
+		System.out.println(computerService.findById("12"));
+		
+		assertEquals(computerDTO, computerService.findById("12"));
 	}
 
 	@Test
@@ -64,27 +81,25 @@ public class ComputerServiceTest {
 
 		ComputerDTO computerDTO = new ComputerDTO();
 
-		computerDTO.setId("23");
-		computerDTO.setName("test");
-		computerDTO.setIntroduced("2016-12-12");
-		computerDTO.setDiscontinued("2016-12-12");
+		computerDTO.setId("78");
+		computerDTO.setName("Macintosh 512K");
+		computerDTO.setIntroduced(LocalDate.parse("1984-09-10"));
+		computerDTO.setDiscontinued(LocalDate.parse("1986-04-14"));
 		computerDTO.setCompanyName("Apple Inc.");
 
 		List<ComputerDTO> listComputerDTO = new ArrayList<>();
 		listComputerDTO.add(computerDTO);
 
 		ComputerDTO computerDTO2 = new ComputerDTO();
-		computerDTO2.setName("test2");
-		computerDTO2.setIntroduced("2016-12-12");
-		computerDTO2.setDiscontinued("2016-12-12");
-		computerDTO.setCompanyName("Apple Inc.");
+		computerDTO2.setId("79");
+		computerDTO2.setName("Macintosh SE");
+		computerDTO2.setIntroduced(LocalDate.parse("1987-03-02"));
+		computerDTO2.setDiscontinued(LocalDate.parse("1989-08-01"));
+		computerDTO2.setCompanyName("Apple Inc.");
 
 		listComputerDTO.add(computerDTO2);
-
-
-		when(computerDAO.getAll(2, 1)).thenReturn(listComputerModel);
 		
-		assertEquals(listComputerDTO, computerService.getAll(2, 1));
+		assertEquals(listComputerDTO, computerService.getAll(2, 77));
 	}
 
 }

@@ -3,6 +3,9 @@ package service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
@@ -12,33 +15,26 @@ import mapper.ComputerMapper;
 import model.Computer;
 import persistence.ComputerDAO;
 
+@Component("ComputerService")
 public class ComputerService {
 
-	private ComputerService() {
+	public ComputerService() {
+	}
+	@Autowired
+	ComputerMapper computerMapper;
+	@Autowired
+	ComputerDAO computerDAO;
+
+	public long create(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
+		return this.computerDAO.create(computer);
 	}
 
-	private static ComputerService INSTANCE = null;
-
-	public static ComputerService getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new ComputerService();
-		}
-		return INSTANCE;
+	public boolean update(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
+		return this.computerDAO.update(computer);
 	}
 
-	private ComputerMapper computerMapper = ComputerMapper.getInstance();
-	private ComputerDAO computerDAO = ComputerDAO.getInstance();
-
-	public long create(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		return this.computerDAO.create(computerMapper.dtoToModel(computerDTO));
-	}
-
-	public boolean update(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		return this.computerDAO.update(this.computerMapper.dtoToModel(computerDTO));
-	}
-
-	public boolean delete(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		return this.computerDAO.delete(this.computerMapper.dtoToModel(computerDTO));
+	public boolean delete(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
+		return this.computerDAO.delete(computer);
 	}
 
 	public ComputerDTO findById(String id) throws NotFoundException, InvalidDateChronology, ComputerNotFoundException {

@@ -10,8 +10,4 @@ public class NotFoundException extends Exception {
 		super("Invalid id : " + id);
 	}
 
-	public NotFoundException(String message) {
-		// TODO Auto-generated constructor stub
-		super(message);
-	}
 }

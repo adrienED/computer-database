@@ -5,22 +5,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dto.ComputerDTO;
+import exception.InvalidDateChronology;
 
 public class ComputerValidator {
 
-	private static ComputerValidator instance;
-
-	public static ComputerValidator getInstance() {
-		if (instance == null)
-			instance = new ComputerValidator();
-		return instance;
-	}
+	public ComputerValidator() {}
 
 	Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 
-	public boolean validate(ComputerDTO computerDTO) {
+	public boolean validate(ComputerDTO computerDTO) throws InvalidDateChronology {
 
-		boolean validateName, validateDateIntroduced, validateDateDiscontinued, validateDateOrder, validateNameCompany;
+		boolean validateName;
+		boolean validateDateIntroduced;
+		boolean validateDateDiscontinued;
+		boolean validateDateOrder;
+		boolean validateNameCompany;
 
 		if (computerDTO.getName() != null)
 			validateName = true;
@@ -32,17 +31,17 @@ public class ComputerValidator {
 		else
 			validateNameCompany = false;
 
-		if (computerDTO.getIntroduced() != "")
+		if (computerDTO.getIntroduced() != null)
 			validateDateIntroduced = validateDate(computerDTO.getIntroduced());
 		else
 			validateDateIntroduced = true;
 
-		if (computerDTO.getDiscontinued() != "")
+		if (computerDTO.getDiscontinued() != null)
 			validateDateDiscontinued = validateDate(computerDTO.getDiscontinued());
 		else
 			validateDateDiscontinued = true;
 
-		if (computerDTO.getIntroduced() != "" || computerDTO.getDiscontinued() != "")
+		if (computerDTO.getIntroduced() != null && computerDTO.getDiscontinued() != null)
 			validateDateOrder = validateDateOrder(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
 		else
 			validateDateOrder = true;
@@ -58,37 +57,21 @@ public class ComputerValidator {
 
 	}
 
-	private boolean validateDate(String date) {
+	private boolean validateDate(LocalDate date) throws InvalidDateChronology {
 		boolean validate = false;
-		if (date.matches("\\d{4}-\\d{2}-\\d{2}")) {
-			try {
-				LocalDate localDate = LocalDate.parse(date);
-				LocalDate minDate = LocalDate.parse("1970-01-01");
-				if (localDate.isAfter(minDate))
-					validate = true;
-			} catch (Exception e) {
-				this.logger.error(e.getMessage(), e);
-			}
-		}
+		
+			LocalDate minDate = LocalDate.parse("1970-01-01");
+			if (date.isAfter(minDate))
+				validate = true;
+		
 		return validate;
 	}
 
-	private boolean validateDateOrder(String introducedString, String discontinuedString) {
+	private boolean validateDateOrder(LocalDate introduced, LocalDate discontinued) {
 		boolean validateDateOrder=false;
-		if (introducedString.matches("\\d{4}-\\d{2}-\\d{2}") && discontinuedString.matches("\\d{4}-\\d{2}-\\d{2}"))
-		{
-
-		try {
-			LocalDate localIntroduceDate = LocalDate.parse(introducedString);
-			LocalDate localDiscontinudDate = LocalDate.parse(discontinuedString);
-
-			if (localIntroduceDate.isBefore(localDiscontinudDate))
-				validateDateOrder = true;
-		} catch (Exception e) {
-			this.logger.error(e.getMessage(), e);
-
-		}
-		}
+			if (introduced.isBefore(discontinued))
+				validateDateOrder = true;			
+			
 		return validateDateOrder;
 	}
 }
