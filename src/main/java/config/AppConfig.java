@@ -14,44 +14,45 @@ import validator.ComputerValidator;
 
 @Configuration
 public class AppConfig {
-	
-	 @Bean
-	    public CompanyMapper CompanyMapper() {
-	        return new CompanyMapper();
-	    }
-	 
-	 @Bean
-	    public ComputerMapper ComputerMapper() {
-	        return new ComputerMapper();
-	    }
-	 
-	 @Bean
-	 	public CompanyDAO CompanyDAO() {
-		 return new CompanyDAO();
-	 }
-	 
-	 @Bean
-	 	public ComputerDAO ComputerDAO() {
-		 return new ComputerDAO();
-	 }
-	 
-	 @Bean
-	 	public CompanyService CompanyService() {
-		 return new CompanyService();
-	 }
-	 
-	 @Bean
-	 	public ComputerService ComputerService() {
-		 return new ComputerService();
-	 }
-	 @Bean
-	 	public ConnectionDAO ConnectionDAO() {
-		 return new ConnectionDAO();
-	 }
-	 
-	 @Bean
-	 	public ComputerValidator ComputerValidator() {
-		 return new ComputerValidator();
-	 }
+
+	@Bean
+	public CompanyMapper CompanyMapper() {
+		return new CompanyMapper();
+	}
+
+	@Bean
+	public ComputerMapper ComputerMapper() {
+		return new ComputerMapper();
+	}
+
+	@Bean
+	public CompanyDAO CompanyDAO() {
+		return new CompanyDAO();
+	}
+
+	@Bean
+	public ComputerDAO ComputerDAO() {
+		return new ComputerDAO();
+	}
+
+	@Bean
+	public CompanyService CompanyService() {
+		return new CompanyService();
+	}
+
+	@Bean
+	public ComputerService ComputerService() {
+		return new ComputerService();
+	}
+
+	@Bean
+	public ConnectionDAO ConnectionDAO() {
+		return new ConnectionDAO();
+	}
+
+	@Bean
+	public ComputerValidator ComputerValidator() {
+		return new ComputerValidator();
+	}
 
 }

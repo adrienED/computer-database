@@ -24,6 +24,7 @@ public class CompanyDAO {
 
 	public CompanyDAO() {
 	}
+
 	private static final String SQL_FIND_ALL = "SELECT id, name FROM company";
 	private static final String SQL_FIND_WITH_ID = "SELECT id, name FROM company WHERE id = ?";
 	private static final String SQL_FIND_WITH_NAME = "SELECT id FROM company WHERE name = ?";
@@ -35,7 +36,6 @@ public class CompanyDAO {
 		Builder builder = new Company.Builder();
 		try {
 			builder.withParameter(resultSet.getLong("id"), resultSet.getString("name"));
-			
 
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL populate", ex);
@@ -46,7 +46,7 @@ public class CompanyDAO {
 
 	public List<Company> getAll() {
 		List<Company> companies = new ArrayList<>();
-		try  {
+		try {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
 			ResultSet resultSet = statement.executeQuery();
@@ -73,13 +73,12 @@ public class CompanyDAO {
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 
-				builder.withParameter(resultSet.getLong("id"), resultSet.getString("name"));	
+				builder.withParameter(resultSet.getLong("id"), resultSet.getString("name"));
 			}
 			connection.close();
 		} catch (SQLException ex) {
 			logger.error("Erreur SQL findById", ex);
-			
-			
+
 		}
 		builder.build();
 		Company company = builder.build();
@@ -96,7 +95,7 @@ public class CompanyDAO {
 			while (resultSet.next()) {
 
 				id = resultSet.getLong("id");
-				
+
 			}
 			connection.close();
 		} catch (SQLException ex) {
@@ -132,23 +131,22 @@ public class CompanyDAO {
 			PreparedStatement deleteCompanyPreparedStatement = connection.prepareStatement(SQL_DELETE_COMPANY_BY_ID);
 
 			connection.setAutoCommit(false);
-			
+
 			try {
 
-			deleteComputerPreparedStatement.setLong(1, idL);
-			deleteComputerPreparedStatement.executeUpdate();
+				deleteComputerPreparedStatement.setLong(1, idL);
+				deleteComputerPreparedStatement.executeUpdate();
 
-			deleteCompanyPreparedStatement.setLong(1, idL);
-			deleteCompanyPreparedStatement.executeUpdate();
+				deleteCompanyPreparedStatement.setLong(1, idL);
+				deleteCompanyPreparedStatement.executeUpdate();
 
-			connection.commit();
-			}
-			catch (Exception e) {
+				connection.commit();
+			} catch (Exception e) {
 				connection.rollback();
 			}
-			
+
 			connection.setAutoCommit(true);
-			
+
 		} catch (SQLException e) {
 			logger.error("Erreur delete Company", e);
 		}

@@ -42,11 +42,11 @@ public class CompanyDAOTest {
 		when (resulSetMock.getLong("id")).thenReturn(13L);
 		when (resulSetMock.getString("name")).thenReturn("IBM");
 		
-		Company companyRef = new Company();
-		companyRef.setId(13L);
-		companyRef.setName("IBM");
+		Company company = new Company.Builder()
+	 			.withParameter(13L, "IBM")
+	 			.build();
 		
-		assertEquals(companyRef, companyDAO.populate(resulSetMock));
+		assertEquals(company, companyDAO.populate(resulSetMock));
 	}
 
 	@Test
@@ -56,20 +56,21 @@ public class CompanyDAOTest {
 
 	@Test
 	public void testFindById() {
-		Company company = new Company();
+		Company company;
 
 		company = companyDAO.findById(13L);
 		
-		Company companyRef = new Company();
-		companyRef.setId(13L);
-		companyRef.setName("IBM");
+		Company companyRef = new Company.Builder().
+		withParameter(13L, "IBM")
+		.build();
+		
 		
 		assertEquals(companyRef, company);
 	}
 
 	@Test
 	public void testFindByName() {
-		Company company = new Company();
+
 		
 		assertEquals(13L, companyDAO.findByName("IBM"));
 	}
@@ -77,19 +78,22 @@ public class CompanyDAOTest {
 	@Test
 	public void testGetAllIntInt() {
 		ArrayList<Company> companies = new ArrayList<Company>();
-		Company company = new Company();
-		 
-			company.setId(1L);
-			company.setName("Apple Inc.");
+		
+		 	Company company = new Company.Builder()
+		 			.withParameter(1L, "Apple Inc.")
+		 			.build();
 			
 			companies.add(company);
-			Company company1 = new Company();
-			company1.setId(2L);
-			company1.setName("Thinking Machines");
+			
+			Company company1 = new Company.Builder()
+		 			.withParameter(2L, "Thinking Machines")
+		 			.build();
+
 			companies.add(company1);
-			Company company2 = new Company();
-			company2.setId(3L);
-			company2.setName("RCA");
+			Company company2 = new Company.Builder()
+		 			.withParameter(3L, "RCA")
+		 			.build();
+
 			companies.add(company2);
 			
 			assertEquals(companies,companyDAO.getAll(3,0) );

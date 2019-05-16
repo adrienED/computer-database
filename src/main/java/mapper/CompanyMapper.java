@@ -1,4 +1,5 @@
 package mapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,7 @@ import model.Company;
 import model.Company.Builder;
 
 @Component("CompanyMapper")
-	public class CompanyMapper {
+public class CompanyMapper {
 
 	Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
 
