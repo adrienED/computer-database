@@ -26,9 +26,8 @@ import service.ComputerService;
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-
 	static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
-	
+
 	static ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 
 	static ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
@@ -38,7 +37,7 @@ public class DashboardServlet extends HttpServlet {
 	private int nbOfComputerByPage = 10;
 	private int page = 1;
 	private String orderParameter = "id";
-	private int offset=0;
+	private int offset = 0;
 
 	public DashboardServlet() {
 	}
@@ -48,18 +47,17 @@ public class DashboardServlet extends HttpServlet {
 
 		List<ComputerDTO> listComputer = new ArrayList<ComputerDTO>();
 		int nbOfComputer = 10;
-		
-		if( request.getParameter("page") != null)
-		page = Integer.parseInt(request.getParameter("page"));
-		
-		if (page !=1)
-		offset=10*page-10;
-		
+
+		if (request.getParameter("page") != null)
+			page = Integer.parseInt(request.getParameter("page"));
+
+		if (page != 1)
+			offset = 10 * page - 10;
 
 		if (request.getParameter("search") != null) {
 
 			try {
-				
+
 				listComputer = computerService.search(request.getParameter("search"));
 				request.setAttribute("ListComputer", listComputer);
 
@@ -76,10 +74,10 @@ public class DashboardServlet extends HttpServlet {
 				orderParameter = request.getParameter("OrderBy");
 
 			nbOfComputer = computerService.getNbOfComputer();
-			
 
 			try {
-				listComputer = computerService.getAllOrderedBy( nbOfComputerByPage,page = page * 10 - 10,orderParameter);
+				listComputer = computerService.getAllOrderedBy(nbOfComputerByPage, page = page * 10 - 10,
+						orderParameter);
 			} catch (InvalidDateChronology e) {
 				logger.error("Date invalid controller", e);
 			}

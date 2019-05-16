@@ -12,10 +12,9 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Component("ConnectionDAO")
 public class ConnectionDAO {
-	
-	
-	public ConnectionDAO(){
-		
+
+	public ConnectionDAO() {
+
 	}
 
 	static Logger logger = LoggerFactory.getLogger(ConnectionDAO.class);

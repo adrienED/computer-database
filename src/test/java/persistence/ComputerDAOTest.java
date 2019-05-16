@@ -55,14 +55,15 @@ public class ComputerDAOTest {
 		when (resulSetMock.getDate("introduced")).thenReturn(date);
 		when (resulSetMock.getDate("discontinued")).thenReturn(date2);
 		when (resulSetMock.getLong("company_id")).thenReturn(1L);
-	
-		Computer computer = new Computer();	
-
-		computer.setId(23L);
-		computer.setName("IBM");
-		computer.setIntroduced(LocalDate.parse("2016-12-12"));
-		computer.setDiscontinued(LocalDate.parse("2017-12-12"));	
-		computer.setCompanyID(1L);
+		
+		
+		Computer computer = new Computer.Builder()
+				.withId(23L)
+				.withName("IBM")
+				.withIntroduced(LocalDate.parse("2016-12-12"))
+				.withDiscontinued(LocalDate.parse("2017-12-12"))	
+				.withCompanyID(1L)
+				.build();
 		
 		assertEquals(computer, computerDAO.populate(resulSetMock));
 	}
@@ -70,38 +71,32 @@ public class ComputerDAOTest {
 	@Test
 	public void testGetAllIntInt() {
 		
-		Computer computer = new Computer();
-		
-		computer.setId(23L);
-		computer.setName("Macintosh Plus");
-		computer.setIntroduced(LocalDate.parse("1986-01-16"));
-		computer.setDiscontinued(LocalDate.parse("1990-10-15"));	
-		computer.setCompanyID(0);
-		
-		Computer computerRef = new Computer();
-		
-		computerRef.setId(23L);
-		computerRef.setName("Macintosh Plus");
-		computerRef.setIntroduced(LocalDate.parse("1986-01-16"));
-		computerRef.setDiscontinued(LocalDate.parse("1990-10-15"));	
-		computerRef.setCompanyID(0);
+		Computer computerRef = new Computer.Builder()
+				.withId(23L)
+				.withName("Macintosh Plus")
+				.withIntroduced(LocalDate.parse("1986-01-16"))
+				.withDiscontinued(LocalDate.parse("1990-10-15"))	
+				.withCompanyID(1L)
+				.build();
+
+
 	}
 
 
 	@Test
 	public void testFindById() throws ComputerNotFoundException, InvalidDateChronology {
 
-		Computer computer = new Computer();
+		Computer computer;
 		
 		computer = computerDAO.findById(23L);
 		
-		Computer computerRef = new Computer();
-		
-		computerRef.setId(23L);
-		computerRef.setName("Macintosh Plus");
-		computerRef.setIntroduced(LocalDate.parse("1986-01-16"));
-		computerRef.setDiscontinued(LocalDate.parse("1990-10-15"));	
-		computerRef.setCompanyID(1);
+		Computer computerRef = new Computer.Builder()
+		.withId(23L)
+		.withName("Macintosh Plus")
+		.withIntroduced(LocalDate.parse("1986-01-16"))
+		.withDiscontinued(LocalDate.parse("1990-10-15"))	
+		.withCompanyID(1)
+		.build();
 		
 		
 		assertEquals(computerRef, computer);

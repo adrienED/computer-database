@@ -1,6 +1,5 @@
 package service;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,30 +13,30 @@ import persistence.CompanyDAO;
 
 @Component("CompanyService")
 public class CompanyService {
-	
+
 	@Autowired
 	CompanyMapper companyMapper;
 	@Autowired
 	CompanyDAO companyDAO;
 
-	    public CompanyService()
-	    {}
+	public CompanyService() {
+	}
 
+	public List<CompanyDTO> getAll(int limit, int offset) {
 
-	public List<CompanyDTO> getAll(int limit, int offset){
-		
 		List<Company> companyList = companyDAO.getAll(limit, offset);
-		List<CompanyDTO> companyDtoList = companyList.stream().map(s -> companyMapper.modelToDto(s)).collect(Collectors.toList());
-		
+		List<CompanyDTO> companyDtoList = companyList.stream().map(s -> companyMapper.modelToDto(s))
+				.collect(Collectors.toList());
+
 		return companyDtoList;
-	} 	  	 	
-	
-	public Company getNameById (long id) {
-		Company company =companyDAO.findById(id);
+	}
+
+	public Company getNameById(long id) {
+		Company company = companyDAO.findById(id);
 		return company;
 	}
-	
-	public void deleteCompanyById (long id) {
+
+	public void deleteCompanyById(long id) {
 		companyDAO.deleteCompanyById(id);
 	}
 

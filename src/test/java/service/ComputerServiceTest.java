@@ -1,15 +1,12 @@
 package service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import java.applet.Applet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -50,28 +47,28 @@ public class ComputerServiceTest {
 	public void testGetAllInint() throws InvalidDateChronology {
 
 
-		Company company = new Company();
-		company.setId(1L);
-		company.setName("Apple Inc.");
+		Company company = new Company.Builder().
+		withParameter(1L, "Apple Inc.")
+		.build();
 
-		Computer computer = new Computer();
-
-		computer.setId(23L);
-		computer.setName("test");
-		computer.setIntroduced(LocalDate.parse("2016-12-12"));
-		computer.setDiscontinued(LocalDate.parse("2016-12-12"));
-		computer.setCompanyID(36L);
+		Computer computer = new Computer.Builder()
+		.withId(23L)
+		.withName("Sony")
+		.withIntroduced(LocalDate.parse("2016-12-12"))
+		.withDiscontinued(LocalDate.parse("2016-12-12"))
+		.withCompanyID(36L)
+		.build();
 
 		List<Computer> listComputerModel = new ArrayList<>();
 		listComputerModel.add(computer);
 
-		Computer computer2 = new Computer();
-
-		computer2.setId(24L);
-		computer2.setName("test2");
-		computer2.setIntroduced(LocalDate.parse("2016-12-12"));
-		computer2.setDiscontinued(LocalDate.parse("2016-12-12"));
-		computer2.setCompanyID(36L);
+		Computer computer2 = new Computer.Builder()
+				.withId(23L)
+				.withName("Sony")
+				.withIntroduced(LocalDate.parse("2016-12-12"))
+				.withDiscontinued(LocalDate.parse("2016-12-12"))
+				.withCompanyID(36L)
+				.build();
 
 		listComputerModel.add(computer2);
 		

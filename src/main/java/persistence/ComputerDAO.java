@@ -24,7 +24,7 @@ import model.Company.Builder;
 public class ComputerDAO {
 
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
-	
+
 	@Autowired
 	ConnectionDAO connectionDAO;
 
@@ -55,7 +55,7 @@ public class ComputerDAO {
 		Computer.Builder builder = new Computer.Builder();
 		try {
 			builder.withId(resultSet.getLong("id"));
-			
+
 			builder.withName(resultSet.getString("name"));
 			if (resultSet.getDate("introduced") != null) {
 				builder.withIntroduced(resultSet.getDate("introduced").toLocalDate());
@@ -94,7 +94,7 @@ public class ComputerDAO {
 
 	public long create(Computer computer) {
 		Long lastInsertedId = null;
-		
+
 		try {
 			Connection connection = connectionDAO.getConnection();
 			PreparedStatement statement;
@@ -106,8 +106,7 @@ public class ComputerDAO {
 				statement.setDate(2, Date.valueOf(computer.getIntroduced()));
 			if (computer.getDiscontinued() == null) {
 				statement.setNull(3, java.sql.Types.DATE);
-			}
-			else
+			} else
 				statement.setDate(3, Date.valueOf(computer.getDiscontinued()));
 			statement.setLong(4, computer.getCompanyID());
 			statement.toString();
@@ -170,12 +169,12 @@ public class ComputerDAO {
 			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
 			statement.setLong(1, id);
 			ResultSet resultSet = statement.executeQuery();
-			
+
 			if (resultSet.next()) {
 				Computer.Builder builder = new Computer.Builder();
 
 				builder.withId(resultSet.getLong("id"));
-								
+
 				builder.withName(resultSet.getString("name"));
 				if (resultSet.getDate("introduced") != null) {
 					builder.withIntroduced(resultSet.getDate("introduced").toLocalDate());
@@ -183,7 +182,7 @@ public class ComputerDAO {
 				if (resultSet.getDate("discontinued") != null) {
 					builder.withDiscontinued(resultSet.getDate("discontinued").toLocalDate());
 				}
-				
+
 				if (resultSet.getString("company_id") != null) {
 					builder.withCompanyID(resultSet.getLong("company_id"));
 				}
@@ -239,14 +238,14 @@ public class ComputerDAO {
 			case "introduced":
 				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_INTRODUCED);
 				break;
-				
+
 			case "introducedDESC":
 				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_INTRODUCED_DESC);
 				break;
 			case "discontinued":
 				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED);
 				break;
-				
+
 			case "discontinuedDESC":
 				statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED_DESC);
 				break;

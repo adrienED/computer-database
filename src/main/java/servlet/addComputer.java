@@ -33,18 +33,16 @@ public class addComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	static Logger logger = LoggerFactory.getLogger(addComputer.class);
-	
-	
+
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
 
 	ComputerValidator computerValidator = (ComputerValidator) ctx.getBean("ComputerValidator");
-	
+
 	ComputerMapper computerMapper = (ComputerMapper) ctx.getBean("ComputerMapper");
 
 	CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
 
 	ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
-
 
 	public addComputer() {
 		super();
@@ -53,7 +51,6 @@ public class addComputer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		
 		List<CompanyDTO> listCompanies = new ArrayList<CompanyDTO>();
 		listCompanies = companyService.getAll(100, 0);
 
@@ -62,7 +59,6 @@ public class addComputer extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -70,22 +66,22 @@ public class addComputer extends HttpServlet {
 		Computer computer;
 
 		computerDTO.setName(request.getParameter("computerName"));
-		if (request.getParameter("introduced") ==null)computerDTO.setIntroduced(null);
+		if (request.getParameter("introduced") == null)
+			computerDTO.setIntroduced(null);
 		else {
 			try {
 				computerDTO.setIntroduced(LocalDate.parse(request.getParameter("introduced")));
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				logger.error("erreur parse introduced");
 			}
 		}
-		
-		if (request.getParameter("discontinued") ==null)computerDTO.setDiscontinued(null);
+
+		if (request.getParameter("discontinued") == null)
+			computerDTO.setDiscontinued(null);
 		else {
 			try {
 				computerDTO.setDiscontinued(LocalDate.parse(request.getParameter("discontinued")));
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				logger.error("erreur parse discontinued");
 			}
 		}
@@ -93,21 +89,19 @@ public class addComputer extends HttpServlet {
 		computerDTO.setCompanyName(request.getParameter("companyName"));
 
 		System.out.println(computerDTO);
-		
-			try {
-				if (computerValidator.validate(computerDTO) == true) {
+
+		try {
+			if (computerValidator.validate(computerDTO) == true) {
 				computer = computerMapper.dtoToModel(computerDTO);
 				System.out.println(computer);
 				long idCreate = computerService.create(computer);
 				logger.info("Ordinateur ajouter id = " + idCreate);
-				}
-			} catch (InvalidDateValueException | InvalidDateChronology | NumberFormatException e) {
-				logger.error(e.getMessage());
 			}
-		
+		} catch (InvalidDateValueException | InvalidDateChronology | NumberFormatException e) {
+			logger.error(e.getMessage());
+		}
 
-			getServletContext().getRequestDispatcher("/dashboard").forward(request, response);
-
+		getServletContext().getRequestDispatcher("/dashboard").forward(request, response);
 
 	}
 }

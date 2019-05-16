@@ -32,14 +32,19 @@ public class CompanyServiceTest {
 
 	@Test
 	public void testGetAll() {
-		Company company = new Company();
+		
 		List<Company> listCompanyModel= new ArrayList<>();
-		company.setId(2L);
-		company.setName("Thinking Machines");		
+		
+		Company company = new Company.Builder()
+		
+		.withParameter(2L, "Thinkin Machine")	
+		.build();
+		
 		listCompanyModel.add(company);
-		Company company2 = new Company();
-		company2.setId(3L);
-		company2.setName("RCA");		
+		Company company2 = new Company.Builder()
+				
+				.withParameter(3L, "RCA")	
+				.build();		
 		listCompanyModel.add(company2);
 		
 		CompanyDTO companyDTO = new CompanyDTO();

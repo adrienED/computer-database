@@ -15,40 +15,38 @@ public class Computer {
 		private LocalDate introduced;
 		private LocalDate discontinued;
 		private long companyID;
-		
-		
-		public Builder () {
+
+		public Builder() {
 		}
 
 		public Builder withId(long id) {
 
 			this.id = id;
-			
+
 			return this;
 		}
-		
+
 		public Builder withName(String name) {
 			this.name = name;
 			return this;
 		}
-			
-		public Builder withIntroduced (LocalDate introduced) {
-			
+
+		public Builder withIntroduced(LocalDate introduced) {
+
 			this.introduced = introduced;
 			return this;
 
 		}
-		
-		public Builder withDiscontinued (LocalDate discontinued) {
+
+		public Builder withDiscontinued(LocalDate discontinued) {
 			this.discontinued = discontinued;
 			return this;
 		}
-		
-		public Builder withCompanyID (long companyID) {
+
+		public Builder withCompanyID(long companyID) {
 			this.companyID = companyID;
 			return this;
 		}
-		
 
 		public Computer build() {
 
@@ -57,13 +55,12 @@ public class Computer {
 			computer.id = this.id;
 
 			computer.name = this.name;
-			
+
 			computer.introduced = this.introduced;
-			
+
 			computer.discontinued = this.discontinued;
-			
+
 			computer.companyID = this.companyID;
-			
 
 			return computer;
 
@@ -149,8 +146,5 @@ public class Computer {
 		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
 				+ ", companyID=" + companyID + "]";
 	}
-	
-	
-
 
 }

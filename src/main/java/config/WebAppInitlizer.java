@@ -9,14 +9,12 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 public class WebAppInitlizer implements WebApplicationInitializer {
 
 	@Override
-    public void onStartup(ServletContext container) {
-      // Create the 'root' Spring application context
-      AnnotationConfigWebApplicationContext rootContext =
-        new AnnotationConfigWebApplicationContext();
-      rootContext.register(AppConfig.class);
+	public void onStartup(ServletContext container) {
 
-      // Manage the lifecycle of the root application context
-      container.addListener(new ContextLoaderListener(rootContext));
+		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+		rootContext.register(AppConfig.class);
+
+		container.addListener(new ContextLoaderListener(rootContext));
 
 	}
 }

@@ -46,18 +46,17 @@ public class EditComputerServlet extends HttpServlet {
 	public EditComputerServlet() {
 		super();
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		ComputerDTO computerDTO = new ComputerDTO();
-		
 
 		try {
 
 			computerDTO = computerService.findById(request.getParameter("id"));
-			
+
 		} catch (NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
 			logger.error("Erreur getComputerDTO", e);
 		}
@@ -72,7 +71,7 @@ public class EditComputerServlet extends HttpServlet {
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		
+
 	}
 
 	@Override
@@ -84,37 +83,35 @@ public class EditComputerServlet extends HttpServlet {
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setId(request.getParameter("id"));
 		computerDTO.setName(request.getParameter("computerName"));
-		if (request.getParameter("introduced") ==null)computerDTO.setIntroduced(null);
+		if (request.getParameter("introduced") == null)
+			computerDTO.setIntroduced(null);
 		else {
 			try {
 				computerDTO.setIntroduced(LocalDate.parse(request.getParameter("introduced")));
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				logger.error("erreur parse introduced");
 			}
 		}
-		
-		if (request.getParameter("discontinued") ==null)computerDTO.setDiscontinued(null);
+
+		if (request.getParameter("discontinued") == null)
+			computerDTO.setDiscontinued(null);
 		else {
 			try {
 				computerDTO.setDiscontinued(LocalDate.parse(request.getParameter("discontinued")));
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				logger.error("erreur parse discontinued");
 			}
 		}
 		computerDTO.setCompanyName(request.getParameter("companyName"));
 
-		
-			try {
-				if (computerValidator.validate(computerDTO)) {
+		try {
+			if (computerValidator.validate(computerDTO)) {
 				computer = computerMapper.dtoToModel(computerDTO);
 				computerService.update(computer);
-				}
-			} catch (InvalidDateValueException | InvalidDateChronology e1) {
-				logger.error("Date invalid", e1);
 			}
+		} catch (InvalidDateValueException | InvalidDateChronology e1) {
+			logger.error("Date invalid", e1);
 		}
-
 	}
 
+}

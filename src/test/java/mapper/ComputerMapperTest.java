@@ -14,6 +14,7 @@ import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import model.Computer;
+import model.Computer.Builder;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,18 +29,19 @@ public class ComputerMapperTest {
 	@Test
 	public void testDtoToModelWhithoutDate() throws InvalidDateValueException, InvalidDateChronology {
 
-	Computer computer = new Computer();
+	Computer.Builder builder = new Computer.Builder();
 
 	// valid
 
 	LocalDate introDate = LocalDate.parse("2016-12-12");
 	LocalDate disconDate = LocalDate.parse("2017-12-12");
 
-	computer.setId(23L);
-	computer.setName("test");
-	computer.setIntroduced(null);
-	computer.setDiscontinued(null);
-	computer.setCompanyID(1L);
+	builder.withId(23L);
+	builder.withName("test");
+
+	builder.withCompanyID(1L);
+	
+	Computer computer = builder.build();
 
 	computerDTO.setId("23");
 	computerDTO.setName("test");
@@ -64,18 +66,20 @@ public class ComputerMapperTest {
 	@Test
 	public void testDtoToModelAllParameter() throws InvalidDateValueException, InvalidDateChronology {
 
-			Computer computer = new Computer();
+			Computer.Builder builder = new Computer.Builder();
 
 			// valid
 
 			LocalDate introDate = LocalDate.parse("2016-12-12");
 			LocalDate disconDate = LocalDate.parse("2017-12-12");
 
-			computer.setId(23L);
-			computer.setName("test");
-			computer.setIntroduced(introDate);
-			computer.setDiscontinued(disconDate);
-			computer.setCompanyID(1L);
+			builder.withId(23L);
+			builder.withName("test");
+			builder.withIntroduced(introDate);
+			builder.withDiscontinued(disconDate);
+			builder.withCompanyID(1L);
+			
+			Computer computer = builder.build();
 
 			computerDTO.setId("23");
 			computerDTO.setName("test");
@@ -92,31 +96,9 @@ public class ComputerMapperTest {
 			assertEquals(computer.getDiscontinued(), computerMapper.dtoToModel(computerDTO).getDiscontinued());
 			assertEquals(computer.getCompanyID(), computerMapper.dtoToModel(computerDTO).getCompanyID());
 			assertEquals(computer, computerMapper.dtoToModel(computerDTO));
-
-		// invalid
-/*
-		introDate = LocalDate.parse("2016-12-12");
-		disconDate = LocalDate.parse("2017-12-12");
-
-		computer.setId(23L);
-		computer.setName("test");
-		computer.setIntroduced(introDate);
-		computer.setDiscontinued(disconDate);
-		computer.setCompanyID(2L);
-
-		computerDTO.setId("24");
-		computerDTO.setName("tes");
-		computerDTO.setIntroduced(introDate);
-		computerDTO.setDiscontinued(disconDate);
-		computerDTO.setCompanyName("RCA");
-
-		assertNotEquals(23L, computerMapper.dtoToModel(computerDTO).getId());
-		assertNotEquals("test", computerMapper.dtoToModel(computerDTO).getName());
-		assertNotEquals(computer.getIntroduced(), computerMapper.dtoToModel(computerDTO).getIntroduced());
-		assertNotEquals(computer.getCompanyID(), computerMapper.dtoToModel(computerDTO).getCompanyID());
-		assertNotEquals(computer, computerMapper.dtoToModel(computerDTO));
-*/
 	}
+
+
 
 	@Test
 	public void testModelToDto() throws InvalidDateValueException, InvalidDateChronology {
@@ -125,13 +107,15 @@ public class ComputerMapperTest {
 		LocalDate introDate = LocalDate.parse("2016-12-12");
 		LocalDate disconDate = LocalDate.parse("2017-12-12");
 
-		Computer computer = new Computer();
+		Computer.Builder builder = new Computer.Builder();
 
-		computer.setId(23L);
-		computer.setName("test");
-		computer.setIntroduced(introDate);
-		computer.setDiscontinued(disconDate);
-		computer.setCompanyID(1L);
+		builder.withId(23L);
+		builder.withName("test");
+		builder.withIntroduced(introDate);
+		builder.withDiscontinued(disconDate);
+		builder.withCompanyID(1L);
+		
+		Computer computer = builder.build();
 
 		computerDTO.setId("23");
 		computerDTO.setName("test");
@@ -146,29 +130,6 @@ public class ComputerMapperTest {
 		System.out.println(computerMapper.modelToDto(computer));
 		assertEquals(computerDTO.getCompanyName(), computerMapper.modelToDto(computer).getCompanyName());
 
-		// invalid
-/*
-		introDate = LocalDate.parse("2016-12-12");
-		disconDate = LocalDate.parse("2017-12-12");
-
-		computer.setId(23L);
-		computer.setName("test");
-		computer.setIntroduced(introDate);
-		computer.setDiscontinued(disconDate);
-		computer.setCompanyID(3L);
-
-		computerDTO.setId("24");
-		computerDTO.setName("tes");
-		computerDTO.setIntroduced(introDate);
-		computerDTO.setDiscontinued(disconDate);
-		computerDTO.setCompanyName("TEST");
-
-		assertNotEquals(computerDTO.getId(), computerMapper.modelToDto(computer).getId());
-		assertNotEquals(computerDTO.getName(), computerMapper.modelToDto(computer).getName());
-		assertNotEquals(computerDTO.getIntroduced(), computerMapper.modelToDto(computer).getIntroduced());
-		assertNotEquals(computerDTO.getDiscontinued(), computerMapper.modelToDto(computer).getCompanyName());
-		assertNotEquals(computerDTO.getCompanyName(), computerMapper.modelToDto(computer).getCompanyName());
-	*/
 	}
 
 	@Test
