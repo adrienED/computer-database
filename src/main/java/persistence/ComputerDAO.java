@@ -16,10 +16,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
+import model.Company;
 import model.Computer;
 
 @Component("ComputerDAO")
@@ -116,18 +118,27 @@ public class ComputerDAO {
 	public Computer findById(long id)  {
 
 		
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
-		Computer computer = (Computer)
-				jdbcTemplate.queryForObject( SQL_FIND_BY_ID, new Object[] {id},
-				new BeanPropertyRowMapper(Computer.class));
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
 		
+		Map row=
+		vJdbcTemplate.queryForMap(SQL_FIND_BY_ID, new Object[] {id} ,Map.class);
+		
+		Computer computer = new Computer.Builder()
+				.withId((long)row.get("id"))
+				.withName((String)(row.get("name")))
+				.withIntroduced(LocalDate.parse((CharSequence) (row.get("introduced"))))
+				.withDiscontinued(LocalDate.parse((CharSequence) (row.get("discontinued"))))
+				.withCompanyID((long)row.get("company_id"))
+		.build();
 		System.out.println(computer);
-		if (computer.getId() != 0)	
-				return computer;
-		else {
-			return null;
-		}
+		
+		
+		return computer;
 	}
+		
+		
+		
+
 
 
 	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
