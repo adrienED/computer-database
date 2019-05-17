@@ -121,13 +121,13 @@ public class ComputerDAO {
 		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
 		
 		Map row=
-		vJdbcTemplate.queryForMap(SQL_FIND_BY_ID, new Object[] {id} ,Map.class);
+		vJdbcTemplate.queryForMap(SQL_FIND_BY_ID, new Object[] {id} );
 		
 		Computer computer = new Computer.Builder()
 				.withId((long)row.get("id"))
 				.withName((String)(row.get("name")))
-				.withIntroduced(LocalDate.parse((CharSequence) (row.get("introduced"))))
-				.withDiscontinued(LocalDate.parse((CharSequence) (row.get("discontinued"))))
+				.withIntroduced( LocalDate.parse( row.get("introduced")))
+				.withDiscontinued( LocalDate.parse( row.get("discontinued")))
 				.withCompanyID((long)row.get("company_id"))
 		.build();
 		System.out.println(computer);

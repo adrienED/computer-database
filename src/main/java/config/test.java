@@ -66,7 +66,7 @@ public class test {
 	
 	//System.out.println(computerDAO.getAllOrderedBy(5, 0,"nameDESC" ));
 	
-	computerDAO.findById(24L);
+	computerDAO.findById(23);
 	}
 	
 
