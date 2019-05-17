@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-@Component("ConnectionDAO")
 public class ConnectionDAO {
 
 	public ConnectionDAO() {

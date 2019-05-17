@@ -40,8 +40,8 @@ public class test {
 	//System.out.println(companyDAO.getAll(10, 1));
 	
 	Computer computer = new Computer.Builder()
-			.withId(620)
-			.withName("testupdate")
+			.withId(620L)
+			.withName("poghyujg")
 	
 			.withDiscontinued(LocalDate.parse("2017-12-12"))	
 			.withCompanyID(1L)
@@ -57,7 +57,16 @@ public class test {
 	}
 	
 	
-	System.out.println(computerDAO.findById(622L));
+	//System.out.println(computerDAO.getAll());
+	
+	
+//System.out.println(computerDAO.getSearchComputer("macbook"));
+	//System.out.println(computerDAO.findById(24L));
+	
+	
+	//System.out.println(computerDAO.getAllOrderedBy(5, 0,"nameDESC" ));
+	
+	computerDAO.findById(24L);
 	}
 	
 

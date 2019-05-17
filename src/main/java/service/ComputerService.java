@@ -1,5 +1,6 @@
 package service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class ComputerService {
 	@Autowired
 	ComputerDAO computerDAO;
 
-	public long create(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
+	public long create(Computer computer) throws InvalidDateValueException, InvalidDateChronology, SQLException {
 		return this.computerDAO.create(computer);
 	}
 
