@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import model.Company;
 import model.Company.Builder;
@@ -76,8 +77,13 @@ public class CompanyDAO {
 
 		return companies;
 	}
-
+	
+	@Transactional("TransactionManager")
 	public void deleteCompanyById(long idL) {
-
+		
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
+			jdbcTemplate.update(SQL_DELETE_COMPUTER_BY_ID, new Object[] {idL});
+			jdbcTemplate.update(SQL_DELETE_COMPANY_BY_ID, new Object[] {idL});
+			logger.info("company effacer");
+		}
 	}
-}

@@ -66,8 +66,15 @@ public class test {
 	
 	//System.out.println(computerDAO.getAllOrderedBy(5, 0,"nameDESC" ));
 	
-	computerDAO.findById(23);
-	}
+	//System.out.println(computerDAO.getAll());
 	
+	//System.out.println(computerDAO.getAllOrderedBy(10, 0, "nameDESC"));
+	
+//System.out.print(computerDAO.getSearchComputer("Apple"));
+	
+	//System.out.print(computerDAO.findById(1024));
+	
+	companyDAO.deleteCompanyById(37);
 
+}
 }

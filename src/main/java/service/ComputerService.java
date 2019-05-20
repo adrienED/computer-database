@@ -31,11 +31,11 @@ public class ComputerService {
 		return this.computerDAO.create(computer);
 	}
 
-	public boolean update(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
-		return this.computerDAO.update(computer);
+	public void update(Computer computer) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
+		 this.computerDAO.update(computer);
 	}
 
-	public boolean delete(Computer computer) throws InvalidDateValueException, InvalidDateChronology {
+	public boolean delete(Computer computer) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
 		return this.computerDAO.delete(computer);
 	}
 
@@ -60,7 +60,7 @@ public class ComputerService {
 		return computerDtoList;
 	}
 
-	public int getNbOfComputer() {
+	public int getNbOfComputer() throws SQLException {
 		int nbOfComputer = computerDAO.getNbOfComputer();
 		return nbOfComputer;
 

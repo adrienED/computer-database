@@ -1,8 +1,5 @@
 package persistence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,14 +11,13 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
-import model.Company;
+import mapper.ComputerMapper;
 import model.Computer;
 
 @Component("ComputerDAO")
@@ -29,7 +25,10 @@ public class ComputerDAO {
 
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
-
+	
+	
+	@Autowired
+	ComputerMapper computerMapper;
 	
 	@Autowired
 	DataSource mysqDataSource;
@@ -37,6 +36,7 @@ public class ComputerDAO {
 
 
 	public ComputerDAO() {
+	
 	}
 
 	private static final String SQL_FIND_ALL = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.id";
@@ -59,31 +59,7 @@ public class ComputerDAO {
 	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name LIMIT ? OFFSET ?";
 	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name DESC LIMIT ? OFFSET ?";
 
-	public Computer populate(ResultSet resultSet) throws InvalidDateChronology {
-		Computer.Builder builder = new Computer.Builder();
-		try {
-			builder.withId(resultSet.getLong("id"));
 
-			builder.withName(resultSet.getString("name"));
-			if (resultSet.getDate("introduced") != null) {
-				builder.withIntroduced(resultSet.getDate("introduced").toLocalDate());
-			}
-			if (resultSet.getDate("discontinued") != null) {
-				builder.withDiscontinued(resultSet.getDate("discontinued").toLocalDate());
-			}
-
-			builder.withCompanyID(resultSet.getLong("company_id"));
-
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL ComputerPopulate", ex);
-		}
-		Computer computer = builder.build();
-		return computer;
-	}
-
-	public List<Computer> getAll() throws InvalidDateChronology {
-		return null;
-	}
 
 	public long create(Computer computer) throws SQLException {
 		Long lastInsertedId = 1L;
@@ -97,124 +73,87 @@ public class ComputerDAO {
 		return lastInsertedId;
 	}
 
-	public boolean delete(Computer computer) throws SQLException {
+	public boolean delete(Computer computer) throws SQLException, ComputerNotFoundException {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
-		jdbcTemplate.update(SQL_DELETE, new Object[] {computer.getId(),
-														});
-		logger.info("computer effacer");
+		
+		int id =jdbcTemplate.update(SQL_DELETE, new Object[] {computer.getId(),Integer.class});
+		
+		logger.info("computer id ="+id+"delete");
+		
+		
 		return true;
 	}
 
-	public void update(Computer computer) throws SQLException {
+	public void update(Computer computer) throws SQLException, ComputerNotFoundException {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
-		jdbcTemplate.update(SQL_UPDATE, new Object[] {computer.getName(),
+		int nbOfRowAffected = jdbcTemplate.update(SQL_UPDATE, new Object[] {computer.getName(),
 														computer.getIntroduced(),
 														computer.getDiscontinued(),
 														computer.getCompanyID(),
 														computer.getId()});
-	
+		
+		if(nbOfRowAffected==0)
+			throw new ComputerNotFoundException(computer.getId());
 	}
 
-	public Computer findById(long id)  {
+	public Computer findById(long id) throws ComputerNotFoundException  {
 
-		
 		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
-		
-		Map row=
-		vJdbcTemplate.queryForMap(SQL_FIND_BY_ID, new Object[] {id} );
-		
-		Computer computer = new Computer.Builder()
-				.withId((long)row.get("id"))
-				.withName((String)(row.get("name")))
-				.withIntroduced( LocalDate.parse( row.get("introduced")))
-				.withDiscontinued( LocalDate.parse( row.get("discontinued")))
-				.withCompanyID((long)row.get("company_id"))
-		.build();
-		System.out.println(computer);
-		
+		Computer computer ;
+		try {
+		computer = 
+		vJdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[] {id},computerMapper );
+		}
+		catch (EmptyResultDataAccessException e) {
+			throw new ComputerNotFoundException(id);
+		}
 		
 		return computer;
 	}
-		
-		
-		
-
-
 
 	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
-		List<Computer> computers = new ArrayList<Computer>();
-	
-			 
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
-			
-			List<Map<String, Object>> rows = jdbcTemplate.queryForList(SQL_FIND_ALL_PAGINED,new Object[] {limit,offset});
-			for (Map row : rows) {
-				Computer computer = new Computer.Builder()
-						.withId((long)row.get("id"))
-						.withName((String)(row.get("name")))
-						.withIntroduced(LocalDate.parse((CharSequence) (row.get("introduced"))))
-						.withDiscontinued(LocalDate.parse((CharSequence) (row.get("discontinued"))))
-						.withCompanyID((long)row.get("company_id"))
-				.build();
-						
-						computers.add(computer);
-			}
-
-
-		return computers;
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		return jdbcTemplate.query(SQL_FIND_ALL, new ComputerMapper());
 	}
-
+	
+	
 	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter) throws InvalidDateChronology {
 		List<Computer> computers = new ArrayList<Computer>();
-		List<Map<String, Object>> rows;
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
-		rows = jdbcTemplate.queryForList(SQL_FIND_ALL,new Object[] {limit,offset});
 
 			switch (orderByParameter) {
 			case "name":
-			 rows = jdbcTemplate.queryForList(SQL_FIND_ALL,new Object[] {limit,offset});
+			 computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_NAME,new Object[] {limit,offset},computerMapper);
 				break;
 			case "nameDESC":
-				 rows = jdbcTemplate.queryForList(SQL_FIND_ALL_ORDERED_BY_NAME_DESC,new Object[] {limit,offset});
+				 computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_NAME_DESC,new Object[] {limit,offset},computerMapper);
 				break;
 
 			case "introduced":
-				 rows = jdbcTemplate.queryForList(SQL_FIND_ALL_ORDERED_BY_INTRODUCED,new Object[] {limit,offset});
+				 computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_INTRODUCED,new Object[] {limit,offset},computerMapper);
 				
 				break;
 
 			case "introducedDESC":
-				 rows = jdbcTemplate.queryForList(SQL_FIND_ALL_ORDERED_BY_INTRODUCED_DESC,new Object[] {limit,offset});
+				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_INTRODUCED_DESC,new Object[] {limit,offset},computerMapper);
 				
 				break;
 			case "discontinued":
-				//statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED);
+				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED,new Object[] {limit,offset},computerMapper);
 				break;
 
 			case "discontinuedDESC":
-			//	statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED_DESC);
+				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED_DESC,new Object[] {limit,offset},computerMapper);
 				break;
 			case "companyDESC":
-				//statement = connection.prepareStatement(SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC);
+				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC,new Object[] {limit,offset},computerMapper);
 				break;
 			case "id":
-				//statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
+				computers = jdbcTemplate.query(SQL_FIND_ALL_PAGINED,new Object[] {limit,offset},computerMapper);
+
 				break;
 			default:
 				
-			}
-				
-			for (Map row : rows) {
-				Computer computer = new Computer.Builder()
-						.withId((long)row.get("id"))
-						.withName((String)(row.get("name")))
-						.withIntroduced(LocalDate.parse((CharSequence) (row.get("introduced"))))
-						.withDiscontinued(LocalDate.parse((CharSequence) (row.get("discontinued"))))
-						.withCompanyID((long)row.get("company_id"))
-				.build();
-						
-						computers.add(computer);
-
 			}
 			
 			return computers;
@@ -223,23 +162,10 @@ public class ComputerDAO {
 	public List<Computer> getSearchComputer(String search) throws InvalidDateChronology {
 		List<Computer> computers = new ArrayList<Computer>();
 		String searchQuery = "%" + search + "%";				
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
 		
-		List<Map<String, Object>> rows = new JdbcTemplate(mysqDataSource).queryForList(SQL_SEARCH_COMPUTER,new Object[] {searchQuery,searchQuery});
-		for (Map row : rows) {
-			Computer computer = new Computer.Builder()
-					.withId((long)row.get("id"))
-					.withName((String)(row.get("name")))
-					.withIntroduced(LocalDate.parse((CharSequence) (row.get("introduced"))))
-					.withDiscontinued(LocalDate.parse((CharSequence) (row.get("discontinued"))))
-					.withCompanyID((long)row.get("company_id"))
-			.build();
-					
-					computers.add(computer);
-					
-					
-					
+		computers = jdbcTemplate.query(SQL_SEARCH_COMPUTER,new Object[] {searchQuery,searchQuery},computerMapper);
 
-		}
 		return computers;
 	}
 
