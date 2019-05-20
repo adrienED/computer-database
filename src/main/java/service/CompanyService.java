@@ -1,12 +1,9 @@
 package service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import dto.CompanyDTO;
 import mapper.CompanyMapper;
 import model.Company;
 import persistence.CompanyDAO;
@@ -14,21 +11,19 @@ import persistence.CompanyDAO;
 @Component("CompanyService")
 public class CompanyService {
 
-	@Autowired
-	CompanyMapper companyMapper;
-	@Autowired
-	CompanyDAO companyDAO;
+	protected CompanyMapper companyMapper;
+	protected CompanyDAO companyDAO;
 
-	public CompanyService() {
+	public CompanyService(CompanyMapper companyMapper, CompanyDAO companyDAO) {
+		this.companyMapper = companyMapper;
+		this.companyDAO=companyDAO;
 	}
 
-	public List<CompanyDTO> getAll(int limit, int offset) {
+	public List<Company> getAll(int limit, int offset) {
 
 		List<Company> companyList = companyDAO.getAll(limit, offset);
-		List<CompanyDTO> companyDtoList = companyList.stream().map(s -> companyMapper.modelToDto(s))
-				.collect(Collectors.toList());
 
-		return companyDtoList;
+		return companyList;
 	}
 
 	public Company getNameById(long id) {

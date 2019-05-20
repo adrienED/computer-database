@@ -14,28 +14,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
 import mapper.ComputerMapper;
 import model.Computer;
 
-@Component("ComputerDAO")
+@Repository("ComputerDAO")
 public class ComputerDAO {
 
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
+	protected ComputerMapper computerMapper;
 	
-	
-	@Autowired
-	ComputerMapper computerMapper;
-	
-	@Autowired
-	DataSource mysqDataSource;
+
+	protected DataSource dataSource;
 	
 
 
-	public ComputerDAO() {
+	public ComputerDAO(ComputerMapper computerMapper, DataSource dataSource) {
+		this.computerMapper = computerMapper;
+		this.dataSource = dataSource;	
 	
 	}
 
@@ -65,7 +65,7 @@ public class ComputerDAO {
 		Long lastInsertedId = 1L;
 		
 		
-		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
 		vJdbcTemplate.update(SQL_CREATE, new Object[] {computer.getName(),
 														computer.getIntroduced(),
 														computer.getDiscontinued(),
@@ -74,7 +74,7 @@ public class ComputerDAO {
 	}
 
 	public boolean delete(Computer computer) throws SQLException, ComputerNotFoundException {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		int id =jdbcTemplate.update(SQL_DELETE, new Object[] {computer.getId(),Integer.class});
 		
@@ -85,7 +85,7 @@ public class ComputerDAO {
 	}
 
 	public void update(Computer computer) throws SQLException, ComputerNotFoundException {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		int nbOfRowAffected = jdbcTemplate.update(SQL_UPDATE, new Object[] {computer.getName(),
 														computer.getIntroduced(),
 														computer.getDiscontinued(),
@@ -98,7 +98,7 @@ public class ComputerDAO {
 
 	public Computer findById(long id) throws ComputerNotFoundException  {
 
-		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
 		Computer computer ;
 		try {
 		computer = 
@@ -119,7 +119,7 @@ public class ComputerDAO {
 	
 	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter) throws InvalidDateChronology {
 		List<Computer> computers = new ArrayList<Computer>();
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
 			switch (orderByParameter) {
 			case "name":
@@ -162,7 +162,7 @@ public class ComputerDAO {
 	public List<Computer> getSearchComputer(String search) throws InvalidDateChronology {
 		List<Computer> computers = new ArrayList<Computer>();
 		String searchQuery = "%" + search + "%";				
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
 		computers = jdbcTemplate.query(SQL_SEARCH_COMPUTER,new Object[] {searchQuery,searchQuery},computerMapper);
 
@@ -171,7 +171,7 @@ public class ComputerDAO {
 
 	public int getNbOfComputer() throws SQLException {
 		int nbOfComputer = 0;
-		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
 		nbOfComputer = vJdbcTemplate.queryForObject(SQL_COUNT_ALL, Integer.class);
 		return nbOfComputer;
 	}

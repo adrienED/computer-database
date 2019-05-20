@@ -19,13 +19,16 @@ import persistence.ComputerDAO;
 @Component("ComputerService")
 public class ComputerService {
 
-	public ComputerService() {
+	public ComputerService(ComputerMapper computerMapper, ComputerDAO computerDAO) {
+		this.computerDAO = computerDAO;
+		this.computerMapper = computerMapper;
+
 	}
 
-	@Autowired
-	ComputerMapper computerMapper;
-	@Autowired
-	ComputerDAO computerDAO;
+
+	protected ComputerMapper computerMapper;
+
+	protected ComputerDAO computerDAO;
 
 	public long create(Computer computer) throws InvalidDateValueException, InvalidDateChronology, SQLException {
 		return this.computerDAO.create(computer);
@@ -39,25 +42,23 @@ public class ComputerService {
 		return this.computerDAO.delete(computer);
 	}
 
-	public ComputerDTO findById(String id) throws NotFoundException, InvalidDateChronology, ComputerNotFoundException {
-		return this.computerMapper.modelToDto(this.computerDAO.findById(this.computerMapper.idToInt(id)));
+	public Computer findById(String id) throws NotFoundException, InvalidDateChronology, ComputerNotFoundException {
+		return this.computerDAO.findById(this.computerMapper.idToInt(id));
 	}
 
-	public List<ComputerDTO> getAll(int limit, int offset) throws InvalidDateChronology {
+	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
 
 		List<Computer> computerList = computerDAO.getAll(limit, offset);
-		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream()
-				.map(s -> computerMapper.modelToDto(s)).collect(Collectors.toList());
-		return computerDtoList;
+
+		return computerList;
 	}
 
-	public List<ComputerDTO> getAllOrderedBy(int limit, int offset, String orderByParameter)
+	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter)
 			throws InvalidDateChronology {
 
 		List<Computer> computerList = computerDAO.getAllOrderedBy(limit, offset, orderByParameter);
-		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream()
-				.map(s -> computerMapper.modelToDto(s)).collect(Collectors.toList());
-		return computerDtoList;
+
+		return computerList;
 	}
 
 	public int getNbOfComputer() throws SQLException {
@@ -66,14 +67,12 @@ public class ComputerService {
 
 	}
 
-	public List<ComputerDTO> search(String keyword) throws InvalidDateChronology {
+	public List<Computer> search(String keyword) throws InvalidDateChronology {
 
 		List<Computer> computerList;
 		computerList = computerDAO.getSearchComputer(keyword);
-		List<ComputerDTO> computerDtoList = (List<ComputerDTO>) computerList.stream()
-				.map(s -> computerMapper.modelToDto(s)).collect(Collectors.toList());
-
-		return computerDtoList;
+		
+		return computerList;
 
 	}
 }

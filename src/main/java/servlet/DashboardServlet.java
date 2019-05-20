@@ -1,12 +1,12 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,15 +15,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import config.AppConfig;
-import dto.ComputerDTO;
 import exception.InvalidDateChronology;
+import model.Computer;
 import persistence.CompanyDAO;
 import service.ComputerService;
 
-@WebServlet("/dashboard")
-public class DashboardServlet extends HttpServlet {
+@EnableWebMvc
+@Service("/dashboard")
+public class DashboardServlet extends HttpServlet  {
 	private static final long serialVersionUID = 1L;
 
 	static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
@@ -45,7 +48,7 @@ public class DashboardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		List<ComputerDTO> listComputer = new ArrayList<ComputerDTO>();
+		List<Computer> listComputer = new ArrayList<Computer>();
 		int nbOfComputer = 10;
 
 		if (request.getParameter("page") != null)
@@ -73,7 +76,12 @@ public class DashboardServlet extends HttpServlet {
 			if (request.getParameter("OrderBy") != null)
 				orderParameter = request.getParameter("OrderBy");
 
-			nbOfComputer = computerService.getNbOfComputer();
+			try {
+				nbOfComputer = computerService.getNbOfComputer();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			try {
 				listComputer = computerService.getAllOrderedBy(nbOfComputerByPage, page = page * 10 - 10,

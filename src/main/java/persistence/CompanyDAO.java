@@ -23,10 +23,11 @@ public class CompanyDAO {
 
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
-	@Autowired
-	DataSource mysqDataSource;
+	
+	protected DataSource dataSource;
 
-	public CompanyDAO() {
+	public CompanyDAO(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	private static final String SQL_FIND_ALL = "SELECT id, name FROM company";
@@ -50,28 +51,28 @@ public class CompanyDAO {
 
 	public List<Company> getAll() {
 		List<Company> companies = new ArrayList<Company>();
-		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
 		companies = vJdbcTemplate.query(SQL_FIND_ALL, new BeanPropertyRowMapper<Company>(Company.class));
 
 		return companies;
 	}
 
 	public Company findById(long id) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		Company company = (Company) jdbcTemplate.queryForObject(SQL_FIND_WITH_ID, new Object[] { id },
 				new BeanPropertyRowMapper<Company>(Company.class));
 		return company;
 	}
 
 	public long findByName(String name) {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		long id = (long) jdbcTemplate.queryForObject(SQL_FIND_WITH_NAME, new Object[] { name }, Long.class);
 		return id;
 	}
 
 	public List<Company> getAll(int limit, int offset) {
 		List<Company> companies = new ArrayList<Company>();
-		JdbcTemplate vJdbcTemplate = new JdbcTemplate(mysqDataSource);
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
 		companies = vJdbcTemplate.query(SQL_FIND_ALL_PAGINED, new Object[] { limit, offset },
 				new BeanPropertyRowMapper<Company>(Company.class));
 
@@ -81,7 +82,7 @@ public class CompanyDAO {
 	@Transactional("TransactionManager")
 	public void deleteCompanyById(long idL) {
 		
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(mysqDataSource);
+			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 			jdbcTemplate.update(SQL_DELETE_COMPUTER_BY_ID, new Object[] {idL});
 			jdbcTemplate.update(SQL_DELETE_COMPANY_BY_ID, new Object[] {idL});
 			logger.info("company effacer");
