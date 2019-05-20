@@ -1,4 +1,4 @@
-package servlet;
+package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -24,8 +24,7 @@ import model.Computer;
 import persistence.CompanyDAO;
 import service.ComputerService;
 
-@EnableWebMvc
-@Service("/dashboard")
+
 public class DashboardServlet extends HttpServlet  {
 	private static final long serialVersionUID = 1L;
 

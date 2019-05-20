@@ -1,19 +1,15 @@
 package persistence;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import exception.ComputerNotFoundException;
@@ -113,7 +109,9 @@ public class ComputerDAO {
 
 	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
-		return jdbcTemplate.query(SQL_FIND_ALL, new ComputerMapper());
+		List<Computer> computers = new ArrayList<Computer>();
+		 computers = jdbcTemplate.query(SQL_FIND_ALL_PAGINED,new Object[] {limit,offset},computerMapper);
+		 return computers;
 	}
 	
 	

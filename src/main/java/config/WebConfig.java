@@ -6,15 +6,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
-import mapper.CompanyMapper;
-import mapper.ComputerMapper;
-import persistence.CompanyDAO;
-import persistence.ComputerDAO;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@ComponentScan (basePackageClasses = {CompanyMapper.class, ComputerMapper.class, CompanyDAO.class, ComputerDAO.class})
-public class AppConfig {
+@EnableWebMvc
+@ComponentScan (basePackages = {"mapper", "persistence","service","controller"})
+public class WebConfig implements WebMvcConfigurer{
 	
 	 @Bean
 	    public DataSource mysqlDataSource() {
@@ -26,5 +26,14 @@ public class AppConfig {
 	 
 	        return dataSource;
 	    }
+	  
+	    @Bean
+	    public ViewResolver viewResolver() {
+	        InternalResourceViewResolver bean = 
+	          new InternalResourceViewResolver();
+	        bean.setPrefix("/WEB-INF/view/");
+	        bean.setSuffix(".jsp");
+	        return bean;
+	    }
+	}
 
-}

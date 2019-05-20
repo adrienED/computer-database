@@ -1,4 +1,4 @@
-package servlet;
+package controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -28,7 +28,7 @@ import service.CompanyService;
 import service.ComputerService;
 import validator.ComputerValidator;
 
-@WebServlet("/addComputer")
+
 public class addComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

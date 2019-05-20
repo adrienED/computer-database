@@ -1,4 +1,4 @@
-package servlet;
+package controller;
 
 import java.io.IOException;
 import java.util.stream.IntStream;
@@ -25,7 +25,6 @@ import model.Computer;
 import persistence.CompanyDAO;
 import service.ComputerService;
 
-@WebServlet("/deleteComputer")
 public class DeleteComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
