@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import mapper.CompanyMapper;
 import model.Company;
 import model.Company.Builder;
 
@@ -23,11 +24,13 @@ public class CompanyDAO {
 
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
+	@Autowired
+	CompanyMapper companyMapper;
 	
-	protected DataSource dataSource;
+	@Autowired
+	DataSource dataSource;
 
-	public CompanyDAO(DataSource dataSource) {
-		this.dataSource = dataSource;
+	public CompanyDAO() {
 	}
 
 	private static final String SQL_FIND_ALL = "SELECT id, name FROM company";
@@ -58,9 +61,12 @@ public class CompanyDAO {
 	}
 
 	public Company findById(long id) {
+		Company company;
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		Company company = (Company) jdbcTemplate.queryForObject(SQL_FIND_WITH_ID, new Object[] { id },
-				new BeanPropertyRowMapper<Company>(Company.class));
+		if (id == 0) company = new Company.Builder().withParameter(0, null).build();
+		else
+		company = (Company) jdbcTemplate.queryForObject(SQL_FIND_WITH_ID, new Object[] { id },
+				companyMapper);
 		return company;
 	}
 

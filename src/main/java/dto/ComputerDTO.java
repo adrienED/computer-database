@@ -5,8 +5,8 @@ import java.time.LocalDate;
 public class ComputerDTO {
 	private String id;
 	private String name;
-	private LocalDate introduced;
-	private LocalDate discontinued;
+	private String  introduced;
+	private String discontinued;
 	private String companyName;
 
 	public String getId() {
@@ -24,20 +24,23 @@ public class ComputerDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
 
-	public LocalDate getIntroduced() {
+
+	public String getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(LocalDate introduced) {
+	public void setIntroduced(String introduced) {
 		this.introduced = introduced;
 	}
 
-	public LocalDate getDiscontinued() {
+	public String getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(LocalDate discontinued) {
+	public void setDiscontinued(String discontinued) {
 		this.discontinued = discontinued;
 	}
 
@@ -103,5 +106,6 @@ public class ComputerDTO {
 			return false;
 		return true;
 	}
+
 
 }

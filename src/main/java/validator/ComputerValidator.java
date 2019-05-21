@@ -1,16 +1,19 @@
 package validator;
 
 import java.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 
+@Component
 public class ComputerValidator {
 
 	public ComputerValidator() {}
-
+/*
 	Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 
 	public boolean validate(ComputerDTO computerDTO) throws InvalidDateChronology {
@@ -74,4 +77,5 @@ public class ComputerValidator {
 			
 		return validateDateOrder;
 	}
+	*/
 }

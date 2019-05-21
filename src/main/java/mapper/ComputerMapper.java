@@ -2,9 +2,11 @@ package mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +21,10 @@ public class ComputerMapper implements RowMapper<Computer> {
 
 	private Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 
-	
-	protected CompanyDAO companyDAO;
+	@Autowired
+	CompanyDAO companyDAO;
 
 	public ComputerMapper(CompanyDAO companyDAO) {
-		this.companyDAO = companyDAO;
 	}
 
 	@Override
@@ -62,13 +63,12 @@ public class ComputerMapper implements RowMapper<Computer> {
 			if (computerDTO.getIntroduced() == null)
 				builder.withIntroduced(null);
 			else
-				builder.withIntroduced(computerDTO.getIntroduced());
+				builder.withIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
 
 			if (computerDTO.getDiscontinued() == null)
 				builder.withDiscontinued(null);
 			else
-				builder.withDiscontinued(computerDTO.getDiscontinued());
-
+				builder.withDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
 			builder.withCompanyID(companyDAO.findByName(computerDTO.getCompanyName()));
 			logger.info(computerDTO.toString());
 		} catch (NullPointerException e) {
@@ -82,23 +82,26 @@ public class ComputerMapper implements RowMapper<Computer> {
 	public ComputerDTO modelToDto(Computer computer) {
 
 		ComputerDTO computerDTO = new ComputerDTO();
+		if (computer.getId() !=0)
 		computerDTO.setId(Long.toString(computer.getId()));
+		if (computer.getName() !=null )
 		computerDTO.setName(computer.getName());
 
 		if (computer.getIntroduced() != null)
-			computerDTO.setIntroduced(computer.getIntroduced());
+			computerDTO.setIntroduced(computer.getIntroduced().toString());
 
 		if (computer.getDiscontinued() != null)
-			computerDTO.setDiscontinued(computer.getDiscontinued());
-
+			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
+		
+		System.out.println(computer.getCompanyID());
 		computerDTO.setCompanyName(companyDAO.findById(computer.getCompanyID()).getName());
 
 		return computerDTO;
 	}
 
-	public long idToInt(String id) {
+	public long idToLong(String id) {
 
-		return Integer.parseInt(id);
+		return Long.parseLong(id);
 	}
 
 }

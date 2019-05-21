@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,17 +23,15 @@ public class ComputerDAO {
 
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
-	protected ComputerMapper computerMapper;
+	@Autowired
+	ComputerMapper computerMapper;
+	
+	@Autowired
+	DataSource dataSource;
 	
 
-	protected DataSource dataSource;
-	
 
-
-	public ComputerDAO(ComputerMapper computerMapper, DataSource dataSource) {
-		this.computerMapper = computerMapper;
-		this.dataSource = dataSource;	
-	
+	public ComputerDAO() {	
 	}
 
 	private static final String SQL_FIND_ALL = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.id";
@@ -69,12 +68,12 @@ public class ComputerDAO {
 		return lastInsertedId;
 	}
 
-	public boolean delete(Computer computer) throws SQLException, ComputerNotFoundException {
+	public boolean delete(long idDelete ) throws SQLException, ComputerNotFoundException {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		
-		int id =jdbcTemplate.update(SQL_DELETE, new Object[] {computer.getId(),Integer.class});
+		jdbcTemplate.update(SQL_DELETE, new Object[] {idDelete});
 		
-		logger.info("computer id ="+id+"delete");
+		logger.info("computer delete");
 		
 		
 		return true;
@@ -143,6 +142,9 @@ public class ComputerDAO {
 			case "discontinuedDESC":
 				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED_DESC,new Object[] {limit,offset},computerMapper);
 				break;
+			case "company"	:		
+				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_COMPANY,new Object[] {limit,offset},computerMapper);
+				break;
 			case "companyDESC":
 				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC,new Object[] {limit,offset},computerMapper);
 				break;
@@ -151,6 +153,8 @@ public class ComputerDAO {
 
 				break;
 			default:
+				computers = jdbcTemplate.query(SQL_FIND_ALL_PAGINED,new Object[] {limit,offset},computerMapper);
+
 				
 			}
 			

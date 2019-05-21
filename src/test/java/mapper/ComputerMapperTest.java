@@ -1,24 +1,24 @@
 package mapper;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import java.time.LocalDate;
-import org.junit.Before;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import config.AppConfig;
+import config.WebConfig;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import model.Computer;
-import model.Computer.Builder;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AppConfig.class)
+@ContextConfiguration(classes = WebConfig.class)
 public class ComputerMapperTest {
 
 	@Autowired
@@ -83,8 +83,8 @@ public class ComputerMapperTest {
 
 			computerDTO.setId("23");
 			computerDTO.setName("test");
-			computerDTO.setIntroduced(introDate);
-			computerDTO.setDiscontinued(disconDate);
+			computerDTO.setIntroduced("2016-12-12");
+			computerDTO.setDiscontinued("2017-12-12");
 			computerDTO.setCompanyName("Apple Inc.");
 			
 			
@@ -119,8 +119,8 @@ public class ComputerMapperTest {
 
 		computerDTO.setId("23");
 		computerDTO.setName("test");
-		computerDTO.setIntroduced(introDate);
-		computerDTO.setDiscontinued(disconDate);
+		computerDTO.setIntroduced("2016-12-12");
+		computerDTO.setDiscontinued("2017-12-12");
 		computerDTO.setCompanyName("Apple Inc.");
 
 		assertEquals(computerDTO.getId(), computerMapper.modelToDto(computer).getId());

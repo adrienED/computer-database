@@ -1,15 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
-<link href="static/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="static/css/main.css" rel="stylesheet" media="screen">
-<link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css"/>
+
+<spring:url value="/static/css/font-awesome.css" var="fontCss" />
+<spring:url value="/static/css/main.css" var="mainCss" />
+<spring:url value="/static/css/bootstrap.min.css" var="bootCss" />
+
+<link href="${fontCss}" rel="stylesheet" />
+<link href="${mainCss}" rel="stylesheet" />
+<link href="${bootCss}" rel="stylesheet" />
+
 </head>
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">

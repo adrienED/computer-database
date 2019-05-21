@@ -1,21 +1,20 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.stream.IntStream;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import config.AppConfig;
-import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
@@ -25,13 +24,16 @@ import model.Computer;
 import persistence.CompanyDAO;
 import service.ComputerService;
 
-public class DeleteComputer extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	static ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-	static ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
-	static CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
-	static ComputerMapper computerMapper = (ComputerMapper) ctx.getBean("ComputerMapper");
+@Controller
+@RequestMapping("/deleteComputer")
+public class DeleteComputer {
+	
+	@Autowired
+	ComputerService computerService;
+	@Autowired
+	CompanyDAO companyDAO;
+	@Autowired
+	ComputerMapper computerMapper;
 
 	static Logger logger = LoggerFactory.getLogger(DeleteComputer.class);
 
@@ -39,11 +41,7 @@ public class DeleteComputer extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-	}
-
+	@PostMapping
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -54,19 +52,12 @@ public class DeleteComputer extends HttpServlet {
 
 		IntStream.range(0, list.length).forEach(i -> {
 			try {
+				computerService.delete(computerMapper.idToLong(list[i]));
 
-				ComputerDTO computerDTOtoDelete = computerService.findById(list[i]);
-				Computer computer;
-				computer = computerMapper.dtoToModel(computerDTOtoDelete);
-				computerService.delete(computer);
-
-			} catch (InvalidDateValueException | NotFoundException | InvalidDateChronology
-					| ComputerNotFoundException e) {
+			} catch (InvalidDateValueException
+					| ComputerNotFoundException | SQLException | InvalidDateChronology e) {
 				logger.error("Error delete computer by id", e);
 			}
 		});
-
-		getServletContext().getRequestDispatcher("/dashboard").forward(request, response);
-
 	}
 }

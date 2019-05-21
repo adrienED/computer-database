@@ -38,12 +38,12 @@ public class ComputerService {
 		 this.computerDAO.update(computer);
 	}
 
-	public boolean delete(Computer computer) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
-		return this.computerDAO.delete(computer);
+	public boolean delete(long id) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
+		return this.computerDAO.delete(id);
 	}
 
 	public Computer findById(String id) throws NotFoundException, InvalidDateChronology, ComputerNotFoundException {
-		return this.computerDAO.findById(this.computerMapper.idToInt(id));
+		return this.computerDAO.findById(this.computerMapper.idToLong(id));
 	}
 
 	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {

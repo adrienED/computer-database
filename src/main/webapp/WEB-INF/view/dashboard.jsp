@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -7,15 +9,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="static/css/bootstrap.min.css" rel="stylesheet"
-	media="screen">
-<link href="static/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="static/css/main.css" rel="stylesheet" media="screen">
+
+	<spring:url value="/static/css/font-awesome.css" var="fontCss" />
+	<spring:url value="/static/css/main.css" var="mainCss" />
+	<spring:url value="/static/css/bootstrap.min.css" var="bootCss" />
+	
+	<link href="${fontCss}" rel="stylesheet" />
+	<link href="${mainCss}" rel="stylesheet" />
+	<link href="${bootCss}" rel="stylesheet" />
+
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="/dashboard"> Application -
+			<a class="navbar-brand" href="dashboard"> Application -
 				Computer Database </a>
 		</div>
 	</header>
@@ -25,7 +32,7 @@
 			<h1 id="homeTitle">${nbOfComputer} Computer found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="DashboardServlet" method="GET"
+					<form id="searchForm" action="dashboard" method="GET"
 						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
@@ -35,7 +42,7 @@
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="/addComputer">Add
+					<a class="btn btn-success" id="addComputer" href="addComputer">Add
 						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
@@ -135,9 +142,15 @@
 			</div>
 		</div>
 	</footer>
-	<script src="static/js/jquery.min.js"></script>
-	<script src="static/js/bootstrap.min.js"></script>
-	<script src="static/js/dashboard.js"></script>
+	
+	
+	<spring:url value="/static/js/jquery.min.js" var="jqueryJs" />
+	<spring:url value="/static/js/bootstrap.min.js" var="bootJs" />
+	<spring:url value="static/js/dashboard.js" var="dashboardJs" />
+
+	<script src="${jqueryJs}"></script>
+	<script src="${bootJs}"></script>
+	<script src="${dashboardJs}"></script>
 
 </body>
 </html>

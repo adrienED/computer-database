@@ -4,50 +4,60 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-import config.AppConfig;
+import dto.ComputerDTO;
+import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
-import model.Computer;
+import exception.InvalidDateValueException;
+import mapper.ComputerMapper;
 import persistence.CompanyDAO;
 import service.ComputerService;
 
-
-public class DashboardServlet extends HttpServlet  {
-	private static final long serialVersionUID = 1L;
+@Controller
+@RequestMapping(value = "/dashboard")
+public class DashboardServlet {
 
 	static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 
-	static ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	@Autowired
+	ComputerService computerService;
 
-	static ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+	@Autowired
+	CompanyDAO companyDAO;
+	
+	@Autowired
+	ComputerMapper computerMapper;
 
-	static CompanyDAO companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
-
-	private int nbOfComputerByPage = 10;
-	private int page = 1;
-	private String orderParameter = "id";
-	private int offset = 0;
+	
 
 	public DashboardServlet() {
 	}
+	
+	@GetMapping
+	public ModelAndView doGet(HttpServletRequest request, HttpServletResponse response) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+		
+		int nbOfComputerByPage = 10;
+		int page = 1;
+		String orderParameter = "id";
+		int offset = 0;
+		
+        ModelAndView mv = new ModelAndView();
 
-		List<Computer> listComputer = new ArrayList<Computer>();
+		List<ComputerDTO> listComputerDTO = new ArrayList<>();
 		int nbOfComputer = 10;
 
 		if (request.getParameter("page") != null)
@@ -59,11 +69,11 @@ public class DashboardServlet extends HttpServlet  {
 		if (request.getParameter("search") != null) {
 
 			try {
+				listComputerDTO = this.computerService.search(request.getParameter("search")).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
+				
+				mv.getModel().put("ListComputer", listComputerDTO);
 
-				listComputer = computerService.search(request.getParameter("search"));
-				request.setAttribute("ListComputer", listComputer);
-
-				nbOfComputer = listComputer.size();
+				nbOfComputer = listComputerDTO.size();
 			} catch (InvalidDateChronology e) {
 				logger.error("erreur create dashboard");
 			}
@@ -83,25 +93,28 @@ public class DashboardServlet extends HttpServlet  {
 			}
 
 			try {
-				listComputer = computerService.getAllOrderedBy(nbOfComputerByPage, page = page * 10 - 10,
-						orderParameter);
+				listComputerDTO = this.computerService.getAllOrderedBy(nbOfComputerByPage, page = page * 10 - 10,
+						orderParameter).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
+
 			} catch (InvalidDateChronology e) {
 				logger.error("Date invalid controller", e);
 			}
-			request.setAttribute("ListComputer", listComputer);
+			mv.getModel().put("ListComputer", listComputerDTO);
+			
+			
 
 		}
 
 		int lastPage = nbOfComputer / nbOfComputerByPage;
+		
+		mv.getModel().put("page", request.getParameter("page"));
+		mv.getModel().put("lastPage", lastPage);
+		mv.getModel().put("nbOfComputer", nbOfComputer);
+		mv.getModel().put("OrderBy", orderParameter);
 
-		request.setAttribute("page", request.getParameter("page"));
-		request.setAttribute("lastPage", lastPage);
-		request.setAttribute("nbOfComputer", nbOfComputer);
-		request.setAttribute("OrderBy", orderParameter);
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/dashboard.jsp");
-		dispatcher.forward(request, response);
-
+		
+		return mv;
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

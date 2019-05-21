@@ -18,7 +18,7 @@ import validator.ComputerValidator;
 
 public class test {
 
-	static ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+	static ApplicationContext ctx = new AnnotationConfigApplicationContext(WebConfig.class);
 
 	ComputerValidator computerValidator = (ComputerValidator) ctx.getBean("ComputerValidator");
 
@@ -31,7 +31,7 @@ public class test {
 	static CompanyMapper companyMapper = (CompanyMapper) ctx.getBean(CompanyMapper.class);
 
 
-	public static void main(String[] args) throws ComputerNotFoundException, InvalidDateChronology {
+	public static void main(String[] args) throws ComputerNotFoundException, InvalidDateChronology, SQLException {
 		System.out.println(companyDAO.getAll());
 
 		System.out.println(companyDAO.findById(13L));
@@ -62,13 +62,7 @@ public class test {
 
 		System.out.println(computerDAO.findById(25));
 
-		companyDAO.deleteCompanyById(37);
-
-		Company company;
-		company = new Company.Builder()
-				.withParameter(12L, "test")
-				.build();
+		computerDAO.delete(580);
 		
-		System.out.println(companyMapper.modelToDto(company));
 	}
 }

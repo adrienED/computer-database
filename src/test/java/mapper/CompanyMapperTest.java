@@ -1,42 +1,39 @@
 package mapper;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import config.AppConfig;
+import config.ConfigForTest;
 import dto.CompanyDTO;
 import model.Company;
 import persistence.CompanyDAO;
-import service.CompanyService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AppConfig.class)
+@ContextConfiguration(classes = ConfigForTest.class)
 
 public class CompanyMapperTest {
 	
+
+	
 	@Autowired
 	CompanyMapper companyMapper;
-
 	@Autowired
 	CompanyDAO companyDAO;
-	
-	
 	
 	CompanyDTO companyDTO = new CompanyDTO();
 	CompanyDTO companydto = new CompanyDTO();
 
 	public void setUp() throws Exception {
 	
+		
+		
 	}
 
 	@After
