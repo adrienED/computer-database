@@ -26,6 +26,7 @@ import model.Company;
 import model.Computer;
 import service.CompanyService;
 import service.ComputerService;
+import validator.ComputerValidator;
 
 @Controller
 @RequestMapping(value = "/addComputer")
@@ -40,6 +41,9 @@ public class addComputer  {
 	CompanyService companyService ;
 	@Autowired
 	ComputerService computerService;
+	
+	@Autowired
+	ComputerValidator computerValidator;
 
 
 	public addComputer() {
@@ -89,14 +93,16 @@ public class addComputer  {
 
 		computerDTO.setCompanyName(request.getParameter("companyName"));
 
-		System.out.println(computerDTO);
+
 
 		try {
-	
+			if (computerValidator.validate(computerDTO)) {
 				computer = computerMapper.dtoToModel(computerDTO);
 				System.out.println(computer);
 				long idCreate = computerService.create(computer);
 				logger.info("Ordinateur ajouter id = " + idCreate);
+			}
+			
 			
 		} catch (InvalidDateValueException | InvalidDateChronology | NumberFormatException | SQLException e) {
 			logger.error(e.getMessage());

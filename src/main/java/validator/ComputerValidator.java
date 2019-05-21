@@ -6,14 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 
-@Component
+@Component ("ComputerValidator")
 public class ComputerValidator {
 
 	public ComputerValidator() {}
-/*
+
 	Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 
 	public boolean validate(ComputerDTO computerDTO) throws InvalidDateChronology {
@@ -34,17 +36,17 @@ public class ComputerValidator {
 		else
 			validateNameCompany = false;
 
-		if (computerDTO.getIntroduced() != null)
+		if (computerDTO.getIntroduced() != "")
 			validateDateIntroduced = validateDate(computerDTO.getIntroduced());
 		else
 			validateDateIntroduced = true;
 
-		if (computerDTO.getDiscontinued() != null)
+		if (computerDTO.getDiscontinued() != "")
 			validateDateDiscontinued = validateDate(computerDTO.getDiscontinued());
 		else
 			validateDateDiscontinued = true;
 
-		if (computerDTO.getIntroduced() != null && computerDTO.getDiscontinued() != null)
+		if (computerDTO.getIntroduced() != "" && computerDTO.getDiscontinued() != "")
 			validateDateOrder = validateDateOrder(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
 		else
 			validateDateOrder = true;
@@ -60,22 +62,31 @@ public class ComputerValidator {
 
 	}
 
-	private boolean validateDate(LocalDate date) throws InvalidDateChronology {
+	private boolean validateDate(String date) throws InvalidDateChronology {
 		boolean validate = false;
-		
+		try {
 			LocalDate minDate = LocalDate.parse("1970-01-01");
-			if (date.isAfter(minDate))
+			LocalDate dateLocal = LocalDate.parse(date);
+			if (dateLocal.isAfter(minDate))
 				validate = true;
-		
+		}
+		catch (ParseException e) {
+			this.logger.error(" erreur parse input date ");
+		}
 		return validate;
 	}
 
-	private boolean validateDateOrder(LocalDate introduced, LocalDate discontinued) {
+	private boolean validateDateOrder(String introduced, String discontinued) {
 		boolean validateDateOrder=false;
-			if (introduced.isBefore(discontinued))
-				validateDateOrder = true;			
-			
+		try {
+			LocalDate dateLocalInt = LocalDate.parse(introduced);
+			LocalDate dateLocalDisc = LocalDate.parse(discontinued);
+			if (dateLocalInt.isBefore(dateLocalDisc))
+				validateDateOrder = true;
+		}
+		catch (ParseException e) {
+			this.logger.error(" erreur parse input date ");
+		}
 		return validateDateOrder;
 	}
-	*/
 }

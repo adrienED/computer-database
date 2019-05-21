@@ -121,6 +121,7 @@ public class ComputerDAO {
 			switch (orderByParameter) {
 			case "name":
 			 computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_NAME,new Object[] {limit,offset},computerMapper);
+			 System.out.println(computers);
 				break;
 			case "nameDESC":
 				 computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_NAME_DESC,new Object[] {limit,offset},computerMapper);

@@ -60,12 +60,12 @@ public class ComputerMapper implements RowMapper<Computer> {
 
 			builder.withName(computerDTO.getName());
 
-			if (computerDTO.getIntroduced() == null)
+			if (computerDTO.getIntroduced() == "")
 				builder.withIntroduced(null);
 			else
 				builder.withIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
 
-			if (computerDTO.getDiscontinued() == null)
+			if (computerDTO.getDiscontinued() == "")
 				builder.withDiscontinued(null);
 			else
 				builder.withDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
@@ -82,6 +82,8 @@ public class ComputerMapper implements RowMapper<Computer> {
 	public ComputerDTO modelToDto(Computer computer) {
 
 		ComputerDTO computerDTO = new ComputerDTO();
+		System.out.println(computer.getId());
+		
 		if (computer.getId() !=0)
 		computerDTO.setId(Long.toString(computer.getId()));
 		if (computer.getName() !=null )

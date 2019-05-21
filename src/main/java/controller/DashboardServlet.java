@@ -49,6 +49,8 @@ public class DashboardServlet {
 	@GetMapping
 	public ModelAndView doGet(HttpServletRequest request, HttpServletResponse response) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
 
+		for (int i = 623 ; i<=625 ; i++)
+		computerService.delete(i);
 		
 		int nbOfComputerByPage = 10;
 		int page = 1;
