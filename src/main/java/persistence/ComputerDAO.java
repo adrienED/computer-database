@@ -28,8 +28,6 @@ public class ComputerDAO {
 	
 	@Autowired
 	DataSource dataSource;
-	
-
 
 	public ComputerDAO() {	
 	}
@@ -53,8 +51,6 @@ public class ComputerDAO {
 
 	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name LIMIT ? OFFSET ?";
 	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name DESC LIMIT ? OFFSET ?";
-
-
 
 	public long create(Computer computer) throws SQLException {
 		Long lastInsertedId = 1L;

@@ -18,17 +18,14 @@ import persistence.ComputerDAO;
 
 @Component("ComputerService")
 public class ComputerService {
-
-	public ComputerService(ComputerMapper computerMapper, ComputerDAO computerDAO) {
-		this.computerDAO = computerDAO;
-		this.computerMapper = computerMapper;
-
+	
+	@Autowired
+	ComputerMapper computerMapper;
+	@Autowired
+	ComputerDAO computerDAO;
+	
+	public ComputerService() {
 	}
-
-
-	protected ComputerMapper computerMapper;
-
-	protected ComputerDAO computerDAO;
 
 	public long create(Computer computer) throws InvalidDateValueException, InvalidDateChronology, SQLException {
 		return this.computerDAO.create(computer);

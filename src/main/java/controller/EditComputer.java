@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,9 +22,11 @@ import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
+import exception.InvalidDateValueException;
 import exception.NotFoundException;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
+import model.Computer;
 import persistence.CompanyDAO;
 import service.CompanyService;
 import service.ComputerService;
@@ -30,7 +34,7 @@ import service.ComputerService;
 
 @Controller
 @RequestMapping(value = "/editComputer")
-public class EditComputerServlet {
+public class EditComputer{
 	
 	@Autowired
 	ComputerService computerService;
@@ -43,9 +47,9 @@ public class EditComputerServlet {
 	@Autowired
 	CompanyMapper companyMapper;
 	
-	static Logger logger = LoggerFactory.getLogger(EditComputerServlet.class);
+	static Logger logger = LoggerFactory.getLogger(EditComputer.class);
 
-	public EditComputerServlet() {
+	public EditComputer() {
 		super();
 	}
 
@@ -76,7 +80,7 @@ public class EditComputerServlet {
 		return mv;
 
 	}
-/*
+
 	@PostMapping
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -106,16 +110,19 @@ public class EditComputerServlet {
 			}
 		}
 		computerDTO.setCompanyName(request.getParameter("companyName"));
+		System.out.println(request.getParameter("companyName"));
+		System.out.println(computerDTO);
 
 		try {
 		
 				computer = computerMapper.dtoToModel(computerDTO);
+				System.out.println(computer);
 				computerService.update(computer);
 			
 		} catch (InvalidDateValueException | InvalidDateChronology | SQLException | ComputerNotFoundException e1) {
 			logger.error("Date invalid", e1);
 		}
 	}
-	*/
+	
 
 }

@@ -60,16 +60,21 @@ public class ComputerMapper implements RowMapper<Computer> {
 
 			builder.withName(computerDTO.getName());
 
-			if (computerDTO.getIntroduced() == "")
+			if (computerDTO.getIntroduced()==null || computerDTO.getIntroduced() =="")
 				builder.withIntroduced(null);
 			else
 				builder.withIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
 
-			if (computerDTO.getDiscontinued() == "")
+			if (computerDTO.getDiscontinued()==null || computerDTO.getDiscontinued()=="")
 				builder.withDiscontinued(null);
 			else
 				builder.withDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
-			builder.withCompanyID(companyDAO.findByName(computerDTO.getCompanyName()));
+			long id = companyDAO.findByName(computerDTO.getCompanyName());
+			if ( id == 0)
+			builder.withCompanyID(0);
+			else {
+				builder.withCompanyID(id);
+			}
 			logger.info(computerDTO.toString());
 		} catch (NullPointerException e) {
 			logger.error("null exception dtoToModel", e);

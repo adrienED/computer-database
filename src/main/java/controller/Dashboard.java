@@ -28,9 +28,9 @@ import service.ComputerService;
 
 @Controller
 @RequestMapping(value = "/dashboard")
-public class DashboardServlet {
+public class Dashboard {
 
-	static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
+	static Logger logger = LoggerFactory.getLogger(Dashboard.class);
 
 	@Autowired
 	ComputerService computerService;
@@ -41,9 +41,7 @@ public class DashboardServlet {
 	@Autowired
 	ComputerMapper computerMapper;
 
-	
-
-	public DashboardServlet() {
+	public Dashboard() {
 	}
 	
 	@GetMapping
@@ -90,7 +88,6 @@ public class DashboardServlet {
 			try {
 				nbOfComputer = computerService.getNbOfComputer();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
