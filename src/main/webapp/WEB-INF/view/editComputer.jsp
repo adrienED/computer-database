@@ -20,8 +20,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application - Computer
-				Database </a>
+			<a class="navbar-brand" href="dashboard"> <spring:message code="app.lang.subtitle" /> </a>
 		</div>
 	</header>
 	<section id="main">
@@ -30,35 +29,41 @@
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<div class="label label-default pull-right">id:
 						${computer.id}</div>
-					<h1>Edit Computer</h1>
+					<h1>
+						<spring:message code="app.lang.editComputer" />
+					</h1>
 
 					<form action="editComputer?id=${computer.id}" method="POST">
 						<input type="hidden" value="0" id="id" />
 						<!-- TODO: Change this value with the computer id -->
 						<fieldset>
 							<div class="form-group">
-								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control" id="computerName"
+								<label for="computerName"><spring:message
+										code="app.lang.computer" /></label> <input type="text"
+									class="form-control" id="computerName"
 									placeholder="Name computer " name="computerName"
 									value=${computer.name}>
 							</div>
 							<div class="form-group">
-								<label for="introduced">Introduced date</label> <input
-									type="date" class="form-control" id="introduced"
+								<label for="introduced"><spring:message
+										code="app.lang.introDate" /></label> <input type="date"
+									class="form-control" id="introduced"
 									placeholder="Introduced date" name="Introduced"
 									pattern="([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"
 									value=${computer.introduced} >
 							</div>
 							<div class="form-group">
-								<label for="discontinued">Discontinued date</label> <input
-									type="date" class="form-control" id="discontinued"
+								<label for="discontinued"><spring:message
+										code="app.lang.discDate" /></label> <input type="date"
+									class="form-control" id="discontinued"
 									placeholder="Discontinued date" name="Discontinued"
 									pattern="([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"
 									value=${computer.discontinued}>
 							</div>
 							<div class="form-group">
-								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId" name="companyName">
+								<label for="companyId"><spring:message
+										code="app.lang.company" /></label> <select class="form-control"
+									id="companyId" name="companyName">
 									<option selected="selected" value="${computer.companyName}">
 										<c:out value="${computer.companyName}">
 										</c:out></option>
@@ -72,8 +77,8 @@
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value="Edit" class="btn btn-primary">
-							or <a href="dashboard.html" class="btn btn-default">Cancel</a>
+							<input type="submit" value="<spring:message code="app.lang.edit" />" class="btn btn-primary">
+							or <a href="dashboard.html" class="btn btn-default"><spring:message code="app.lang.cancel" /></a>
 						</div>
 					</form>
 				</div>

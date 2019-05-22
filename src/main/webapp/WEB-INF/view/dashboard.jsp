@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Computer Database</title>
+<title><spring:message code="app.lang.title"/></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
@@ -22,29 +22,29 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="dashboard"> 
+				<spring:message code="app.lang.subtitle"/> </a>
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${nbOfComputer} Computer found</h1>
+			<h1 id="homeTitle">${nbOfComputer} <spring:message code="app.lang.computerFound"/> </h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="dashboard" method="GET"
 						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
+							class="form-control" placeholder=<spring:message code="app.lang.searchName"/> /> <input
+							type="submit" id="searchsubmit" value="<spring:message code="app.lang.filter"/>"
 							class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="addComputer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-						onclick="$.fn.toggleEditMode();">Edit</a>
+					<a class="btn btn-success" id="addComputer" href="addComputer"><spring:message code="app.lang.add"/>
+						<spring:message code="app.lang.computer"/></a> <a class="btn btn-default" id="editComputer" href="#"
+						onclick="$.fn.toggleEditMode();"><spring:message code="app.lang.edit"/></a>
 				</div>
 			</div>
 		</div>
@@ -67,20 +67,20 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>Computer Name
+						<th><spring:message code="app.lang.computer"/>
                             <a href="dashboard?OrderBy=name&nbOfComputerByPage=10&page=1">&#9650;</a>
                             <a href="dashboard?OrderBy=nameDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
                             </th>
-						<th>Introduced date
+						<th><spring:message code="app.lang.introDate"/>
 						<a href="dashboard?OrderBy=introduced&nbOfComputerByPage=10&page=1">&#9650;</a>
                         <a href="dashboard?OrderBy=introducedDESC&nbOfComputerByPage=10&page=1">&#9660;</a></th>
 			
-						<th>Discontinued date
+						<th><spring:message code="app.lang.discDate"/>
 						<a href="dashboard?OrderBy=discontinued&nbOfComputerByPage=10&page=1">&#9650;</a>
                         <a href="dashboard?OrderBy=discontinuedDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
 						</th>
 						
-						<th>Company</a>
+						<th><spring:message code="app.lang.company"/></a>
 						<a href="dashboard?OrderBy=company&nbOfComputerByPage=10&page=1">&#9650;</a>
                         <a href="dashboard?OrderBy=companyDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
                         </th>

@@ -20,9 +20,7 @@ public class CompanyMapper implements RowMapper<Company> {
 
 	public CompanyMapper() {
 	}
-	
-	
-	
+
 	@Override
 	public Company mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 
