@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @EnableWebMvc
+
 public class WebAppInitializer implements WebApplicationInitializer {
 
 	@Override
@@ -30,12 +31,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
         dispatcher.addMapping("/");
 	}
 	
-	   @Bean
-	    public ViewResolver viewResolver() {
-	        InternalResourceViewResolver bean = 
-	          new InternalResourceViewResolver();
-	        bean.setPrefix("/WEB-INF/view");
-	        bean.setSuffix(".jsp");
-	        return bean;
-	    }
+	
+	
+	  
 }

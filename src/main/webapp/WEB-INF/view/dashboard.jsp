@@ -68,21 +68,21 @@
 							</a>
 						</span></th>
 						<th><spring:message code="app.lang.computer"/>
-                            <a href="dashboard?OrderBy=name&nbOfComputerByPage=10&page=1">&#9650;</a>
-                            <a href="dashboard?OrderBy=nameDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+                            <a href="dashboard?orderBy=name&nbOfComputerByPage=10&page=1">&#9650;</a>
+                            <a href="dashboard?orderBy=nameDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
                             </th>
 						<th><spring:message code="app.lang.introDate"/>
-						<a href="dashboard?OrderBy=introduced&nbOfComputerByPage=10&page=1">&#9650;</a>
-                        <a href="dashboard?OrderBy=introducedDESC&nbOfComputerByPage=10&page=1">&#9660;</a></th>
+						<a href="dashboard?orderBy=introduced&nbOfComputerByPage=10&page=1">&#9650;</a>
+                        <a href="dashboard?orderBy=introducedDESC&nbOfComputerByPage=10&page=1">&#9660;</a></th>
 			
 						<th><spring:message code="app.lang.discDate"/>
-						<a href="dashboard?OrderBy=discontinued&nbOfComputerByPage=10&page=1">&#9650;</a>
-                        <a href="dashboard?OrderBy=discontinuedDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+						<a href="dashboard?orderBy=discontinued&nbOfComputerByPage=10&page=1">&#9650;</a>
+                        <a href="dashboard?orderBy=discontinuedDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
 						</th>
 						
 						<th><spring:message code="app.lang.company"/></a>
-						<a href="dashboard?OrderBy=company&nbOfComputerByPage=10&page=1">&#9650;</a>
-                        <a href="dashboard?OrderBy=companyDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+						<a href="dashboard?orderBy=company&nbOfComputerByPage=10&page=1">&#9650;</a>
+                        <a href="dashboard?orderBy=companyDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
                         </th>
 
 					</tr>
@@ -117,16 +117,16 @@
 				</c:if>
 				<li><a href="?page=${page}">${page}</a></li>
 				<c:if test="${page+1<=lastPage}">
-					<li><a href="?page=${page+1}&orderBy=${OrderBy}">${page+1}</a></li>
+					<li><a href="?page=${page+1}&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }">${page+1}</a></li>
 				</c:if>
 				<c:if test="${page+2<=lastPage}">
-					<li><a href="?page=${page+2}&orderBy=${OrderBy}">${page+2}</a></li>
+					<li><a href="?page=${page+2}&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }">${page+2}</a></li>
 				</c:if>
 				<c:if test="${page+3<=lastPage}">
-					<li><a href="?page=${page+3}&orderBy=${OrderBy}">${page+3}</a></li>
+					<li><a href="?page=${page+3}&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }">${page+3}</a></li>
 				</c:if>
 				<c:if test="${page+4<=lastPage}">
-					<li><a href="?page=${page+4}&orderBy=${OrderBy}">${page+4}</a></li>
+					<li><a href="?page=${page+4}&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }">${page+4}</a></li>
 				</c:if>
 				<c:if test="${page+1<=lastPage}">
 					<li><a href="?page=${page+1}" aria-label="Next"> <span
@@ -134,12 +134,14 @@
 					</a></li>
 				</c:if>
 			</ul>
+			
+			<div class="btn-group btn-group-sm pull-right" role="group" >
+            <button type="button" class="btn btn-default" onclick="window.location.href ='dashboard?nbOfComputerByPage=10&page=1&orderBy=${OrderBy}'">10</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href ='dashboard?nbOfComputerByPage=50&page=1&orderBy=${OrderBy}'">50</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href ='dashboard?nbOfComputerByPage=100&page=1&orderBy=${OrderBy}'">100</button>
+        </div>
+		
 
-			<div class="btn-group btn-group-sm pull-right" role="group">
-			<li><a href="dashboard?nbOfComputerByPage=10&page=1">10</a></li>
-        	<li><a href="dashboard?nbByPage=50&page=1">50</a></li>
-			<li><a href="dashboard?nbByPage=100&page=1">100</a></li>
-			</div>
 		</div>
 	</footer>
 	

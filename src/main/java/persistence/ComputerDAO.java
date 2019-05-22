@@ -23,13 +23,18 @@ public class ComputerDAO {
 
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
-	@Autowired
-	ComputerMapper computerMapper;
 	
-	@Autowired
-	DataSource dataSource;
+	private final ComputerMapper computerMapper;
+	
+	
+	private final DataSource dataSource;
 
-	public ComputerDAO() {	
+	
+	
+	public ComputerDAO(ComputerMapper computerMapper, DataSource dataSource) {
+		super();
+		this.computerMapper = computerMapper;
+		this.dataSource = dataSource;
 	}
 
 	private static final String SQL_FIND_ALL = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY A.id";

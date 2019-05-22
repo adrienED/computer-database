@@ -2,12 +2,9 @@ package service;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
@@ -19,12 +16,15 @@ import persistence.ComputerDAO;
 @Component("ComputerService")
 public class ComputerService {
 	
-	@Autowired
-	ComputerMapper computerMapper;
-	@Autowired
-	ComputerDAO computerDAO;
 	
-	public ComputerService() {
+	private final ComputerMapper computerMapper;
+	
+	private final ComputerDAO computerDAO;
+	
+	public ComputerService(ComputerMapper computerMapper, ComputerDAO computerDAO) {
+		super();
+		this.computerMapper = computerMapper;
+		this.computerDAO = computerDAO;
 	}
 
 	public long create(Computer computer) throws InvalidDateValueException, InvalidDateChronology, SQLException {

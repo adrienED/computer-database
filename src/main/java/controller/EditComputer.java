@@ -36,25 +36,34 @@ import service.ComputerService;
 @RequestMapping(value = "/editComputer")
 public class EditComputer{
 	
-	@Autowired
-	ComputerService computerService;
-	@Autowired
-	CompanyDAO companyDAO ;
-	@Autowired
-	ComputerMapper computerMapper ;
-	@Autowired
-	CompanyService companyService ;
-	@Autowired
-	CompanyMapper companyMapper;
+
+	private final ComputerService computerService;
+	
+	private final CompanyDAO companyDAO ;
+	
+	private final ComputerMapper computerMapper ;
+	
+	private final CompanyService companyService ;
+	
+	private final CompanyMapper companyMapper;
 	
 	static Logger logger = LoggerFactory.getLogger(EditComputer.class);
+	
+	
+	
 
-	public EditComputer() {
+	public EditComputer(ComputerService computerService, CompanyDAO companyDAO, ComputerMapper computerMapper,
+			CompanyService companyService, CompanyMapper companyMapper) {
 		super();
+		this.computerService = computerService;
+		this.companyDAO = companyDAO;
+		this.computerMapper = computerMapper;
+		this.companyService = companyService;
+		this.companyMapper = companyMapper;
 	}
 
 	@GetMapping
-	public ModelAndView doGet(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView doGet(HttpServletRequest request)
 			throws ServletException, IOException {
 		
         ModelAndView mv = new ModelAndView();
@@ -82,7 +91,7 @@ public class EditComputer{
 	}
 
 	@PostMapping
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request)
 			throws ServletException, IOException {
 
 		Computer computer;

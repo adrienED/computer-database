@@ -1,38 +1,33 @@
 package persistence;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import config.AppConfig;
-import dto.CompanyDTO;
+import config.ConfigForTest;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
-import model.Company;
 import model.Computer;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ConfigForTest.class)
 public class ComputerDAOTest {
 	
 	
-	ConnectionDAO connectionDAO = new ConnectionDAO();
-	
-	
-	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-	ComputerDAO computerDAO = (ComputerDAO) ctx.getBean("ComputerDAO");
+	@Autowired
+	ComputerDAO computerDAO;
 
 	
 	ResultSet resulSetMock = mock(ResultSet.class);
@@ -44,29 +39,7 @@ public class ComputerDAOTest {
 	}
 	
 
-	@Test
-	public void testPopulate() throws SQLException, InvalidDateChronology {
-		
-		Date date = Date.valueOf("2016-12-12");
-		Date date2 = Date.valueOf("2017-12-12");
 
-		when (resulSetMock.getLong("id")).thenReturn(23L);
-		when (resulSetMock.getString("name")).thenReturn("IBM");
-		when (resulSetMock.getDate("introduced")).thenReturn(date);
-		when (resulSetMock.getDate("discontinued")).thenReturn(date2);
-		when (resulSetMock.getLong("company_id")).thenReturn(1L);
-		
-		
-		Computer computer = new Computer.Builder()
-				.withId(23L)
-				.withName("IBM")
-				.withIntroduced(LocalDate.parse("2016-12-12"))
-				.withDiscontinued(LocalDate.parse("2017-12-12"))	
-				.withCompanyID(1L)
-				.build();
-		
-		assertEquals(computer, computerDAO.populate(resulSetMock));
-	}
 
 	@Test
 	public void testGetAllIntInt() {

@@ -28,21 +28,28 @@ import service.ComputerService;
 @RequestMapping("/deleteComputer")
 public class DeleteComputer {
 	
-	@Autowired
-	ComputerService computerService;
-	@Autowired
-	CompanyDAO companyDAO;
-	@Autowired
-	ComputerMapper computerMapper;
+	
+	private final ComputerService computerService;
+	
+	private final CompanyDAO companyDAO;
+	
+	private final ComputerMapper computerMapper;
 
 	static Logger logger = LoggerFactory.getLogger(DeleteComputer.class);
 
-	public DeleteComputer() {
+	
+
+	public DeleteComputer(ComputerService computerService, CompanyDAO companyDAO, ComputerMapper computerMapper) {
 		super();
+		this.computerService = computerService;
+		this.companyDAO = companyDAO;
+		this.computerMapper = computerMapper;
 	}
 
+
+
 	@PostMapping
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request)
 			throws ServletException, IOException {
 
 		String listDelete = request.getParameter("selection");

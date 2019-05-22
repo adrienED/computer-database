@@ -5,26 +5,25 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import config.AppConfig;
+import config.ConfigForTest;
 import model.Company;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ConfigForTest.class)
 public class CompanyDAOTest {
 	
 	ResultSet resulSetMock = mock(ResultSet.class);
-	
-	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-
 	
 	@Autowired
 	CompanyDAO companyDAO;
@@ -33,8 +32,6 @@ public class CompanyDAOTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		companyDAO = (CompanyDAO) ctx.getBean("CompanyDAO");
-
 	}
 
 	@Test

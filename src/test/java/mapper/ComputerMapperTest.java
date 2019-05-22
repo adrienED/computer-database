@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import config.ConfigForTest;
 import config.WebConfig;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
@@ -18,7 +19,7 @@ import model.Computer;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = WebConfig.class)
+@ContextConfiguration(classes = ConfigForTest.class)
 public class ComputerMapperTest {
 
 	@Autowired
@@ -136,7 +137,7 @@ public class ComputerMapperTest {
 	public void testIdToInt() {
 		String id = "23";
 
-		assertEquals(23L, computerMapper.idToInt(id));
+		assertEquals(23L, computerMapper.idToLong(id));
 
 	}
 

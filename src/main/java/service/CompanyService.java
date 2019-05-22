@@ -2,7 +2,6 @@ package service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import mapper.CompanyMapper;
@@ -12,12 +11,17 @@ import persistence.CompanyDAO;
 @Component("CompanyService")
 public class CompanyService {
 	
-	@Autowired
-	CompanyMapper companyMapper;
-	@Autowired
-	CompanyDAO companyDAO;
 
-	public CompanyService() {
+	private final CompanyMapper companyMapper;
+	
+	private final CompanyDAO companyDAO;
+
+	
+
+	public CompanyService(CompanyMapper companyMapper, CompanyDAO companyDAO) {
+		super();
+		this.companyMapper = companyMapper;
+		this.companyDAO = companyDAO;
 	}
 
 	public List<Company> getAll(int limit, int offset) {

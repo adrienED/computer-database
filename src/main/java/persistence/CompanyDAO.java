@@ -24,13 +24,18 @@ public class CompanyDAO {
 
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
-	@Autowired
-	CompanyMapper companyMapper;
 	
-	@Autowired
-	DataSource dataSource;
+	private final CompanyMapper companyMapper;
+	
+	
+	private final DataSource dataSource;
 
-	public CompanyDAO() {
+	
+
+	public CompanyDAO(CompanyMapper companyMapper, DataSource dataSource) {
+		super();
+		this.companyMapper = companyMapper;
+		this.dataSource = dataSource;
 	}
 
 	private static final String SQL_FIND_ALL = "SELECT id, name FROM company";

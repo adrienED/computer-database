@@ -12,12 +12,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import config.ConfigForTest;
+import config.WebConfig;
 import dto.CompanyDTO;
 import model.Company;
 import persistence.CompanyDAO;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ConfigForTest.class)
 public class CompanyMapperTest {
 		
 	@Autowired

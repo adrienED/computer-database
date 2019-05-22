@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,28 +31,31 @@ public class Dashboard {
 
 	static Logger logger = LoggerFactory.getLogger(Dashboard.class);
 
-	@Autowired
-	ComputerService computerService;
-
-	@Autowired
-	CompanyDAO companyDAO;
+	private final ComputerService computerService;
 	
-	@Autowired
-	ComputerMapper computerMapper;
-
-	public Dashboard() {
+	private final CompanyDAO companyDAO;
+	
+	private final ComputerMapper computerMapper;	
+	
+	public Dashboard(ComputerService computerService, CompanyDAO companyDAO, ComputerMapper computerMapper) {
+		super();
+		this.computerService = computerService;
+		this.companyDAO = companyDAO;
+		this.computerMapper = computerMapper;
 	}
-	
-	@GetMapping
-	public ModelAndView doGet(HttpServletRequest request, HttpServletResponse response) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
 
-		for (int i = 623 ; i<=625 ; i++)
-		computerService.delete(i);
-		
-		int nbOfComputerByPage = 10;
+	@GetMapping
+	public ModelAndView doGet(HttpServletRequest request) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
+
+		int nbOfComputerByPage;
+		String orderParameter;
+		if(request.getParameter("nbOfComputerByPage")!=null)
+			nbOfComputerByPage = Integer.parseInt(request.getParameter("nbOfComputerByPage"));
+		else nbOfComputerByPage = 10;
+		if (request.getParameter("orderBy") != null)
+			orderParameter = request.getParameter("orderBy");
+		else orderParameter = "id";
 		int page = 1;
-		String orderParameter = "id";
-		int offset = 0;
 		
         ModelAndView mv = new ModelAndView();
 
@@ -63,8 +65,6 @@ public class Dashboard {
 		if (request.getParameter("page") != null)
 			page = Integer.parseInt(request.getParameter("page"));
 
-		if (page != 1)
-			offset = 10 * page - 10;
 
 		if (request.getParameter("search") != null) {
 
@@ -79,11 +79,8 @@ public class Dashboard {
 			}
 		} else {
 
-			if (request.getParameter("nbByPage") != null)
-				nbOfComputerByPage = Integer.parseInt(request.getParameter("nbByPage"));
-
-			if (request.getParameter("OrderBy") != null)
-				orderParameter = request.getParameter("OrderBy");
+			if (request.getParameter("orderBy") != null)
+				orderParameter = request.getParameter("orderBy");
 
 			try {
 				nbOfComputer = computerService.getNbOfComputer();
@@ -110,7 +107,7 @@ public class Dashboard {
 		mv.getModel().put("lastPage", lastPage);
 		mv.getModel().put("nbOfComputer", nbOfComputer);
 		mv.getModel().put("OrderBy", orderParameter);
-
+		mv.getModel().put("nbOfComputerByPage", nbOfComputerByPage);
 
 		
 		return mv;

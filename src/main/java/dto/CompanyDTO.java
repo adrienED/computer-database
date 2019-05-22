@@ -1,7 +1,10 @@
 package dto;
 
+import org.springframework.lang.NonNull;
+
 public class CompanyDTO {
 
+	
 	private String id;
 	private String name;
 

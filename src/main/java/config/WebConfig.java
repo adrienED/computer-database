@@ -16,12 +16,12 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
 @ComponentScan (basePackages = {"mapper", "persistence","service","controller","validator"})
+
 public class WebConfig implements WebMvcConfigurer{
 	
 	 @Bean
@@ -70,6 +70,9 @@ public class WebConfig implements WebMvcConfigurer{
 	 	      localeChangeInterceptor.setParamName("lang");
 	 	      registry.addInterceptor(localeChangeInterceptor);
 	 	   }
+	 	  
+	 	  
+	 	   	
 	}
 
 

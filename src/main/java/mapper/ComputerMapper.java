@@ -21,10 +21,15 @@ public class ComputerMapper implements RowMapper<Computer> {
 
 	private Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 
-	@Autowired
-	CompanyDAO companyDAO;
+	
+	private final CompanyDAO companyDAO;
+
+	
 
 	public ComputerMapper(CompanyDAO companyDAO) {
+		super();
+		
+		this.companyDAO = companyDAO;
 	}
 
 	@Override

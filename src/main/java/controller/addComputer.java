@@ -35,21 +35,24 @@ public class addComputer  {
 	static Logger logger = LoggerFactory.getLogger(addComputer.class);
 
 
-	@Autowired
-	ComputerMapper computerMapper ;
-	@Autowired
-	CompanyService companyService ;
-	@Autowired
-	ComputerService computerService;
 	
-	@Autowired
-	ComputerValidator computerValidator;
+	private final ComputerMapper computerMapper ;
+	
+	private final CompanyService companyService ;
+	
+	private final ComputerService computerService;
+	
+	private final ComputerValidator computerValidator;
 
-
-	public addComputer() {
+	public addComputer(ComputerMapper computerMapper, CompanyService companyService, ComputerService computerService,
+			ComputerValidator computerValidator) {
+		this.computerMapper = computerMapper;
+		this.companyService = companyService;
+		this.computerService = computerService;
+		this.computerValidator = computerValidator;
 	}
 
-	
+
 	@GetMapping
 	public ModelAndView listCompanies() {
         ModelAndView mv = new ModelAndView();
@@ -64,7 +67,7 @@ public class addComputer  {
 	
 	
 	@PostMapping
-	public void insertion(HttpServletRequest request, HttpServletResponse response)
+	public void insertion(HttpServletRequest request)
 			throws ServletException, IOException {
 
 		ComputerDTO computerDTO = new ComputerDTO();
@@ -102,14 +105,9 @@ public class addComputer  {
 				long idCreate = computerService.create(computer);
 				logger.info("Ordinateur ajouter id = " + idCreate);
 			}
-			
-			
+		
 		} catch (InvalidDateValueException | InvalidDateChronology | NumberFormatException | SQLException e) {
 			logger.error(e.getMessage());
 		}
-		
-
-
-	}
-	
+	}	
 }
