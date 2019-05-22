@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import dto.CompanyDTO;
 import model.Company;
-import model.Computer;
 import model.Company.Builder;
 
 @Component("CompanyMapper")

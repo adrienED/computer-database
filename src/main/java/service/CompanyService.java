@@ -10,13 +10,10 @@ import persistence.CompanyDAO;
 
 @Component("CompanyService")
 public class CompanyService {
-	
 
 	private final CompanyMapper companyMapper;
-	
-	private final CompanyDAO companyDAO;
 
-	
+	private final CompanyDAO companyDAO;
 
 	public CompanyService(CompanyMapper companyMapper, CompanyDAO companyDAO) {
 		super();

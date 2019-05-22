@@ -4,8 +4,9 @@ import org.springframework.lang.NonNull;
 
 public class CompanyDTO {
 
-	
+	@NonNull
 	private String id;
+	@NonNull
 	private String name;
 
 	public String getName() {

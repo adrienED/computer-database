@@ -8,7 +8,6 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,14 +22,10 @@ public class ComputerDAO {
 
 	Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
 
-	
 	private final ComputerMapper computerMapper;
-	
-	
+
 	private final DataSource dataSource;
 
-	
-	
 	public ComputerDAO(ComputerMapper computerMapper, DataSource dataSource) {
 		super();
 		this.computerMapper = computerMapper;
@@ -59,116 +54,113 @@ public class ComputerDAO {
 
 	public long create(Computer computer) throws SQLException {
 		Long lastInsertedId = 1L;
-		
-		
+
 		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
-		vJdbcTemplate.update(SQL_CREATE, new Object[] {computer.getName(),
-														computer.getIntroduced(),
-														computer.getDiscontinued(),
-														computer.getCompanyID()});
+		vJdbcTemplate.update(SQL_CREATE, new Object[] { computer.getName(), computer.getIntroduced(),
+				computer.getDiscontinued(), computer.getCompanyID() });
 		return lastInsertedId;
 	}
 
-	public boolean delete(long idDelete ) throws SQLException, ComputerNotFoundException {
+	public boolean delete(long idDelete) throws SQLException, ComputerNotFoundException {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
-		jdbcTemplate.update(SQL_DELETE, new Object[] {idDelete});
-		
+
+		jdbcTemplate.update(SQL_DELETE, new Object[] { idDelete });
+
 		logger.info("computer delete");
-		
-		
+
 		return true;
 	}
 
 	public void update(Computer computer) throws SQLException, ComputerNotFoundException {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		int nbOfRowAffected = jdbcTemplate.update(SQL_UPDATE, new Object[] {computer.getName(),
-														computer.getIntroduced(),
-														computer.getDiscontinued(),
-														computer.getCompanyID(),
-														computer.getId()});
-		
-		if(nbOfRowAffected==0)
+		int nbOfRowAffected = jdbcTemplate.update(SQL_UPDATE, new Object[] { computer.getName(),
+				computer.getIntroduced(), computer.getDiscontinued(), computer.getCompanyID(), computer.getId() });
+
+		if (nbOfRowAffected == 0)
 			throw new ComputerNotFoundException(computer.getId());
 	}
 
-	public Computer findById(long id) throws ComputerNotFoundException  {
+	public Computer findById(long id) throws ComputerNotFoundException {
 
 		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
-		Computer computer ;
+		Computer computer;
 		try {
-		computer = 
-		vJdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[] {id},computerMapper );
-		}
-		catch (EmptyResultDataAccessException e) {
+			computer = vJdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[] { id }, computerMapper);
+		} catch (EmptyResultDataAccessException e) {
 			throw new ComputerNotFoundException(id);
 		}
-		
+
 		return computer;
 	}
 
 	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
 		List<Computer> computers = new ArrayList<Computer>();
-		 computers = jdbcTemplate.query(SQL_FIND_ALL_PAGINED,new Object[] {limit,offset},computerMapper);
-		 return computers;
+		computers = jdbcTemplate.query(SQL_FIND_ALL_PAGINED, new Object[] { limit, offset }, computerMapper);
+		return computers;
 	}
-	
-	
+
 	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter) throws InvalidDateChronology {
 		List<Computer> computers = new ArrayList<Computer>();
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-			switch (orderByParameter) {
-			case "name":
-			 computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_NAME,new Object[] {limit,offset},computerMapper);
-			 System.out.println(computers);
-				break;
-			case "nameDESC":
-				 computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_NAME_DESC,new Object[] {limit,offset},computerMapper);
-				break;
+		switch (orderByParameter) {
+		case "name":
+			computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_NAME, new Object[] { limit, offset },
+					computerMapper);
+			System.out.println(computers);
+			break;
+		case "nameDESC":
+			computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_NAME_DESC, new Object[] { limit, offset },
+					computerMapper);
+			break;
 
-			case "introduced":
-				 computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_INTRODUCED,new Object[] {limit,offset},computerMapper);
-				
-				break;
+		case "introduced":
+			computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_INTRODUCED, new Object[] { limit, offset },
+					computerMapper);
 
-			case "introducedDESC":
-				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_INTRODUCED_DESC,new Object[] {limit,offset},computerMapper);
-				
-				break;
-			case "discontinued":
-				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED,new Object[] {limit,offset},computerMapper);
-				break;
+			break;
 
-			case "discontinuedDESC":
-				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED_DESC,new Object[] {limit,offset},computerMapper);
-				break;
-			case "company"	:		
-				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_COMPANY,new Object[] {limit,offset},computerMapper);
-				break;
-			case "companyDESC":
-				computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC,new Object[] {limit,offset},computerMapper);
-				break;
-			case "id":
-				computers = jdbcTemplate.query(SQL_FIND_ALL_PAGINED,new Object[] {limit,offset},computerMapper);
+		case "introducedDESC":
+			computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_INTRODUCED_DESC, new Object[] { limit, offset },
+					computerMapper);
 
-				break;
-			default:
-				computers = jdbcTemplate.query(SQL_FIND_ALL_PAGINED,new Object[] {limit,offset},computerMapper);
+			break;
+		case "discontinued":
+			computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED, new Object[] { limit, offset },
+					computerMapper);
+			break;
 
-				
-			}
-			
-			return computers;
+		case "discontinuedDESC":
+			computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_DISCONTINUED_DESC, new Object[] { limit, offset },
+					computerMapper);
+			break;
+		case "company":
+			computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_COMPANY, new Object[] { limit, offset },
+					computerMapper);
+			break;
+		case "companyDESC":
+			computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC, new Object[] { limit, offset },
+					computerMapper);
+			break;
+		case "id":
+			computers = jdbcTemplate.query(SQL_FIND_ALL_PAGINED, new Object[] { limit, offset }, computerMapper);
+
+			break;
+		default:
+			computers = jdbcTemplate.query(SQL_FIND_ALL_PAGINED, new Object[] { limit, offset }, computerMapper);
+
+		}
+
+		return computers;
 	}
 
 	public List<Computer> getSearchComputer(String search) throws InvalidDateChronology {
 		List<Computer> computers = new ArrayList<Computer>();
-		String searchQuery = "%" + search + "%";				
+		String searchQuery = "%" + search + "%";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		
-		computers = jdbcTemplate.query(SQL_SEARCH_COMPUTER,new Object[] {searchQuery,searchQuery},computerMapper);
+
+		computers = jdbcTemplate.query(SQL_SEARCH_COMPUTER, new Object[] { searchQuery, searchQuery }, computerMapper);
 
 		return computers;
 	}

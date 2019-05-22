@@ -15,12 +15,11 @@ import persistence.ComputerDAO;
 
 @Component("ComputerService")
 public class ComputerService {
-	
-	
+
 	private final ComputerMapper computerMapper;
-	
+
 	private final ComputerDAO computerDAO;
-	
+
 	public ComputerService(ComputerMapper computerMapper, ComputerDAO computerDAO) {
 		super();
 		this.computerMapper = computerMapper;
@@ -31,11 +30,13 @@ public class ComputerService {
 		return this.computerDAO.create(computer);
 	}
 
-	public void update(Computer computer) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
-		 this.computerDAO.update(computer);
+	public void update(Computer computer)
+			throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
+		this.computerDAO.update(computer);
 	}
 
-	public boolean delete(long id) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
+	public boolean delete(long id)
+			throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
 		return this.computerDAO.delete(id);
 	}
 
@@ -50,8 +51,7 @@ public class ComputerService {
 		return computerList;
 	}
 
-	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter)
-			throws InvalidDateChronology {
+	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter) throws InvalidDateChronology {
 
 		List<Computer> computerList = computerDAO.getAllOrderedBy(limit, offset, orderByParameter);
 
@@ -68,7 +68,7 @@ public class ComputerService {
 
 		List<Computer> computerList;
 		computerList = computerDAO.getSearchComputer(keyword);
-		
+
 		return computerList;
 
 	}

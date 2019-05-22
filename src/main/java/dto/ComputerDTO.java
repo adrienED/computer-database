@@ -1,11 +1,9 @@
 package dto;
 
-import java.time.LocalDate;
-
 public class ComputerDTO {
 	private String id;
 	private String name;
-	private String  introduced;
+	private String introduced;
 	private String discontinued;
 	private String companyName;
 
@@ -24,9 +22,6 @@ public class ComputerDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-
 
 	public String getIntroduced() {
 		return introduced;
@@ -106,6 +101,5 @@ public class ComputerDTO {
 			return false;
 		return true;
 	}
-
 
 }

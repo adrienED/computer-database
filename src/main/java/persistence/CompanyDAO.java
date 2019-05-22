@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -24,13 +23,9 @@ public class CompanyDAO {
 
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
-	
 	private final CompanyMapper companyMapper;
-	
-	
-	private final DataSource dataSource;
 
-	
+	private final DataSource dataSource;
 
 	public CompanyDAO(CompanyMapper companyMapper, DataSource dataSource) {
 		super();
@@ -68,10 +63,10 @@ public class CompanyDAO {
 	public Company findById(long id) {
 		Company company;
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		if (id == 0) company = new Company.Builder().withParameter(0, null).build();
+		if (id == 0)
+			company = new Company.Builder().withParameter(0, null).build();
 		else
-		company = (Company) jdbcTemplate.queryForObject(SQL_FIND_WITH_ID, new Object[] { id },
-				companyMapper);
+			company = (Company) jdbcTemplate.queryForObject(SQL_FIND_WITH_ID, new Object[] { id }, companyMapper);
 		return company;
 	}
 
@@ -89,13 +84,13 @@ public class CompanyDAO {
 
 		return companies;
 	}
-	
+
 	@Transactional("TransactionManager")
 	public void deleteCompanyById(long idL) {
-		
-			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			jdbcTemplate.update(SQL_DELETE_COMPUTER_BY_ID, new Object[] {idL});
-			jdbcTemplate.update(SQL_DELETE_COMPANY_BY_ID, new Object[] {idL});
-			logger.info("company effacer");
-		}
+
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate.update(SQL_DELETE_COMPUTER_BY_ID, new Object[] { idL });
+		jdbcTemplate.update(SQL_DELETE_COMPANY_BY_ID, new Object[] { idL });
+		logger.info("company effacer");
 	}
+}

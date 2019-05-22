@@ -20,8 +20,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan (basePackages = {"mapper", "persistence","service","controller","validator"})
-
+@ComponentScan (basePackages = {"mapper", "persistence","service","controller","validator","dto"})
 public class WebConfig implements WebMvcConfigurer{
 	
 	 @Bean
@@ -70,9 +69,13 @@ public class WebConfig implements WebMvcConfigurer{
 	 	      localeChangeInterceptor.setParamName("lang");
 	 	      registry.addInterceptor(localeChangeInterceptor);
 	 	   }
-	 	  
-	 	  
-	 	   	
+	 	  /* 
+	 	  @Override
+	 	   public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+	 	       exceptionResolvers.add(new ErrorServlet());
+	 	       
+	 	}
+	 	   	*/
 	}
 
 

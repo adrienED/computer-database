@@ -6,11 +6,9 @@ import java.util.stream.IntStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
-import exception.NotFoundException;
 import mapper.ComputerMapper;
-import model.Computer;
 import persistence.CompanyDAO;
 import service.ComputerService;
 
