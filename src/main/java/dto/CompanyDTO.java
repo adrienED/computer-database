@@ -1,12 +1,14 @@
 package dto;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.lang.NonNull;
 
 public class CompanyDTO {
 
-	@NonNull
+	@NotNull
 	private String id;
-	@NonNull
+	@NotNull
 	private String name;
 
 	public String getName() {

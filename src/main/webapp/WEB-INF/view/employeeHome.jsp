@@ -1,4 +1,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+    
+
 <html>
     <head>
     </head>
@@ -20,6 +24,15 @@
                       Contact Number</form:label></td>
                     <td><form:input path="contactNumber"/></td>
                 </tr>
+                     <label for="companyId"><spring:message code="app.lang.company"/></label>
+                      <select class="form-control" id="companyId" name ="companyName" >
+                                
+                        <c:forEach var="company" items="${ListCompanies}">
+			   			   <option value="${company.name}"> <c:out value="${company.name}"> </c:out></option>
+        				  </c:forEach>
+  				</select>
+
+  								
                 <tr>
                     <td><input type="submit" value="Submit"/></td>
                 </tr>

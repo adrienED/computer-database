@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,46 +32,41 @@ import model.Computer;
 import persistence.CompanyDAO;
 import service.CompanyService;
 import service.ComputerService;
-
+import validator.ComputerValidator;
 
 @Controller
 @RequestMapping(value = "/editComputer")
-public class EditComputer{
-	
+public class EditComputer {
 
 	private final ComputerService computerService;
-	
-	private final CompanyDAO companyDAO ;
-	
-	private final ComputerMapper computerMapper ;
-	
-	private final CompanyService companyService ;
-	
+
+	private final CompanyDAO companyDAO;
+
+	private final ComputerMapper computerMapper;
+
+	private final CompanyService companyService;
+
 	private final CompanyMapper companyMapper;
 	
+	private final ComputerValidator computerValidator;
+
 	static Logger logger = LoggerFactory.getLogger(EditComputer.class);
-	
-	
-	
 
 	public EditComputer(ComputerService computerService, CompanyDAO companyDAO, ComputerMapper computerMapper,
-			CompanyService companyService, CompanyMapper companyMapper) {
+			CompanyService companyService, CompanyMapper companyMapper, ComputerValidator computerValidator) {
 		super();
 		this.computerService = computerService;
 		this.companyDAO = companyDAO;
 		this.computerMapper = computerMapper;
 		this.companyService = companyService;
 		this.companyMapper = companyMapper;
+		this.computerValidator = computerValidator;
 	}
 
 	@GetMapping
-	public ModelAndView doGet(HttpServletRequest request)
-			throws ServletException, IOException {
-		
-        ModelAndView mv = new ModelAndView();
-        
-        
-			
+	public ModelAndView doGet(HttpServletRequest request) {
+		ModelAndView mv =new ModelAndView("editComputer", "computerDTO", new ComputerDTO());
+
 		ComputerDTO computerDTO = new ComputerDTO();
 
 		try {
@@ -77,59 +76,40 @@ public class EditComputer{
 		} catch (NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
 			logger.error("Erreur getComputerDTO", e);
 		}
-		List<CompanyDTO> companyList = this.companyService.getAll(100, 0).stream().map(this.companyMapper::modelToDto).collect(Collectors.toList());
-				
+		List<CompanyDTO> companyList = this.companyService.getAll().stream().map(this.companyMapper::modelToDto)
+				.collect(Collectors.toList());
+
 		mv.getModel().put("computer", computerDTO);
-	
+
 		mv.getModel().put("listCompanies", companyList);
-		
-		
+
 		return mv;
 
 	}
 
-	@PostMapping
-	protected void doPost(HttpServletRequest request)
-			throws ServletException, IOException {
-
-		Computer computer;
-
-		ComputerDTO computerDTO = new ComputerDTO();
-		computerDTO.setId(request.getParameter("id"));
-		computerDTO.setName(request.getParameter("computerName"));
-		if (request.getParameter("introduced") == null)
-			computerDTO.setIntroduced(null);
-		else {
-			try {
-				computerDTO.setIntroduced(request.getParameter("introduced"));
-			} catch (Exception e) {
-				logger.error("erreur parse introduced");
+		@PostMapping
+	    public String submit(@Validated @ModelAttribute("computerDTO")ComputerDTO computerDTO, 
+	      BindingResult result, ModelMap model) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
+	        if (result.hasErrors()) {
+	            return "error";
+	        }
+	        model.addAttribute("id", computerDTO.getId());
+	        model.addAttribute("name", computerDTO.getName());
+	        model.addAttribute("introduced", computerDTO.getIntroduced());
+	        model.addAttribute("discontinued", computerDTO.getDiscontinued());
+	        model.addAttribute("companyName", computerDTO.getCompanyName());
+	        
+	        
+	        System.out.println(computerDTO.toString());
+	        if(computerValidator.validate(computerDTO)) {
+	        computerService.update(computerMapper.dtoToModel(computerDTO));
+	        return "redirect:dashboard";
+	        }
+	        else {
+				return "error";
 			}
-		}
-
-		if (request.getParameter("discontinued") == null)
-			computerDTO.setDiscontinued(null);
-		else {
-			try {
-				computerDTO.setDiscontinued(request.getParameter("discontinued"));
-			} catch (Exception e) {
-				logger.error("erreur parse discontinued");
-			}
-		}
-		computerDTO.setCompanyName(request.getParameter("companyName"));
-		System.out.println(request.getParameter("companyName"));
-		System.out.println(computerDTO);
-
-		try {
-		
-				computer = computerMapper.dtoToModel(computerDTO);
-				System.out.println(computer);
-				computerService.update(computer);
-			
-		} catch (InvalidDateValueException | InvalidDateChronology | SQLException | ComputerNotFoundException e1) {
-			logger.error("Date invalid", e1);
-		}
-	}
-	
+	       
+	        
+	    }
 
 }

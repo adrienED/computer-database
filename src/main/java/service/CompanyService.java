@@ -21,9 +21,9 @@ public class CompanyService {
 		this.companyDAO = companyDAO;
 	}
 
-	public List<Company> getAll(int limit, int offset) {
+	public List<Company> getAll() {
 
-		List<Company> companyList = companyDAO.getAll(limit, offset);
+		List<Company> companyList = companyDAO.getAll();
 
 		return companyList;
 	}

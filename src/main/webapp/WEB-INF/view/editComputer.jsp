@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -20,7 +22,9 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> <spring:message code="app.lang.subtitle" /> </a>
+			<a class="navbar-brand" href="dashboard"> <spring:message
+					code="app.lang.subtitle" />
+			</a>
 		</div>
 	</header>
 	<section id="main">
@@ -33,33 +37,40 @@
 						<spring:message code="app.lang.editComputer" />
 					</h1>
 
-					<form action="editComputer?id=${computer.id}" method="POST">
+					<form:form method="POST" action="editComputer?id=${computer.id}"
+						modelAttribute="computerDTO">
 						<input type="hidden" value="0" id="id" />
-						<!-- TODO: Change this value with the computer id -->
 						<fieldset>
+
 							<div class="form-group">
-								<label for="computerName"><spring:message
-										code="app.lang.computer" /></label> <input type="text"
-									class="form-control" id="computerName"
-									placeholder="Name computer " name="computerName"
-									value=${computer.name}>
+								<form:label path="name" class="form-control">
+									<spring:message code="app.lang.computer" />
+								</form:label>
+								<form:input path="name" placeholder="${computer.name}"
+									class="form-control" />
 							</div>
+							
+							
 							<div class="form-group">
-								<label for="introduced"><spring:message
-										code="app.lang.introDate" /></label> <input type="date"
-									class="form-control" id="introduced"
-									placeholder="Introduced date" name="Introduced"
-									pattern="([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"
-									value=${computer.introduced} >
+								<form:label path="introduced" class="form-control">
+									<spring:message code="app.lang.introDate" />
+								</form:label>
+								<form:input path="introduced" placeholder="${computer.introduced} value=${computer.introduced}"
+									class="form-control" />
 							</div>
+							
+							
 							<div class="form-group">
-								<label for="discontinued"><spring:message
-										code="app.lang.discDate" /></label> <input type="date"
-									class="form-control" id="discontinued"
-									placeholder="Discontinued date" name="Discontinued"
-									pattern="([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"
-									value=${computer.discontinued}>
+								<form:label path="discontinued" class="form-control">
+									<spring:message code="app.lang.discDate" />
+								</form:label>
+								<form:input path="discontinued" placeholder="${computer.discontinued} value=${computer.discontinued}"
+									class="form-control" />
 							</div>
+							
+							
+
+
 							<div class="form-group">
 								<label for="companyId"><spring:message
 										code="app.lang.company" /></label> <select class="form-control"
@@ -77,10 +88,13 @@
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value="<spring:message code="app.lang.edit" />" class="btn btn-primary">
-							or <a href="dashboard.html" class="btn btn-default"><spring:message code="app.lang.cancel" /></a>
+							<input type="submit"
+								value="<spring:message code="app.lang.edit" />"
+								class="btn btn-primary"> or <a href="dashboard.html"
+								class="btn btn-default"><spring:message
+									code="app.lang.cancel" /></a>
 						</div>
-					</form>
+					</form:form>
 				</div>
 			</div>
 		</div>

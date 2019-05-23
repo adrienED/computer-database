@@ -1,10 +1,8 @@
 package controller;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.stream.IntStream;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -12,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
@@ -42,11 +41,10 @@ public class DeleteComputer {
 		this.computerMapper = computerMapper;
 	}
 
-
-
 	@PostMapping
-	protected void doPost(HttpServletRequest request)
-			throws ServletException, IOException {
+	protected String doPost(HttpServletRequest request) {
+		
+	
 
 		String listDelete = request.getParameter("selection");
 
@@ -62,5 +60,7 @@ public class DeleteComputer {
 				logger.error("Error delete computer by id", e);
 			}
 		});
+		
+		 return "redirect:dashboard";
 	}
 }

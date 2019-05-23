@@ -96,9 +96,6 @@ public class Dashboard {
 				logger.error("Date invalid controller", e);
 			}
 			mv.getModel().put("ListComputer", listComputerDTO);
-			
-			
-
 		}
 
 		int lastPage = nbOfComputer / nbOfComputerByPage;
