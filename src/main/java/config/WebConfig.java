@@ -69,13 +69,8 @@ public class WebConfig implements WebMvcConfigurer{
 	 	      localeChangeInterceptor.setParamName("lang");
 	 	      registry.addInterceptor(localeChangeInterceptor);
 	 	   }
-	 	  /* 
-	 	  @Override
-	 	   public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-	 	       exceptionResolvers.add(new ErrorServlet());
-	 	       
+	
 	 	}
-	 	   	*/
-	}
+	
 
 

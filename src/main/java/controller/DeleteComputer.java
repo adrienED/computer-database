@@ -10,13 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import exception.ComputerNotFoundException;
-import exception.InvalidDateChronology;
-import exception.InvalidDateValueException;
 import mapper.ComputerMapper;
-import persistence.CompanyDAO;
 import service.ComputerService;
 
 @Controller
@@ -26,7 +22,6 @@ public class DeleteComputer {
 	
 	private final ComputerService computerService;
 	
-	private final CompanyDAO companyDAO;
 	
 	private final ComputerMapper computerMapper;
 
@@ -34,30 +29,24 @@ public class DeleteComputer {
 
 	
 
-	public DeleteComputer(ComputerService computerService, CompanyDAO companyDAO, ComputerMapper computerMapper) {
+	public DeleteComputer(ComputerService computerService, ComputerMapper computerMapper) {
 		super();
 		this.computerService = computerService;
-		this.companyDAO = companyDAO;
 		this.computerMapper = computerMapper;
 	}
 
 	@PostMapping
-	protected String doPost(HttpServletRequest request) {
-		
-	
+	public String doPost(HttpServletRequest request) {
 
 		String listDelete = request.getParameter("selection");
 
 		String[] list = listDelete.split(",");
-		System.out.println(listDelete);
-
 		IntStream.range(0, list.length).forEach(i -> {
 			try {
 				computerService.delete(computerMapper.idToLong(list[i]));
 
-			} catch (InvalidDateValueException
-					| ComputerNotFoundException | SQLException | InvalidDateChronology e) {
-				logger.error("Error delete computer by id", e);
+			} catch ( ComputerNotFoundException | SQLException e ) {
+				logger.error( e.getMessage());
 			}
 		});
 		

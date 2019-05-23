@@ -47,30 +47,26 @@
 									<spring:message code="app.lang.computer" />
 								</form:label>
 								<form:input path="name" placeholder="${computer.name}"
-									class="form-control" />
+									class="form-control" required="required" />
 							</div>
-							
-							
+
+
 							<div class="form-group">
 								<form:label path="introduced" class="form-control">
 									<spring:message code="app.lang.introDate" />
 								</form:label>
-								<form:input path="introduced" placeholder="${computer.introduced} value=${computer.introduced}"
-									class="form-control" />
+								<form:input path="introduced"
+									placeholder="${computer.introduced}" class="form-control" />
 							</div>
-							
-							
+
+
 							<div class="form-group">
 								<form:label path="discontinued" class="form-control">
 									<spring:message code="app.lang.discDate" />
 								</form:label>
-								<form:input path="discontinued" placeholder="${computer.discontinued} value=${computer.discontinued}"
-									class="form-control" />
+								<form:input path="discontinued"
+									placeholder="${computer.discontinued}" class="form-control" />
 							</div>
-							
-							
-
-
 							<div class="form-group">
 								<label for="companyId"><spring:message
 										code="app.lang.company" /></label> <select class="form-control"

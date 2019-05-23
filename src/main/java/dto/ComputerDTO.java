@@ -3,8 +3,7 @@ package dto;
 import javax.validation.constraints.NotNull;
 
 public class ComputerDTO {
-	
-	
+
 	private String id;
 	@NotNull
 	private String name;
@@ -84,11 +83,13 @@ public class ComputerDTO {
 				return false;
 		} else if (!companyName.equals(other.companyName))
 			return false;
+
 		if (discontinued == null) {
 			if (other.discontinued != null)
 				return false;
 		} else if (!discontinued.equals(other.discontinued))
 			return false;
+
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -99,11 +100,13 @@ public class ComputerDTO {
 				return false;
 		} else if (!introduced.equals(other.introduced))
 			return false;
+
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+
 		return true;
 	}
 

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
-import exception.InvalidDateValueException;
 import exception.NotFoundException;
 import mapper.ComputerMapper;
 import model.Computer;
@@ -26,17 +25,17 @@ public class ComputerService {
 		this.computerDAO = computerDAO;
 	}
 
-	public long create(Computer computer) throws InvalidDateValueException, InvalidDateChronology, SQLException {
+	public long create(Computer computer) throws SQLException {
 		return this.computerDAO.create(computer);
 	}
 
 	public void update(Computer computer)
-			throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
+			throws  SQLException, ComputerNotFoundException {
 		this.computerDAO.update(computer);
 	}
 
 	public boolean delete(long id)
-			throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
+			throws  SQLException, ComputerNotFoundException {
 		return this.computerDAO.delete(id);
 	}
 

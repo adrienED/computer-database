@@ -66,7 +66,7 @@ public class CompanyServiceTest {
 		when (companyDAO.getAll(2,1)).thenReturn(listCompanyModel);
 		
 		
-		assertEquals(listCompanyDTO, companyService.getAll(2, 1));
+		assertEquals(listCompanyDTO, companyService.getAll());
 		
 	}
 

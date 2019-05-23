@@ -19,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dto.CompanyDTO;
 import dto.ComputerDTO;
+import exception.EmptyCompanyNameException;
+import exception.EmptyComputerNameException;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import mapper.CompanyMapper;
@@ -29,18 +31,18 @@ import validator.ComputerValidator;
 
 @Controller
 @RequestMapping(value = "/addComputer")
-public class addComputer  {
+public class addComputer {
 
 	static Logger logger = LoggerFactory.getLogger(addComputer.class);
-	
-	private final ComputerMapper computerMapper ;
-	
-	private final CompanyService companyService ;
-	
+
+	private final ComputerMapper computerMapper;
+
+	private final CompanyService companyService;
+
 	private final ComputerService computerService;
-	
+
 	private final ComputerValidator computerValidator;
-	
+
 	private final CompanyMapper companyMapper;
 
 	public addComputer(ComputerMapper computerMapper, CompanyService companyService, ComputerService computerService,
@@ -52,44 +54,40 @@ public class addComputer  {
 		this.companyMapper = companyMapper;
 	}
 
-
 	@GetMapping
 	public ModelAndView listCompanies() {
-		ModelAndView mv =new ModelAndView("addComputer", "computerDTO", new ComputerDTO());
-		
-		List<CompanyDTO> listCompanies = new ArrayList<CompanyDTO>();
-				
-		listCompanies = this.companyService.getAll().stream().map(this.companyMapper::modelToDto).collect(Collectors.toList());
-     
-		System.out.println(listCompanies);
-		
+		ModelAndView mv = new ModelAndView("addComputer", "computerDTO", new ComputerDTO());
+
+		List<CompanyDTO> listCompanies = this.companyService.getAll().stream().map(this.companyMapper::modelToDto)
+				.collect(Collectors.toList());
+
 		mv.getModel().put("ListCompanies", listCompanies);
-		
-        return mv;
+
+		return mv;
 	}
 
-	 @PostMapping
-	    public String submit(@Validated @ModelAttribute("computerDTO")ComputerDTO computerDTO, 
-	      BindingResult result, ModelMap model) throws InvalidDateValueException, InvalidDateChronology, SQLException {
-	        if (result.hasErrors()) {
-	            return "error";
-	        }
-	        model.addAttribute("name", computerDTO.getName());
-	        model.addAttribute("introduced", computerDTO.getIntroduced());
-	        model.addAttribute("discontinued", computerDTO.getDiscontinued());
-	        model.addAttribute("companyName", computerDTO.getCompanyName());
-	        
-	        
-	        System.out.println(computerDTO.toString());
-	        if(computerValidator.validate(computerDTO)) {
-	        computerService.create(computerMapper.dtoToModel(computerDTO));
-	        return "redirect:dashboard";
-	        }
-	        else {
-				return "error";
-			}
-	       
-	        
-	    }
+	@PostMapping
+	public ModelAndView submit(@Validated @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult result,
+			ModelMap model) {
 
+		ModelAndView mView = new ModelAndView();
+
+		model.addAttribute("name", computerDTO.getName());
+		model.addAttribute("introduced", computerDTO.getIntroduced());
+		model.addAttribute("discontinued", computerDTO.getDiscontinued());
+		model.addAttribute("companyName", computerDTO.getCompanyName());
+
+		try {
+			computerValidator.validate(computerDTO);
+			computerService.create(computerMapper.dtoToModel(computerDTO));
+			return new ModelAndView("redirect:dashboard");
+
+		} catch (EmptyComputerNameException | EmptyCompanyNameException | InvalidDateChronology
+				| InvalidDateValueException | SQLException e) {
+			mView.setViewName("error");
+			mView.getModel().put("errorMessage", e.getMessage());
+			return mView;
+		}
+
+	}
 }

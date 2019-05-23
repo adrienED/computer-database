@@ -9,7 +9,10 @@ import org.springframework.stereotype.Component;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import dto.ComputerDTO;
+import exception.EmptyCompanyNameException;
+import exception.EmptyComputerNameException;
 import exception.InvalidDateChronology;
+import exception.InvalidDateValueException;
 
 @Component ("ComputerValidator")
 public class ComputerValidator {
@@ -18,7 +21,7 @@ public class ComputerValidator {
 
 	Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 
-	public boolean validate(ComputerDTO computerDTO) throws InvalidDateChronology {
+	public boolean validate(ComputerDTO computerDTO) throws EmptyComputerNameException, EmptyCompanyNameException, InvalidDateChronology, InvalidDateValueException {
 
 		boolean validateName;
 		boolean validateDateIntroduced;
@@ -26,18 +29,19 @@ public class ComputerValidator {
 		boolean validateDateOrder;
 		boolean validateNameCompany;
 
-		if (computerDTO.getName() != null)
+		if (computerDTO.getName() != null && computerDTO.getName() !="")
 			validateName = true;
 		else
-			validateName = false;
+			throw new EmptyComputerNameException();
 
 		if (computerDTO.getCompanyName() != null)
 			validateNameCompany = true;
 		else
-			validateNameCompany = false;
+			throw new EmptyCompanyNameException();
 
-		if (computerDTO.getIntroduced() != "")
-			validateDateIntroduced = validateDate(computerDTO.getIntroduced());
+		if (computerDTO.getIntroduced() != "" || computerDTO.getIntroduced() != null)
+			validateDateIntroduced = validateDate(computerDTO.getIntroduced());	
+			
 		else
 			validateDateIntroduced = true;
 
@@ -62,30 +66,31 @@ public class ComputerValidator {
 
 	}
 
-	private boolean validateDate(String date) throws InvalidDateChronology {
+	private boolean validateDate(String date) throws InvalidDateChronology, InvalidDateValueException {
 		boolean validate = false;
 		try {
 			LocalDate minDate = LocalDate.parse("1970-01-01");
 			LocalDate dateLocal = LocalDate.parse(date);
-			if (dateLocal.isAfter(minDate))
-				validate = true;
+			if (dateLocal.isBefore(minDate))
+				throw new InvalidDateChronology();
 		}
 		catch (ParseException e) {
-			this.logger.error(" erreur parse input date ");
+			throw new InvalidDateValueException(date);
 		}
 		return validate;
 	}
 
-	private boolean validateDateOrder(String introduced, String discontinued) {
+	private boolean validateDateOrder(String introduced, String discontinued) throws InvalidDateChronology, InvalidDateValueException {
 		boolean validateDateOrder=false;
 		try {
 			LocalDate dateLocalInt = LocalDate.parse(introduced);
 			LocalDate dateLocalDisc = LocalDate.parse(discontinued);
-			if (dateLocalInt.isBefore(dateLocalDisc))
-				validateDateOrder = true;
+			if (dateLocalInt.isAfter(dateLocalDisc))
+				throw new InvalidDateChronology();
 		}
 		catch (ParseException e) {
 			this.logger.error(" erreur parse input date ");
+			throw new InvalidDateValueException(introduced);
 		}
 		return validateDateOrder;
 	}

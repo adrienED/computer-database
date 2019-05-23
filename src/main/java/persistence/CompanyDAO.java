@@ -2,7 +2,6 @@ package persistence;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -53,7 +52,7 @@ public class CompanyDAO {
 	}
 
 	public List<Company> getAll() {
-		List<Company> companies = new ArrayList<Company>();
+		List<Company> companies;
 		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
 		companies = vJdbcTemplate.query(SQL_FIND_ALL, new BeanPropertyRowMapper<Company>(Company.class));
 
@@ -66,7 +65,7 @@ public class CompanyDAO {
 		if (id == 0)
 			company = new Company.Builder().withParameter(0, null).build();
 		else
-			company = (Company) jdbcTemplate.queryForObject(SQL_FIND_WITH_ID, new Object[] { id }, companyMapper);
+			company = jdbcTemplate.queryForObject(SQL_FIND_WITH_ID, new Object[] { id }, companyMapper);
 		return company;
 	}
 
@@ -77,7 +76,7 @@ public class CompanyDAO {
 	}
 
 	public List<Company> getAll(int limit, int offset) {
-		List<Company> companies = new ArrayList<Company>();
+		List<Company> companies;
 		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
 		companies = vJdbcTemplate.query(SQL_FIND_ALL_PAGINED, new Object[] { limit, offset },
 				new BeanPropertyRowMapper<Company>(Company.class));
@@ -89,8 +88,8 @@ public class CompanyDAO {
 	public void deleteCompanyById(long idL) {
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-		jdbcTemplate.update(SQL_DELETE_COMPUTER_BY_ID, new Object[] { idL });
-		jdbcTemplate.update(SQL_DELETE_COMPANY_BY_ID, new Object[] { idL });
+		jdbcTemplate.update(SQL_DELETE_COMPUTER_BY_ID, idL);
+		jdbcTemplate.update(SQL_DELETE_COMPANY_BY_ID, idL);
 		logger.info("company effacer");
 	}
 }

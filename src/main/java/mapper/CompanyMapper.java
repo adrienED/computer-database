@@ -23,8 +23,7 @@ public class CompanyMapper implements RowMapper<Company> {
 	@Override
 	public Company mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 
-		Company company = new Company.Builder()
-				.withParameter(resultSet.getLong("id"),resultSet.getString("name"))
+		Company company = new Company.Builder().withParameter(resultSet.getLong("id"), resultSet.getString("name"))
 				.build();
 
 		return company;
@@ -35,7 +34,6 @@ public class CompanyMapper implements RowMapper<Company> {
 		try {
 			builder.withParameter(Long.parseLong(companyDTO.getId()), companyDTO.getName());
 		} catch (NullPointerException e) {
-			System.out.print("dtoToModel null input");
 			logger.error("dtoToModel null input", e);
 		}
 		Company company = builder.build();
@@ -50,7 +48,6 @@ public class CompanyMapper implements RowMapper<Company> {
 			companyDTO.setName(company.getName());
 
 		} catch (NullPointerException e) {
-			System.out.print("modelToDto null");
 			logger.error("ModeleTODto null input", e);
 		}
 		return companyDTO;

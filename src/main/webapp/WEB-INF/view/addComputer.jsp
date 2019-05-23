@@ -45,7 +45,7 @@
 									<spring:message code="app.lang.computer" />
 								</form:label>
 								<form:input path="name" placeholder="Computer name"
-									class="form-control" />
+									class="form-control" required="required"/>
 							</div>
 
 

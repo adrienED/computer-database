@@ -22,7 +22,6 @@ import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import mapper.ComputerMapper;
-import persistence.CompanyDAO;
 import service.ComputerService;
 
 @Controller
@@ -33,14 +32,12 @@ public class Dashboard {
 
 	private final ComputerService computerService;
 	
-	private final CompanyDAO companyDAO;
 	
 	private final ComputerMapper computerMapper;	
 	
-	public Dashboard(ComputerService computerService, CompanyDAO companyDAO, ComputerMapper computerMapper) {
+	public Dashboard(ComputerService computerService, ComputerMapper computerMapper) {
 		super();
 		this.computerService = computerService;
-		this.companyDAO = companyDAO;
 		this.computerMapper = computerMapper;
 	}
 
@@ -108,10 +105,5 @@ public class Dashboard {
 
 		
 		return mv;
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
 	}
 }
