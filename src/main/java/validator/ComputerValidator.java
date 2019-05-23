@@ -55,9 +55,6 @@ public class ComputerValidator {
 		else
 			validateDateOrder = true;
 
-		this.logger.info(validateName + " " + validateDateIntroduced + " " + validateDateDiscontinued + " "
-				+ validateDateOrder + " " + validateNameCompany);
-
 		if (validateName == true && validateDateIntroduced == true && validateDateDiscontinued == true
 				&& validateDateOrder == true)
 			return true;

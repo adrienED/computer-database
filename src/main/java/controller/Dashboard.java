@@ -1,22 +1,16 @@
 package controller;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
@@ -62,7 +56,6 @@ public class Dashboard {
 		if (request.getParameter("page") != null)
 			page = Integer.parseInt(request.getParameter("page"));
 
-
 		if (request.getParameter("search") != null) {
 
 			try {
@@ -72,7 +65,7 @@ public class Dashboard {
 
 				nbOfComputer = listComputerDTO.size();
 			} catch (InvalidDateChronology e) {
-				logger.error("erreur create dashboard");
+				logger.error(e.getMessage());
 			}
 		} else {
 
@@ -82,7 +75,7 @@ public class Dashboard {
 			try {
 				nbOfComputer = computerService.getNbOfComputer();
 			} catch (SQLException e1) {
-				e1.printStackTrace();
+				logger.error(e1.getMessage());
 			}
 
 			try {
@@ -103,7 +96,6 @@ public class Dashboard {
 		mv.getModel().put("OrderBy", orderParameter);
 		mv.getModel().put("nbOfComputerByPage", nbOfComputerByPage);
 
-		
 		return mv;
 	}
 }

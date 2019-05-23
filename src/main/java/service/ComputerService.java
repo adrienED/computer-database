@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
-import exception.NotFoundException;
 import mapper.ComputerMapper;
 import model.Computer;
 import persistence.ComputerDAO;
@@ -39,7 +38,7 @@ public class ComputerService {
 		return this.computerDAO.delete(id);
 	}
 
-	public Computer findById(String id) throws NotFoundException, InvalidDateChronology, ComputerNotFoundException {
+	public Computer findById(String id) throws ComputerNotFoundException {
 		return this.computerDAO.findById(this.computerMapper.idToLong(id));
 	}
 

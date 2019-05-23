@@ -25,7 +25,6 @@ import exception.EmptyCompanyNameException;
 import exception.EmptyComputerNameException;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
-import exception.NotFoundException;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
 import service.CompanyService;
@@ -68,8 +67,8 @@ public class EditComputer {
 
 			computerDTO = computerMapper.modelToDto(computerService.findById(request.getParameter("id")));
 
-		} catch (NotFoundException | InvalidDateChronology | ComputerNotFoundException e) {
-			logger.error("Erreur getComputerDTO", e);
+		} catch (ComputerNotFoundException e) {
+			logger.error(e.getMessage());
 		}
 		List<CompanyDTO> companyList = this.companyService.getAll().stream().map(this.companyMapper::modelToDto)
 				.collect(Collectors.toList());
@@ -79,7 +78,7 @@ public class EditComputer {
 		mv.getModel().put("listCompanies", companyList);
 
 		return mv;
-
+		
 	}
 
 	@PostMapping
@@ -106,7 +105,5 @@ public class EditComputer {
 			mView.getModel().put("errorMessage", e.getMessage());
 			return mView;
 		}
-
 	}
-
 }

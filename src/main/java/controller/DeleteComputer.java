@@ -19,15 +19,10 @@ import service.ComputerService;
 @RequestMapping("/deleteComputer")
 public class DeleteComputer {
 	
+	static Logger logger = LoggerFactory.getLogger(DeleteComputer.class);
 	
 	private final ComputerService computerService;
-	
-	
 	private final ComputerMapper computerMapper;
-
-	static Logger logger = LoggerFactory.getLogger(DeleteComputer.class);
-
-	
 
 	public DeleteComputer(ComputerService computerService, ComputerMapper computerMapper) {
 		super();
