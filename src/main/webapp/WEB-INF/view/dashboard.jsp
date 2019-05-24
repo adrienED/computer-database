@@ -1,43 +1,50 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Computer Database</title>
+<title><spring:message code="app.lang.title"/></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
-<link href="static/css/bootstrap.min.css" rel="stylesheet"
-	media="screen">
-<link href="static/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="static/css/main.css" rel="stylesheet" media="screen">
+
+	<spring:url value="/static/css/font-awesome.css" var="fontCss" />
+	<spring:url value="/static/css/main.css" var="mainCss" />
+	<spring:url value="/static/css/bootstrap.min.css" var="bootCss" />
+	
+	<link href="${fontCss}" rel="stylesheet" />
+	<link href="${mainCss}" rel="stylesheet" />
+	<link href="${bootCss}" rel="stylesheet" />
+
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="/dashboard"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="dashboard"> 
+				<spring:message code="app.lang.subtitle"/> </a>
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${nbOfComputer} Computer found</h1>
+			<h1 id="homeTitle">${nbOfComputer} <spring:message code="app.lang.computerFound"/> </h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="DashboardServlet" method="GET"
+					<form id="searchForm" action="dashboard" method="GET"
 						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
+							class="form-control" placeholder=<spring:message code="app.lang.searchName"/> /> <input
+							type="submit" id="searchsubmit" value="<spring:message code="app.lang.filter"/>"
 							class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="/addComputer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-						onclick="$.fn.toggleEditMode();">Edit</a>
+					<a class="btn btn-success" id="addComputer" href="addComputer"><spring:message code="app.lang.add"/>
+						<spring:message code="app.lang.computer"/></a> <a class="btn btn-default" id="editComputer" href="#"
+						onclick="$.fn.toggleEditMode();"><spring:message code="app.lang.edit"/></a>
 				</div>
 			</div>
 		</div>
@@ -60,22 +67,22 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>Computer Name
-                            <a href="dashboard?OrderBy=name&nbOfComputerByPage=10&page=1">&#9650;</a>
-                            <a href="dashboard?OrderBy=nameDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+						<th><spring:message code="app.lang.computer"/>
+                            <a href="dashboard?orderBy=name&nbOfComputerByPage=10&page=1">&#9650;</a>
+                            <a href="dashboard?orderBy=nameDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
                             </th>
-						<th>Introduced date
-						<a href="dashboard?OrderBy=introduced&nbOfComputerByPage=10&page=1">&#9650;</a>
-                        <a href="dashboard?OrderBy=introducedDESC&nbOfComputerByPage=10&page=1">&#9660;</a></th>
+						<th><spring:message code="app.lang.introDate"/>
+						<a href="dashboard?orderBy=introduced&nbOfComputerByPage=10&page=1">&#9650;</a>
+                        <a href="dashboard?orderBy=introducedDESC&nbOfComputerByPage=10&page=1">&#9660;</a></th>
 			
-						<th>Discontinued date
-						<a href="dashboard?OrderBy=discontinued&nbOfComputerByPage=10&page=1">&#9650;</a>
-                        <a href="dashboard?OrderBy=discontinuedDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+						<th><spring:message code="app.lang.discDate"/>
+						<a href="dashboard?orderBy=discontinued&nbOfComputerByPage=10&page=1">&#9650;</a>
+                        <a href="dashboard?orderBy=discontinuedDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
 						</th>
 						
-						<th>Company</a>
-						<a href="dashboard?OrderBy=company&nbOfComputerByPage=10&page=1">&#9650;</a>
-                        <a href="dashboard?OrderBy=companyDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+						<th><spring:message code="app.lang.company"/></a>
+						<a href="dashboard?orderBy=company&nbOfComputerByPage=10&page=1">&#9650;</a>
+                        <a href="dashboard?orderBy=companyDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
                         </th>
 
 					</tr>
@@ -110,16 +117,16 @@
 				</c:if>
 				<li><a href="?page=${page}">${page}</a></li>
 				<c:if test="${page+1<=lastPage}">
-					<li><a href="?page=${page+1}&orderBy=${OrderBy}">${page+1}</a></li>
+					<li><a href="?page=${page+1}&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }">${page+1}</a></li>
 				</c:if>
 				<c:if test="${page+2<=lastPage}">
-					<li><a href="?page=${page+2}&orderBy=${OrderBy}">${page+2}</a></li>
+					<li><a href="?page=${page+2}&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }">${page+2}</a></li>
 				</c:if>
 				<c:if test="${page+3<=lastPage}">
-					<li><a href="?page=${page+3}&orderBy=${OrderBy}">${page+3}</a></li>
+					<li><a href="?page=${page+3}&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }">${page+3}</a></li>
 				</c:if>
 				<c:if test="${page+4<=lastPage}">
-					<li><a href="?page=${page+4}&orderBy=${OrderBy}">${page+4}</a></li>
+					<li><a href="?page=${page+4}&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }">${page+4}</a></li>
 				</c:if>
 				<c:if test="${page+1<=lastPage}">
 					<li><a href="?page=${page+1}" aria-label="Next"> <span
@@ -127,17 +134,25 @@
 					</a></li>
 				</c:if>
 			</ul>
+			
+			<div class="btn-group btn-group-sm pull-right" role="group" >
+            <button type="button" class="btn btn-default" onclick="window.location.href ='dashboard?nbOfComputerByPage=10&page=1&orderBy=${OrderBy}'">10</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href ='dashboard?nbOfComputerByPage=50&page=1&orderBy=${OrderBy}'">50</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href ='dashboard?nbOfComputerByPage=100&page=1&orderBy=${OrderBy}'">100</button>
+        </div>
+		
 
-			<div class="btn-group btn-group-sm pull-right" role="group">
-			<li><a href="dashboard?nbOfComputerByPage=10&page=1">10</a></li>
-        	<li><a href="dashboard?nbByPage=50&page=1">50</a></li>
-			<li><a href="dashboard?nbByPage=100&page=1">100</a></li>
-			</div>
 		</div>
 	</footer>
-	<script src="static/js/jquery.min.js"></script>
-	<script src="static/js/bootstrap.min.js"></script>
-	<script src="static/js/dashboard.js"></script>
+	
+	
+	<spring:url value="/static/js/jquery.min.js" var="jqueryJs" />
+	<spring:url value="/static/js/bootstrap.min.js" var="bootJs" />
+	<spring:url value="static/js/dashboard.js" var="dashboardJs" />
+
+	<script src="${jqueryJs}"></script>
+	<script src="${bootJs}"></script>
+	<script src="${dashboardJs}"></script>
 
 </body>
 </html>

@@ -2,10 +2,6 @@ package model;
 
 import java.time.LocalDate;
 
-import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
-
-import model.Company.Builder;
-
 public class Computer {
 
 	public static class Builder {

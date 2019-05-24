@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import config.AppConfig;
+import config.ConfigForTest;
 import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
@@ -21,10 +23,12 @@ import model.Company;
 import model.Computer;
 import persistence.ComputerDAO;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ConfigForTest.class)
 public class ComputerServiceTest {
 
-	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-	ComputerService computerService = (ComputerService) ctx.getBean("ComputerService");
+	@Autowired
+	ComputerService computerService;
 	
 
 	ComputerDAO computerDAO = mock(ComputerDAO.class);
@@ -35,8 +39,8 @@ public class ComputerServiceTest {
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setId("12");
 		computerDTO.setName("Apple III");
-		computerDTO.setIntroduced(LocalDate.parse("1980-05-01"));
-		computerDTO.setDiscontinued(LocalDate.parse("1984-04-01"));
+		computerDTO.setIntroduced("1980-05-01");
+		computerDTO.setDiscontinued("1984-04-01");
 		computerDTO.setCompanyName("Apple Inc.");
 		System.out.println(computerService.findById("12"));
 		
@@ -80,8 +84,8 @@ public class ComputerServiceTest {
 
 		computerDTO.setId("78");
 		computerDTO.setName("Macintosh 512K");
-		computerDTO.setIntroduced(LocalDate.parse("1984-09-10"));
-		computerDTO.setDiscontinued(LocalDate.parse("1986-04-14"));
+		computerDTO.setIntroduced("1984-09-10");
+		computerDTO.setDiscontinued("1986-04-14");
 		computerDTO.setCompanyName("Apple Inc.");
 
 		List<ComputerDTO> listComputerDTO = new ArrayList<>();
@@ -90,8 +94,8 @@ public class ComputerServiceTest {
 		ComputerDTO computerDTO2 = new ComputerDTO();
 		computerDTO2.setId("79");
 		computerDTO2.setName("Macintosh SE");
-		computerDTO2.setIntroduced(LocalDate.parse("1987-03-02"));
-		computerDTO2.setDiscontinued(LocalDate.parse("1989-08-01"));
+		computerDTO2.setIntroduced("1987-03-02");
+		computerDTO2.setDiscontinued("1989-08-01");
 		computerDTO2.setCompanyName("Apple Inc.");
 
 		listComputerDTO.add(computerDTO2);

@@ -1,17 +1,19 @@
 package persistence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import mapper.CompanyMapper;
 import model.Company;
 import model.Company.Builder;
 
@@ -19,10 +21,15 @@ import model.Company.Builder;
 public class CompanyDAO {
 
 	Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
-	@Autowired
-	ConnectionDAO connectionDAO;
 
-	public CompanyDAO() {
+	private final CompanyMapper companyMapper;
+
+	private final DataSource dataSource;
+
+	public CompanyDAO(CompanyMapper companyMapper, DataSource dataSource) {
+		super();
+		this.companyMapper = companyMapper;
+		this.dataSource = dataSource;
 	}
 
 	private static final String SQL_FIND_ALL = "SELECT id, name FROM company";
@@ -45,110 +52,44 @@ public class CompanyDAO {
 	}
 
 	public List<Company> getAll() {
-		List<Company> companies = new ArrayList<>();
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				Company company = populate(resultSet);
-				companies.add(company);
-
-			}
-			connection.close();
-			statement.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL ListCompany", ex);
-		}
+		List<Company> companies;
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
+		companies = vJdbcTemplate.query(SQL_FIND_ALL, new BeanPropertyRowMapper<Company>(Company.class));
 
 		return companies;
 	}
 
 	public Company findById(long id) {
-		Builder builder = new Company.Builder();
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_ID);
-			statement.setLong(1, id);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-
-				builder.withParameter(resultSet.getLong("id"), resultSet.getString("name"));
-			}
-			connection.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL findById", ex);
-
-		}
-		builder.build();
-		Company company = builder.build();
+		Company company;
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		if (id == 0)
+			company = new Company.Builder().withParameter(0, null).build();
+		else
+			company = jdbcTemplate.queryForObject(SQL_FIND_WITH_ID, new Object[] { id }, companyMapper);
 		return company;
 	}
 
 	public long findByName(String name) {
-		Long id = 0L;
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_WITH_NAME);
-			statement.setString(1, name);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-
-				id = resultSet.getLong("id");
-
-			}
-			connection.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL findById", ex);
-		}
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		long id = (long) jdbcTemplate.queryForObject(SQL_FIND_WITH_NAME, new Object[] { name }, Long.class);
 		return id;
 	}
 
 	public List<Company> getAll(int limit, int offset) {
-		List<Company> companies = new ArrayList<>();
-		try {
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_PAGINED);
-			statement.setLong(1, limit);
-			statement.setLong(2, offset);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				Company company = populate(resultSet);
-				companies.add(company);
-			}
-			connection.close();
-		} catch (SQLException ex) {
-			logger.error("Erreur SQL ListCompany", ex);
-		}
+		List<Company> companies;
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
+		companies = vJdbcTemplate.query(SQL_FIND_ALL_PAGINED, new Object[] { limit, offset },
+				new BeanPropertyRowMapper<Company>(Company.class));
+
 		return companies;
 	}
 
+	@Transactional("TransactionManager")
 	public void deleteCompanyById(long idL) {
-		try {
 
-			Connection connection = connectionDAO.getConnection();
-			PreparedStatement deleteComputerPreparedStatement = connection.prepareStatement(SQL_DELETE_COMPUTER_BY_ID);
-			PreparedStatement deleteCompanyPreparedStatement = connection.prepareStatement(SQL_DELETE_COMPANY_BY_ID);
-
-			connection.setAutoCommit(false);
-
-			try {
-
-				deleteComputerPreparedStatement.setLong(1, idL);
-				deleteComputerPreparedStatement.executeUpdate();
-
-				deleteCompanyPreparedStatement.setLong(1, idL);
-				deleteCompanyPreparedStatement.executeUpdate();
-
-				connection.commit();
-			} catch (Exception e) {
-				connection.rollback();
-			}
-
-			connection.setAutoCommit(true);
-
-		} catch (SQLException e) {
-			logger.error("Erreur delete Company", e);
-		}
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		jdbcTemplate.update(SQL_DELETE_COMPUTER_BY_ID, idL);
+		jdbcTemplate.update(SQL_DELETE_COMPANY_BY_ID, idL);
+		logger.info("company effacer");
 	}
 }

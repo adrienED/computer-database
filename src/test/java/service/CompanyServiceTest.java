@@ -10,18 +10,23 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import config.AppConfig;
+import config.ConfigForTest;
 import dto.CompanyDTO;
 import model.Company;
 import persistence.CompanyDAO;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ConfigForTest.class)
 public class CompanyServiceTest {
 	
-	ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-	CompanyService companyService = (CompanyService) ctx.getBean("CompanyService");
+	@Autowired
+	CompanyService companyService;
 	
 	
 	CompanyDAO companyDAO = mock(CompanyDAO.class);
@@ -61,7 +66,7 @@ public class CompanyServiceTest {
 		when (companyDAO.getAll(2,1)).thenReturn(listCompanyModel);
 		
 		
-		assertEquals(listCompanyDTO, companyService.getAll(2, 1));
+		assertEquals(listCompanyDTO, companyService.getAll());
 		
 	}
 
