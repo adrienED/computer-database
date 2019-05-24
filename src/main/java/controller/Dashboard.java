@@ -4,13 +4,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
 import dto.ComputerDTO;
 import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
@@ -36,7 +39,7 @@ public class Dashboard {
 	}
 
 	@GetMapping
-	public ModelAndView doGet(HttpServletRequest request) throws InvalidDateValueException, InvalidDateChronology, SQLException, ComputerNotFoundException {
+	public ModelAndView doGet(HttpServletRequest request) throws InvalidDateChronology, SQLException {
 
 		int nbOfComputerByPage;
 		String orderParameter;

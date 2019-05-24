@@ -52,7 +52,7 @@ public class ComputerDAO {
 	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name LIMIT ? OFFSET ?";
 	private static final String SQL_FIND_ALL_ORDERED_BY_COMPANY_DESC = "SELECT A.id AS id,A.name AS name ,A.introduced AS introduced ,A.discontinued AS discontinued ,B.id AS company_id ,B.name AS company_name FROM computer AS A LEFT JOIN company AS B ON A.company_id = B.id ORDER BY B.name DESC LIMIT ? OFFSET ?";
 
-	public long create(Computer computer) throws SQLException {
+	public long create(Computer computer) {
 		Long lastInsertedId = 1L;
 
 		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
@@ -71,7 +71,7 @@ public class ComputerDAO {
 		return true;
 	}
 
-	public void update(Computer computer) throws SQLException, ComputerNotFoundException {
+	public void update(Computer computer) throws ComputerNotFoundException {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		int nbOfRowAffected = jdbcTemplate.update(SQL_UPDATE, new Object[] { computer.getName(),
 				computer.getIntroduced(), computer.getDiscontinued(), computer.getCompanyID(), computer.getId() });
@@ -93,22 +93,22 @@ public class ComputerDAO {
 		return computer;
 	}
 
-	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
+	public List<Computer> getAll(int limit, int offset) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
-		List<Computer> computers = new ArrayList<Computer>();
+		List<Computer> computers;
 		computers = jdbcTemplate.query(SQL_FIND_ALL_PAGINED, new Object[] { limit, offset }, computerMapper);
 		return computers;
 	}
 
-	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter) throws InvalidDateChronology {
-		List<Computer> computers = new ArrayList<Computer>();
+	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter) {
+		List<Computer> computers;
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
 		switch (orderByParameter) {
 		case "name":
 			computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_NAME, new Object[] { limit, offset },
 					computerMapper);
-			System.out.println(computers);
+			
 			break;
 		case "nameDESC":
 			computers = jdbcTemplate.query(SQL_FIND_ALL_ORDERED_BY_NAME_DESC, new Object[] { limit, offset },
@@ -155,8 +155,8 @@ public class ComputerDAO {
 		return computers;
 	}
 
-	public List<Computer> getSearchComputer(String search) throws InvalidDateChronology {
-		List<Computer> computers = new ArrayList<Computer>();
+	public List<Computer> getSearchComputer(String search) {
+		List<Computer> computers;
 		String searchQuery = "%" + search + "%";
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
@@ -165,7 +165,7 @@ public class ComputerDAO {
 		return computers;
 	}
 
-	public int getNbOfComputer() throws SQLException {
+	public int getNbOfComputer() {
 		int nbOfComputer = 0;
 		JdbcTemplate vJdbcTemplate = new JdbcTemplate(dataSource);
 		nbOfComputer = vJdbcTemplate.queryForObject(SQL_COUNT_ALL, Integer.class);

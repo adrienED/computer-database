@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import config.ConfigForTest;
-import config.WebConfig;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;

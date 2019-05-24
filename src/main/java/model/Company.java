@@ -1,9 +1,16 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Company {
 
 	public static class Builder {
 
+		@Id
+	    @GeneratedValue
 		private long id;
 		private String name;
 
