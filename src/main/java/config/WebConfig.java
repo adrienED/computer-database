@@ -28,10 +28,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableWebMvc
 @ComponentScan (basePackages = {"mapper", "persistence","service","controller","validator","dto"})
 public class WebConfig implements WebMvcConfigurer{
-	
-	 
-	 
-	 
+
 	 @Bean(destroyMethod = "close")
 		public DataSource mysqlDataSource() {
 			ResourceBundle bundle = ResourceBundle.getBundle("db");
@@ -49,9 +46,6 @@ public class WebConfig implements WebMvcConfigurer{
 		public DataSourceTransactionManager getTransactionManager(DataSource mysqlDataSource) {
 			return new DataSourceTransactionManager(mysqlDataSource);
 	}
-		
-		
-	  
 	    @Bean
 	    public ViewResolver viewResolver() {
 	        InternalResourceViewResolver bean = 
@@ -89,6 +83,3 @@ public class WebConfig implements WebMvcConfigurer{
 	 	   }
 	
 	 	}
-	
-
-
