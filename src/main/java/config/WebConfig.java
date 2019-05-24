@@ -1,5 +1,7 @@
 package config;
 
+import java.util.ResourceBundle;
+
 import javax.sql.DataSource;
 
 import org.springframework.context.MessageSource;
@@ -7,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -18,21 +21,36 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan (basePackages = {"mapper", "persistence","service","controller","validator","dto"})
 public class WebConfig implements WebMvcConfigurer{
 	
-	 @Bean
-	    public DataSource mysqlDataSource() {
-	        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-	        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-	        dataSource.setUrl("jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC");
-	        dataSource.setUsername("admincdb");
-	        dataSource.setPassword("qwerty1234");
 	 
-	        return dataSource;
-	    }
+	 
+	 
+	 @Bean(destroyMethod = "close")
+		public DataSource mysqlDataSource() {
+			ResourceBundle bundle = ResourceBundle.getBundle("db");
+			HikariConfig config = new HikariConfig();
+			
+			config.setJdbcUrl(bundle.getString("jdbcUrl"));
+			config.setDriverClassName(bundle.getString("DriverClassName"));
+			config.setUsername(bundle.getString("dataSource.user"));
+			config.setPassword(bundle.getString("dataSource.password"));
+			
+			return new HikariDataSource(config);
+		}
+
+		@Bean
+		public DataSourceTransactionManager getTransactionManager(DataSource mysqlDataSource) {
+			return new DataSourceTransactionManager(mysqlDataSource);
+	}
+		
+		
 	  
 	    @Bean
 	    public ViewResolver viewResolver() {
