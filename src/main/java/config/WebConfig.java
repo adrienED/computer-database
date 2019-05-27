@@ -92,7 +92,7 @@ public class WebConfig implements WebMvcConfigurer{
 	 	      registry.addInterceptor(localeChangeInterceptor);
 	 	   }
 	   
-	 	  @Bean
+	 	 @Bean
 	 	 public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 	 	 LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 	 	 em.setDataSource(mysqlDataSource());

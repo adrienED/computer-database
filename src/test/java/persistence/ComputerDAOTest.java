@@ -52,7 +52,6 @@ public class ComputerDAOTest {
 
 	}
 
-
 	@Test
 	public void testFindById() throws ComputerNotFoundException, InvalidDateChronology {
 
