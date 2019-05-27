@@ -1,8 +1,6 @@
 package controller;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import dto.CompanyDTO;
 import dto.ComputerDTO;
 import exception.EmptyCompanyNameException;
 import exception.EmptyComputerNameException;
@@ -24,6 +21,7 @@ import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
+import model.Company;
 import service.CompanyService;
 import service.ComputerService;
 import validator.ComputerValidator;
@@ -57,8 +55,7 @@ public class addComputer {
 	public ModelAndView listCompanies() {
 		ModelAndView mv = new ModelAndView("addComputer", "computerDTO", new ComputerDTO());
 
-		List<CompanyDTO> listCompanies = this.companyService.getAll().stream().map(this.companyMapper::modelToDto)
-				.collect(Collectors.toList());
+		List<Company> listCompanies = this.companyService.listCompany();
 
 		mv.getModel().put("ListCompanies", listCompanies);
 
@@ -82,7 +79,7 @@ public class addComputer {
 			return new ModelAndView("redirect:dashboard");
 
 		} catch (EmptyComputerNameException | EmptyCompanyNameException | InvalidDateChronology
-				| InvalidDateValueException | SQLException e) {
+				| InvalidDateValueException  e) {
 			mView.setViewName("error");
 			mView.getModel().put("errorMessage", e.getMessage());
 			return mView;

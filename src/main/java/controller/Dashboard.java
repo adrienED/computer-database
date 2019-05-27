@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import dto.ComputerDTO;
-import exception.ComputerNotFoundException;
 import exception.InvalidDateChronology;
-import exception.InvalidDateValueException;
 import mapper.ComputerMapper;
 import service.ComputerService;
 
@@ -61,33 +59,24 @@ public class Dashboard {
 
 		if (request.getParameter("search") != null) {
 
-			try {
+			
 				listComputerDTO = this.computerService.search(request.getParameter("search")).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
 				
 				mv.getModel().put("ListComputer", listComputerDTO);
 
 				nbOfComputer = listComputerDTO.size();
-			} catch (InvalidDateChronology e) {
-				logger.error(e.getMessage());
-			}
+			
 		} else {
 
 			if (request.getParameter("orderBy") != null)
 				orderParameter = request.getParameter("orderBy");
 
-			try {
 				nbOfComputer = computerService.getNbOfComputer();
-			} catch (SQLException e1) {
-				logger.error(e1.getMessage());
-			}
 
-			try {
 				listComputerDTO = this.computerService.getAllOrderedBy(nbOfComputerByPage, page = page * 10 - 10,
 						orderParameter).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
 
-			} catch (InvalidDateChronology e) {
-				logger.error("Date invalid controller", e);
-			}
+			
 			mv.getModel().put("ListComputer", listComputerDTO);
 		}
 

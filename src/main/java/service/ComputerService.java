@@ -1,12 +1,10 @@
 package service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 import exception.ComputerNotFoundException;
-import exception.InvalidDateChronology;
 import mapper.ComputerMapper;
 import model.Computer;
 import persistence.ComputerDAO;
@@ -24,17 +22,16 @@ public class ComputerService {
 		this.computerDAO = computerDAO;
 	}
 
-	public long create(Computer computer) throws SQLException {
+	public long create(Computer computer) {
 		return this.computerDAO.create(computer);
 	}
 
 	public void update(Computer computer)
-			throws  SQLException, ComputerNotFoundException {
+			throws   ComputerNotFoundException {
 		this.computerDAO.update(computer);
 	}
 
-	public boolean delete(long id)
-			throws  SQLException, ComputerNotFoundException {
+	public boolean delete(long id) {
 		return this.computerDAO.delete(id);
 	}
 
@@ -42,27 +39,27 @@ public class ComputerService {
 		return this.computerDAO.findById(this.computerMapper.idToLong(id));
 	}
 
-	public List<Computer> getAll(int limit, int offset) throws InvalidDateChronology {
+	public List<Computer> getAll(int limit, int offset) {
 
 		List<Computer> computerList = computerDAO.getAll(limit, offset);
 
 		return computerList;
 	}
 
-	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter) throws InvalidDateChronology {
+	public List<Computer> getAllOrderedBy(int limit, int offset, String orderByParameter) {
 
 		List<Computer> computerList = computerDAO.getAllOrderedBy(limit, offset, orderByParameter);
 
 		return computerList;
 	}
 
-	public int getNbOfComputer() throws SQLException {
+	public int getNbOfComputer() {
 		int nbOfComputer = computerDAO.getNbOfComputer();
 		return nbOfComputer;
 
 	}
 
-	public List<Computer> search(String keyword) throws InvalidDateChronology {
+	public List<Computer> search(String keyword)  {
 
 		List<Computer> computerList;
 		computerList = computerDAO.getSearchComputer(keyword);

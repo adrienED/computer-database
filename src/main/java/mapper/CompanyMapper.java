@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import dto.CompanyDTO;
 import model.Company;
-import model.Company.Builder;
 
 @Component("CompanyMapper")
 public class CompanyMapper implements RowMapper<Company> {
@@ -23,20 +22,19 @@ public class CompanyMapper implements RowMapper<Company> {
 	@Override
 	public Company mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 
-		Company company = new Company.Builder().withParameter(resultSet.getLong("id"), resultSet.getString("name"))
-				.build();
+		Company company = new Company(resultSet.getLong("id"),resultSet.getString("name"));
 
 		return company;
 	}
 
 	public Company dtoToModel(CompanyDTO companyDTO) {
-		Builder builder = new Company.Builder();
+		Company company = new Company();
 		try {
-			builder.withParameter(Long.parseLong(companyDTO.getId()), companyDTO.getName());
+			company = new Company(Long.parseLong(companyDTO.getId()), companyDTO.getName());
 		} catch (NullPointerException e) {
 			logger.error("dtoToModel null input", e);
 		}
-		Company company = builder.build();
+
 		return company;
 	}
 

@@ -1,7 +1,5 @@
 package persistence;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -13,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import exception.ComputerNotFoundException;
-import exception.InvalidDateChronology;
 import mapper.ComputerMapper;
 import model.Computer;
 
@@ -61,10 +58,10 @@ public class ComputerDAO {
 		return lastInsertedId;
 	}
 
-	public boolean delete(long idDelete) throws SQLException, ComputerNotFoundException {
+	public boolean delete(long idDelete)  {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-		jdbcTemplate.update(SQL_DELETE, new Object[] { idDelete });
+		jdbcTemplate.update(SQL_DELETE, idDelete);
 
 		logger.info("computer delete");
 

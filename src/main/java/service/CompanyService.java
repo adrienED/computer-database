@@ -8,7 +8,7 @@ import model.Company;
 import persistence.CompanyDAO;
 
 @Component("CompanyService")
-public class CompanyService {
+public class CompanyService implements ICompanyService {
 
 
 	private final CompanyDAO companyDAO;
@@ -18,20 +18,9 @@ public class CompanyService {
 		this.companyDAO = companyDAO;
 	}
 
-	public List<Company> getAll() {
-
-		List<Company> companyList = companyDAO.getAll();
-
-		return companyList;
+	@Override
+	public List<Company> listCompany() {
+		
+		 return companyDAO.listCompanies();
 	}
-
-	public Company getNameById(long id) {
-		Company company = companyDAO.findById(id);
-		return company;
-	}
-
-	public void deleteCompanyById(long id) {
-		companyDAO.deleteCompanyById(id);
-	}
-
 }

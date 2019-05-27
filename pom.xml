@@ -10,7 +10,6 @@
 	<properties>
 		<java.version>1.8</java.version>
 
-		<!-- Version des dépendances -->
 		<mysql-connector.version>8.0.15</mysql-connector.version>
 		<slf4j.version>1.7.26</slf4j.version>
 		<junit.version>4.12</junit.version>
@@ -26,7 +25,7 @@
 		<jcl.version>1.7.25</jcl.version>
 		<logback.version>1.2.3</logback.version>
 
-    <querydsl.version>4.1.3</querydsl.version>		
+
 	</properties>
 
 	<dependencies>
@@ -41,122 +40,96 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		
-		<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-simple</artifactId>
-    <version>1.7.26</version>
-    <scope>test</scope>
-</dependency>
 
-<dependency>
-    <groupId>javax.persistence</groupId>
-    <artifactId>persistence-api</artifactId>
-    <version>1.0</version>
-</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.26</version>
+			<scope>test</scope>
+		</dependency>
+
+
 
 
 		<dependency>
-    <groupId>javax.servlet</groupId>
-    <artifactId>javax.servlet-api</artifactId>
-    <version>4.0.1</version>
-    <scope>provided</scope>
-	</dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>${jstl.version}</version>
 		</dependency>
 		<dependency>
-    <groupId>com.zaxxer</groupId>
-    <artifactId>HikariCP</artifactId>
-    <version>2.7.8</version>
-    <scope>compile</scope>
-	</dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.7.8</version>
+			<scope>compile</scope>
+		</dependency>
 
-	<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-context</artifactId>
-    <version>${spring.version}</version>
-	</dependency>
-	
-	<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-core</artifactId>
-    <version>${spring.version}</version>
-	</dependency>
-	
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-beans</artifactId>
-    <version>${spring.version}</version>
-</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-test</artifactId>
-    <version>${spring.version}</version>
-    <scope>test</scope>
-</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-web</artifactId>
-    <version>${spring.version}</version>
-</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
 
-	<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-webmvc</artifactId>
-    <version>${spring.version}</version>
-</dependency>
-
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-core</artifactId>
-		<version>${spring.version}</version>
-		<exclusions>
-		  <exclusion>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-		  </exclusion>
-		</exclusions>
-	</dependency>
-	
-	<dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-jdbc</artifactId>
-    <version>${spring.version}</version>
-</dependency>
-
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>jcl-over-slf4j</artifactId>
-    <version>${jcl.version}</version>
-</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
 
-<dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-core</artifactId>
-            <version>3.4.3</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-apt</artifactId>
-            <version>3.4.3</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 
-        <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-jpa</artifactId>
-            <version>3.4.3</version>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
-
-
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${jcl.version}</version>
+		</dependency>
 
 		<!-- Test -->
 
@@ -203,36 +176,31 @@
 			<scope>test</scope>
 		</dependency>
 		
-		
-		
-		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
 <dependency>
-    <groupId>org.hibernate.validator</groupId>
-    <artifactId>hibernate-validator</artifactId>
-    <version>6.0.16.Final</version>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-entitymanager</artifactId>
+    <version>5.4.2.Final</version>
 </dependency>
-		
+
+
+		<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
+
 		<dependency>
-  <groupId>com.querydsl</groupId>
-  <artifactId>querydsl-apt</artifactId>
-  <version>${querydsl.version}</version>
-  <scope>provided</scope>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+<dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-jpa</artifactId>
+    <version>2.1.3.RELEASE</version>
 </dependency>
 
-<dependency>
-  <groupId>com.querydsl</groupId>
-  <artifactId>querydsl-jpa</artifactId>
-  <version>${querydsl.version}</version>
-</dependency>
 
-<dependency>
-  <groupId>org.slf4j</groupId>
-  <artifactId>slf4j-log4j12</artifactId>
-  <version>1.6.1</version>
-</dependency>
-		
-		
-		
+
 	</dependencies>
 
 	<build>
@@ -350,26 +318,6 @@
 				</dependencies>
 
 			</plugin>
-
-
-    <plugin>
-      <groupId>com.mysema.maven</groupId>
-      <artifactId>apt-maven-plugin</artifactId>
-      <version>1.1.3</version>
-      <executions>
-        <execution>
-          <goals>
-            <goal>process</goal>
-          </goals>
-          <configuration>
-            <outputDirectory>target/generated-sources/java</outputDirectory>
-            <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
-
-
 
 		</plugins>
 	</build>

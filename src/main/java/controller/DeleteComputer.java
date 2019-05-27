@@ -1,6 +1,5 @@
 package controller;
 
-import java.sql.SQLException;
 import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import exception.ComputerNotFoundException;
 import mapper.ComputerMapper;
 import service.ComputerService;
 
@@ -37,12 +35,7 @@ public class DeleteComputer {
 
 		String[] list = listDelete.split(",");
 		IntStream.range(0, list.length).forEach(i -> {
-			try {
 				computerService.delete(computerMapper.idToLong(list[i]));
-
-			} catch ( ComputerNotFoundException | SQLException e ) {
-				logger.error( e.getMessage());
-			}
 		});
 		
 		 return "redirect:dashboard";

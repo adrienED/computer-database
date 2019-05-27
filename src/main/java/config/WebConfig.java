@@ -1,7 +1,9 @@
 package config;
 
+import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.context.MessageSource;
@@ -9,7 +11,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -25,6 +34,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableWebMvc
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "persistence")
 @ComponentScan (basePackages = {"mapper", "persistence","service","controller","validator","dto"})
 public class WebConfig implements WebMvcConfigurer{
 
@@ -80,5 +91,33 @@ public class WebConfig implements WebMvcConfigurer{
 	 	      localeChangeInterceptor.setParamName("lang");
 	 	      registry.addInterceptor(localeChangeInterceptor);
 	 	   }
+	   
+	 	  @Bean
+	 	 public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+	 	 LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+	 	 em.setDataSource(mysqlDataSource());
+	 	 em.setPackagesToScan(new String[] { "model" });
+	 	 JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+	 	 em.setJpaVendorAdapter(vendorAdapter);
+	 	 em.setJpaProperties(additionalProperties());
+	 	 return em;
+	 	 }
+	 	  
+	 	 Properties additionalProperties() {
+	 		Properties properties = new Properties();
+	 		properties.setProperty("hibernate.hbm2ddl.auto", "update");
+	 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+	 		properties.setProperty("hibernate.show_sql", "true");
+	 		return properties;
+	 		}
+
+
+	 	@Bean
+	 	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+	 	JpaTransactionManager transactionManager = new JpaTransactionManager();
+	 	transactionManager.setEntityManagerFactory(emf);
+	 	return transactionManager;
+	 	}
+
 	
 	 	}

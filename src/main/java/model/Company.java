@@ -1,51 +1,32 @@
 package model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+
 
 @Entity
+@Table(name="company")
 public class Company {
 
-	public static class Builder {
-
 		@Id
-	    @GeneratedValue
 		private long id;
+		@Column (name ="NAME")
 		private String name;
 
-		public Builder() {
 
-		}
 
-		public Builder withParameter(long id, String name) {
-
-			this.id = id;
-			this.name = name;
-
-			return this;
-
-		}
-
-		public Company build() {
-
-			Company company = new Company();
-
-			company.id = this.id;
-
-			company.name = this.name;
-
-			return company;
-
-		}
+	public Company() {
 
 	}
-
-	private long id;
-	private String name;
-
-	private Company() {
-
+	
+	public Company(long id, String name) {
+			this.id=id;
+			this.name=name;
 	}
 
 	public long getId() {

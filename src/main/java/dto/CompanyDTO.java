@@ -1,12 +1,10 @@
 package dto;
 
-import javax.validation.constraints.NotNull;
-
 public class CompanyDTO {
 
-	@NotNull
+
 	private String id;
-	@NotNull
+	
 	private String name;
 
 	public String getName() {
