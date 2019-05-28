@@ -36,7 +36,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "repository")
-@ComponentScan (basePackages = {"mapper","service","controller","validator","dto",})
+@ComponentScan (basePackages = {"mapper","service","controller","validator","dto","repository","model"})
 public class WebConfig implements WebMvcConfigurer{
 
 	 @Bean(destroyMethod = "close")
@@ -96,7 +96,7 @@ public class WebConfig implements WebMvcConfigurer{
 	 	 public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 	 	 LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 	 	 em.setDataSource(mysqlDataSource());
-	 	 em.setPackagesToScan(new String[] { "model" });
+	 	 em.setPackagesToScan("model");
 	 	 JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 	 	 em.setJpaVendorAdapter(vendorAdapter);
 	 	 em.setJpaProperties(additionalProperties());

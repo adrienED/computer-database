@@ -1,4 +1,4 @@
-/*package controller;
+package controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,7 +59,7 @@ public class Dashboard {
 		if (request.getParameter("search") != null) {
 
 			
-				listComputerDTO = this.computerService.search(request.getParameter("search")).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
+				//listComputerDTO = this.computerService.search(request.getParameter("search")).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
 				
 				mv.getModel().put("ListComputer", listComputerDTO);
 
@@ -71,8 +72,7 @@ public class Dashboard {
 
 				nbOfComputer = computerService.getNbOfComputer();
 
-				listComputerDTO = this.computerService.getAllOrderedBy(nbOfComputerByPage, page = page * 10 - 10,
-						orderParameter).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
+				listComputerDTO = this.computerService.findAllPagined(PageRequest.of(1,20)).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
 
 			
 			mv.getModel().put("ListComputer", listComputerDTO);
@@ -89,4 +89,4 @@ public class Dashboard {
 		return mv;
 	}
 }
-*/
+

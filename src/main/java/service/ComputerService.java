@@ -1,5 +1,11 @@
 package service;
 
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import mapper.ComputerMapper;
@@ -21,6 +27,19 @@ public class ComputerService {
 	public Computer create(Computer computer) {
 		return computerRepository.save(computer);
 	}
+	
+	public int getNbOfComputer() {
+		long nbOfComputer = computerRepository.count();
+		return (int) nbOfComputer;
+	}
+	
+	public List<Computer> findAllPagined(Pageable pageable){
+		
+		Page<Computer> comPage =computerRepository.findAll(PageRequest.of(1, 10));
+		List<Computer> computers = comPage.getContent();
+		return  computers;
+	}
+
 	/*
 	public void update(Computer computer)
 			throws   ComputerNotFoundException {
@@ -49,9 +68,7 @@ public class ComputerService {
 		return computerList;
 	}
 
-	public int getNbOfComputer() {
-		int nbOfComputer = computerDAO.getNbOfComputer();
-		return nbOfComputer;
+	
 
 	}
 

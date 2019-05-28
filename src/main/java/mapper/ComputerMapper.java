@@ -3,6 +3,7 @@ package mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 	
 	CompanyService companyService;
 
-	public ComputerMapper(CompanyRepository companyRepository) {
+	public ComputerMapper(CompanyService companyService) {
 		this.companyService=companyService;
 	}
 
@@ -102,8 +103,8 @@ public class ComputerMapper implements RowMapper<Computer> {
 			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
 		
 		System.out.println(computer.getCompanyID());
-		Company company = companyService.findById(computer.getCompanyID();
-		computerDTO.setCompanyName(companyService.findById(computer.getCompanyID()).getName());
+		Optional<Company> company = companyService.findById(computer.getCompanyID());
+		computerDTO.setCompanyName(companyService.findById(computer.getCompanyID()).get().getName());
 
 		return computerDTO;
 	}

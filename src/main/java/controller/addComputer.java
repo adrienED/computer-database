@@ -23,6 +23,7 @@ import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
+import net.bytebuddy.asm.Advice.This;
 import service.CompanyService;
 import service.ComputerService;
 import validator.ComputerValidator;
@@ -60,6 +61,8 @@ public class addComputer {
 				.collect(Collectors.toList());
 
 		mv.getModel().put("ListCompanies", listCompanies);
+		
+		System.out.println(this.companyService.findById(36));
 
 		return mv;
 	}
@@ -76,11 +79,11 @@ public class addComputer {
 		model.addAttribute("companyName", computerDTO.getCompanyName());
 		
 		try {
-			computerValidator.validate(computerDTO);
+			//computerValidator.validate(computerDTO);
 			computerService.create(computerMapper.dtoToModel(computerDTO));
 			return new ModelAndView("redirect:dashboard");
 
-		} catch (EmptyComputerNameException | EmptyCompanyNameException | InvalidDateChronology
+		} catch ( InvalidDateChronology
 				| InvalidDateValueException  e) {
 			mView.setViewName("error");
 			mView.getModel().put("errorMessage", e.getMessage());

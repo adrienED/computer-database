@@ -13,11 +13,11 @@ public class Computer {
 
 	@Id
 	private long id;
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	private String name;
-	@Column(name = "introduction")
+	@Column(name = "introduced", nullable = true)
 	private LocalDate introduced;
-	@Column(name ="discontinued")
+	@Column(name ="discontinued", nullable = true)
 	private LocalDate discontinued;
 	@Column(name ="company_id")
 	private long companyID;
