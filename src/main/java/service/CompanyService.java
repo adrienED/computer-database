@@ -1,26 +1,37 @@
 package service;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import model.Company;
-import persistence.CompanyDAO;
+import repository.CompanyRepository;
 
 @Component("CompanyService")
-public class CompanyService implements ICompanyService {
+public class CompanyService  {
 
 
-	private final CompanyDAO companyDAO;
+@Autowired
+CompanyRepository companyRepository;
 
-	public CompanyService( CompanyDAO companyDAO) {
-		super();
-		this.companyDAO = companyDAO;
+
+	public CompanyService() {
 	}
 
-	@Override
-	public List<Company> listCompany() {
-		
-		 return companyDAO.listCompanies();
+
+	public List<Company> getAll() {
+		 return companyRepository.findAll();
 	}
+	
+	public long findByName(String name) {
+		return companyRepository.findByName(name);
+	}
+	
+	public Optional<Company> findById (long id) {
+		return companyRepository.findById(id);
+	}
+	
+	
 }

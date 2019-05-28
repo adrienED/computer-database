@@ -1,4 +1,4 @@
-package controller;
+/*package controller;
 
 import java.util.stream.IntStream;
 
@@ -41,3 +41,4 @@ public class DeleteComputer {
 		 return "redirect:dashboard";
 	}
 }
+*/

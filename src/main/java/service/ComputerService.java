@@ -1,31 +1,27 @@
 package service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
-import exception.ComputerNotFoundException;
 import mapper.ComputerMapper;
 import model.Computer;
-import persistence.ComputerDAO;
+import repository.ComputerRepository;
 
 @Component("ComputerService")
 public class ComputerService {
 
 	private final ComputerMapper computerMapper;
+	private final ComputerRepository computerRepository;
 
-	private final ComputerDAO computerDAO;
-
-	public ComputerService(ComputerMapper computerMapper, ComputerDAO computerDAO) {
+	public ComputerService(ComputerMapper computerMapper, ComputerRepository computerRepository) {
 		super();
 		this.computerMapper = computerMapper;
-		this.computerDAO = computerDAO;
+		this.computerRepository = computerRepository;
 	}
 
-	public long create(Computer computer) {
-		return this.computerDAO.create(computer);
+	public Computer create(Computer computer) {
+		return computerRepository.save(computer);
 	}
-
+	/*
 	public void update(Computer computer)
 			throws   ComputerNotFoundException {
 		this.computerDAO.update(computer);
@@ -67,4 +63,5 @@ public class ComputerService {
 		return computerList;
 
 	}
+	*/
 }

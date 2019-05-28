@@ -56,7 +56,7 @@ public class addComputer {
 	public ModelAndView listCompanies() {
 		ModelAndView mv = new ModelAndView("addComputer", "computerDTO", new ComputerDTO());
 
-		List<CompanyDTO> listCompanies = this.companyService.listCompany().stream().map(this.companyMapper::modelToDto)
+		List<CompanyDTO> listCompanies = this.companyService.getAll().stream().map(this.companyMapper::modelToDto)
 				.collect(Collectors.toList());
 
 		mv.getModel().put("ListCompanies", listCompanies);
@@ -74,7 +74,7 @@ public class addComputer {
 		model.addAttribute("introduced", computerDTO.getIntroduced());
 		model.addAttribute("discontinued", computerDTO.getDiscontinued());
 		model.addAttribute("companyName", computerDTO.getCompanyName());
-
+		
 		try {
 			computerValidator.validate(computerDTO);
 			computerService.create(computerMapper.dtoToModel(computerDTO));

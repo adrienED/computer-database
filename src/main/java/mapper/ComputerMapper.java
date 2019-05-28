@@ -12,23 +12,20 @@ import org.springframework.stereotype.Component;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
+import model.Company;
 import model.Computer;
-import persistence.CompanyDAO;
+import repository.CompanyRepository;
+import service.CompanyService;
 
 @Component("ComputerMapper")
 public class ComputerMapper implements RowMapper<Computer> {
 
 	private Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
-
 	
-	private final CompanyDAO companyDAO;
+	CompanyService companyService;
 
-	
-
-	public ComputerMapper(CompanyDAO companyDAO) {
-		super();
-		
-		this.companyDAO = companyDAO;
+	public ComputerMapper(CompanyRepository companyRepository) {
+		this.companyService=companyService;
 	}
 
 	@Override
@@ -37,54 +34,54 @@ public class ComputerMapper implements RowMapper<Computer> {
 		if (resultSet.getLong("id") == 0L || resultSet.getString("name") == null)
 			return null;
 
-		Computer.Builder builder = new Computer.Builder();
+		Computer computer = new Computer();
 
-		builder.withId(resultSet.getLong("id"));
+		computer.setId(resultSet.getLong("id"));
 
-		builder.withName(resultSet.getString("name"));
+		computer.setName(resultSet.getString("name"));
 		if (resultSet.getDate("introduced") != null) {
-			builder.withIntroduced(resultSet.getDate("introduced").toLocalDate());
+			computer.setIntroduced(resultSet.getDate("introduced").toLocalDate());
 		}
 		if (resultSet.getDate("discontinued") != null) {
-			builder.withDiscontinued(resultSet.getDate("discontinued").toLocalDate());
+			computer.setDiscontinued(resultSet.getDate("discontinued").toLocalDate());
 		}
 
-		builder.withCompanyID(resultSet.getLong("company_id"));
-		Computer computer = builder.build();
+		computer.setCompanyID(resultSet.getLong("company_id"));
+
 
 		return computer;
 	}
 
 	public Computer dtoToModel(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
-		Computer.Builder builder = new Computer.Builder();
+		Computer computer=new Computer();
 		try {
 
 			if (computerDTO.getId() != null)
-				builder.withId(Long.parseLong(computerDTO.getId()));
+				computer.setId(Long.parseLong(computerDTO.getId()));
 
-			builder.withName(computerDTO.getName());
+			computer.setName(computerDTO.getName());
 
 			if (computerDTO.getIntroduced()==null || computerDTO.getIntroduced() =="")
-				builder.withIntroduced(null);
+				computer.setIntroduced(null);
 			else
-				builder.withIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
+				computer.setIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
 
 			if (computerDTO.getDiscontinued()==null || computerDTO.getDiscontinued()=="")
-				builder.withDiscontinued(null);
+				computer.setDiscontinued(null);
 			else
-				builder.withDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
-			long id = companyDAO.findByName(computerDTO.getCompanyName());
+				computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
+			long id = companyService.findByName(computerDTO.getCompanyName());
 			if ( id == 0)
-			builder.withCompanyID(0);
+				computer.setCompanyID(0);
 			else {
-				builder.withCompanyID(id);
+				computer.setCompanyID(id);
 			}
 			logger.info(computerDTO.toString());
 		} catch (NullPointerException e) {
 			logger.error("null exception dtoToModel", e);
 
 		}
-		Computer computer = builder.build();
+		
 		return computer;
 	}
 
@@ -105,7 +102,8 @@ public class ComputerMapper implements RowMapper<Computer> {
 			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
 		
 		System.out.println(computer.getCompanyID());
-		computerDTO.setCompanyName(companyDAO.findById(computer.getCompanyID()).getName());
+		Company company = companyService.findById(computer.getCompanyID();
+		computerDTO.setCompanyName(companyService.findById(computer.getCompanyID()).getName());
 
 		return computerDTO;
 	}

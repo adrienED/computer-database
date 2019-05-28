@@ -35,8 +35,8 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "persistence")
-@ComponentScan (basePackages = {"mapper", "persistence","service","controller","validator","dto"})
+@EnableJpaRepositories(basePackages = "repository")
+@ComponentScan (basePackages = {"mapper","service","controller","validator","dto",})
 public class WebConfig implements WebMvcConfigurer{
 
 	 @Bean(destroyMethod = "close")

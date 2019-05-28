@@ -1,4 +1,4 @@
-package persistence;
+/*package persistence;
 
 import java.util.List;
 
@@ -170,3 +170,4 @@ public class ComputerDAO {
 	}
 
 }
+*/

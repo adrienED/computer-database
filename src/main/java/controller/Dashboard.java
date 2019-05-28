@@ -1,6 +1,5 @@
-package controller;
+/*package controller;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import dto.ComputerDTO;
-import exception.InvalidDateChronology;
 import mapper.ComputerMapper;
 import service.ComputerService;
 
@@ -37,7 +35,7 @@ public class Dashboard {
 	}
 
 	@GetMapping
-	public ModelAndView doGet(HttpServletRequest request) throws InvalidDateChronology, SQLException {
+	public ModelAndView doGet(HttpServletRequest request) {
 
 		int nbOfComputerByPage;
 		String orderParameter;
@@ -91,3 +89,4 @@ public class Dashboard {
 		return mv;
 	}
 }
+*/
