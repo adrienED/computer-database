@@ -12,7 +12,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 @Entity
-@Table (name="computer")
+@Table(name = "computer")
 public class Computer {
 
 	@Id
@@ -21,17 +21,16 @@ public class Computer {
 	private String name;
 	@Column(name = "introduced", nullable = true)
 	private LocalDate introduced;
-	@Column(name ="discontinued", nullable = true)
+	@Column(name = "discontinued", nullable = true)
 	private LocalDate discontinued;
-	
-	@Column(name ="company_id", nullable = false)
+
+	@Column(name = "company_id", nullable = false)
 	@Basic(optional = true)
 	@NotFound(action = NotFoundAction.IGNORE)
 	private Long companyID;
 
 	public Computer() {
 	}
-
 
 	public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, long companyID) {
 		super();
@@ -41,8 +40,6 @@ public class Computer {
 		this.discontinued = discontinued;
 		this.companyID = companyID;
 	}
-
-
 
 	public long getId() {
 		return id;
@@ -76,11 +73,9 @@ public class Computer {
 		this.discontinued = discontinued;
 	}
 
-
 	public Long getCompanyID() {
 		return companyID;
 	}
-
 
 	public void setCompanyID(Long companyID) {
 		this.companyID = companyID;

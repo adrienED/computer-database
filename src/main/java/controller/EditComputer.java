@@ -1,6 +1,5 @@
 package controller;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,14 +63,9 @@ public class EditComputer {
 
 		ComputerDTO computerDTO = new ComputerDTO();
 
-		try {
-			Computer computer = computerService.findById(request.getParameter("id")).get();
-			
-			computerDTO = computerMapper.modelToDto(computer);
-
-		} catch (ComputerNotFoundException e) {
-			logger.error(e.getMessage());
-		}
+		Computer computer = computerService.findById(request.getParameter("id")).get();
+		
+		computerDTO = computerMapper.modelToDto(computer);
 		List<CompanyDTO> companyList = this.companyService.getAll().stream().map(this.companyMapper::modelToDto)
 				.collect(Collectors.toList());
 
@@ -85,7 +79,7 @@ public class EditComputer {
 
 	@PostMapping
 	public ModelAndView submit(@Validated @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult result,
-			ModelMap model) throws SQLException, ComputerNotFoundException {
+			ModelMap model) throws ComputerNotFoundException {
 
 		ModelAndView mView = new ModelAndView();
 

@@ -3,7 +3,6 @@ package mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +12,7 @@ import org.springframework.stereotype.Component;
 import dto.ComputerDTO;
 import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
-import model.Company;
 import model.Computer;
-import repository.CompanyRepository;
 import service.CompanyService;
 
 @Component("ComputerMapper")
@@ -53,7 +50,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 		return computer;
 	}
 
-	public Computer dtoToModel(ComputerDTO computerDTO) throws InvalidDateValueException, InvalidDateChronology {
+	public Computer dtoToModel(ComputerDTO computerDTO){
 		Computer computer=new Computer();
 		try {
 
@@ -77,7 +74,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 			else {
 				computer.setCompanyID(id);
 			}
-			logger.info(computerDTO.toString());
+
 		} catch (NullPointerException e) {
 			logger.error("null exception dtoToModel", e);
 
@@ -89,22 +86,19 @@ public class ComputerMapper implements RowMapper<Computer> {
 	public ComputerDTO modelToDto(Computer computer) {
 
 		ComputerDTO computerDTO = new ComputerDTO();
-		System.out.println(computer.getId());
 		
-		if (computer.getId() !=0)
-		computerDTO.setId(Long.toString(computer.getId()));
-		if (computer.getName() !=null )
-		computerDTO.setName(computer.getName());
+		if (computer.getId() !=0) {computerDTO.setId(Long.toString(computer.getId()));}
 
+		if (computer.getName() !=null ) {computerDTO.setName(computer.getName());}
+		
 		if (computer.getIntroduced() != null)
 			computerDTO.setIntroduced(computer.getIntroduced().toString());
 
 		if (computer.getDiscontinued() != null)
 			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
 		
-		System.out.println(computer.getCompanyID());
 		if(computer.getCompanyID() != null) {
-		Optional<Company> company = companyService.findById(computer.getCompanyID());
+		
 		computerDTO.setCompanyName(companyService.findById(computer.getCompanyID()).get().getName());
 		}
 		else {

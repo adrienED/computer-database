@@ -50,7 +50,7 @@ public class ComputerValidator {
 		else
 			validateDateDiscontinued = true;
 
-		if ( ! computerDTO.getIntroduced().isBlank() && computerDTO.getDiscontinued() != null)
+		if ( ! computerDTO.getIntroduced().isEmpty() && computerDTO.getDiscontinued().isEmpty())
 			validateDateOrder = validateDateOrder(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
 		else
 			validateDateOrder = true;
@@ -65,8 +65,7 @@ public class ComputerValidator {
 
 	private boolean validateDate(String date) throws InvalidDateChronology, InvalidDateValueException {
 		boolean validate = false;
-		System.out.println(date);
-		System.out.println("validate date");
+		
 
 		try {
 			LocalDate minDate = LocalDate.parse("1970-01-01");
@@ -82,7 +81,6 @@ public class ComputerValidator {
 
 	private boolean validateDateOrder(String introduced, String discontinued) throws InvalidDateChronology, InvalidDateValueException {
 		boolean validateDateOrder=false;
-		System.out.println("validate date order");
 		try {
 			LocalDate dateLocalInt = LocalDate.parse(introduced);
 			LocalDate dateLocalDisc = LocalDate.parse(discontinued);
