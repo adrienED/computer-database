@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -60,6 +61,10 @@ public class addComputer {
 				.collect(Collectors.toList());
 
 		mv.getModel().put("ListCompanies", listCompanies);
+		
+		
+		
+		System.out.println(computerService.search("Apple", PageRequest.of(2,3)));
 
 		return mv;
 	}

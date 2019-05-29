@@ -61,14 +61,21 @@ public class ComputerService {
 	public Optional<Computer> findById(String id) {
 		return this.computerRepository.findById(this.computerMapper.idToLong(id));
 	}
-/*
-	public List<Computer> search(String keyword)  {
-
-		List<Computer> computerList;
-		computerList = computerRepository.find
-
-		return computerList;
-
+	/*
+	public Computer findbyName (String name) {
+		return this.computerRepository.findByName("Amiga");
 	}
 	*/
+
+	public List<Computer> search(String keyword, Pageable pageable)  {
+
+		
+		
+		List <Computer> list = computerRepository.findSomething(keyword, pageable);
+
+		return list;
+
+	}
+	
+	
 }

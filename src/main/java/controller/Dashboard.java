@@ -60,7 +60,7 @@ public class Dashboard {
 		if (request.getParameter("search") != null) {
 
 			
-				//listComputerDTO = this.computerService.search(request.getParameter("search")).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
+				listComputerDTO = this.computerService.search(request.getParameter("search"),PageRequest.of(0, 3)).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
 				
 				mv.getModel().put("ListComputer", listComputerDTO);
 
