@@ -62,7 +62,7 @@ public class addComputer {
 
 		mv.getModel().put("ListCompanies", listCompanies);
 		
-		System.out.println(this.computerService.findAllComputers());
+
 
 		return mv;
 	}
@@ -79,12 +79,12 @@ public class addComputer {
 		model.addAttribute("companyName", computerDTO.getCompanyName());
 		
 		try {
-			//computerValidator.validate(computerDTO);
+			computerValidator.validate(computerDTO);
 			computerService.create(computerMapper.dtoToModel(computerDTO));
 			return new ModelAndView("redirect:dashboard");
 
 		} catch ( InvalidDateChronology
-				| InvalidDateValueException  e) {
+				| InvalidDateValueException | EmptyComputerNameException | EmptyCompanyNameException  e) {
 			mView.setViewName("error");
 			mView.getModel().put("errorMessage", e.getMessage());
 			return mView;

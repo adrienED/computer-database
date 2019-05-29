@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-
 import dto.ComputerDTO;
 import exception.EmptyCompanyNameException;
 import exception.EmptyComputerNameException;
@@ -28,6 +26,8 @@ public class ComputerValidator {
 		boolean validateDateDiscontinued;
 		boolean validateDateOrder;
 		boolean validateNameCompany;
+		
+		System.out.println(computerDTO);
 
 		if (computerDTO.getName() != null && computerDTO.getName() !="")
 			validateName = true;
@@ -39,18 +39,18 @@ public class ComputerValidator {
 		else
 			throw new EmptyCompanyNameException();
 
-		if (computerDTO.getIntroduced() != "" || computerDTO.getIntroduced() != null)
+		if ( ! computerDTO.getIntroduced().isEmpty() && computerDTO.getIntroduced() != null)
 			validateDateIntroduced = validateDate(computerDTO.getIntroduced());	
 			
 		else
 			validateDateIntroduced = true;
 
-		if (computerDTO.getDiscontinued() != "")
+		if ( ! computerDTO.getDiscontinued().isEmpty() && computerDTO.getDiscontinued() != null)
 			validateDateDiscontinued = validateDate(computerDTO.getDiscontinued());
 		else
 			validateDateDiscontinued = true;
 
-		if (computerDTO.getIntroduced() != "" && computerDTO.getDiscontinued() != "")
+		if ( ! computerDTO.getIntroduced().isBlank() && computerDTO.getDiscontinued() != null)
 			validateDateOrder = validateDateOrder(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
 		else
 			validateDateOrder = true;
@@ -65,13 +65,16 @@ public class ComputerValidator {
 
 	private boolean validateDate(String date) throws InvalidDateChronology, InvalidDateValueException {
 		boolean validate = false;
+		System.out.println(date);
+		System.out.println("validate date");
+
 		try {
 			LocalDate minDate = LocalDate.parse("1970-01-01");
 			LocalDate dateLocal = LocalDate.parse(date);
 			if (dateLocal.isBefore(minDate))
 				throw new InvalidDateChronology();
 		}
-		catch (ParseException e) {
+		catch (Exception e) {
 			throw new InvalidDateValueException(date);
 		}
 		return validate;
@@ -79,13 +82,14 @@ public class ComputerValidator {
 
 	private boolean validateDateOrder(String introduced, String discontinued) throws InvalidDateChronology, InvalidDateValueException {
 		boolean validateDateOrder=false;
+		System.out.println("validate date order");
 		try {
 			LocalDate dateLocalInt = LocalDate.parse(introduced);
 			LocalDate dateLocalDisc = LocalDate.parse(discontinued);
 			if (dateLocalInt.isAfter(dateLocalDisc))
 				throw new InvalidDateChronology();
 		}
-		catch (ParseException e) {
+		catch (Exception e) {
 			this.logger.error(" erreur parse input date ");
 			throw new InvalidDateValueException(introduced);
 		}

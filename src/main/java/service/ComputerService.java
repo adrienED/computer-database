@@ -2,14 +2,13 @@ package service;
 
 
 import java.util.List;
-
-import javax.transaction.Transactional;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import exception.ComputerNotFoundException;
 import mapper.ComputerMapper;
 import model.Computer;
 import repository.ComputerRepository;
@@ -54,20 +53,18 @@ public class ComputerService {
 		
 	}
 
-	/*
+	
 	public void update(Computer computer)
 			throws   ComputerNotFoundException {
-		this.computerDAO.update(computer);
+		computerRepository.save(computer);
 	}
 
-	public boolean delete(long id) {
-		return this.computerDAO.delete(id);
+
+	public Optional<Computer> findById(String id) throws ComputerNotFoundException {
+		return this.computerRepository.findById(this.computerMapper.idToLong(id));
 	}
 
-	public Computer findById(String id) throws ComputerNotFoundException {
-		return this.computerDAO.findById(this.computerMapper.idToLong(id));
-	}
-
+	/*
 	public List<Computer> getAll(int limit, int offset) {
 
 		List<Computer> computerList = computerDAO.getAll(limit, offset);

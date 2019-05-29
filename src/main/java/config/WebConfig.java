@@ -40,7 +40,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class WebConfig implements WebMvcConfigurer{
 
 	 @Bean(destroyMethod = "close")
-		public DataSource mysqlDataSource() {
+		public DataSource dataSource() {
 			ResourceBundle bundle = ResourceBundle.getBundle("db");
 			HikariConfig config = new HikariConfig();
 			
@@ -95,7 +95,7 @@ public class WebConfig implements WebMvcConfigurer{
 	 	 @Bean
 	 	 public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 	 	 LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-	 	 em.setDataSource(mysqlDataSource());
+	 	 em.setDataSource(dataSource());
 	 	 em.setPackagesToScan("model");
 	 	 JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 	 	 em.setJpaVendorAdapter(vendorAdapter);

@@ -1,4 +1,4 @@
-/*package controller;
+package controller;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -27,6 +27,7 @@ import exception.InvalidDateChronology;
 import exception.InvalidDateValueException;
 import mapper.CompanyMapper;
 import mapper.ComputerMapper;
+import model.Computer;
 import service.CompanyService;
 import service.ComputerService;
 import validator.ComputerValidator;
@@ -64,8 +65,9 @@ public class EditComputer {
 		ComputerDTO computerDTO = new ComputerDTO();
 
 		try {
-
-			computerDTO = computerMapper.modelToDto(computerService.findById(request.getParameter("id")));
+			Computer computer = computerService.findById(request.getParameter("id")).get();
+			
+			computerDTO = computerMapper.modelToDto(computer);
 
 		} catch (ComputerNotFoundException e) {
 			logger.error(e.getMessage());
@@ -99,12 +101,11 @@ public class EditComputer {
 			mView.setViewName("redirect:dashboard");
 			return mView;
 
-		} catch (InvalidDateValueException | InvalidDateChronology | EmptyCompanyNameException
-				| EmptyComputerNameException e) {
+		} catch (InvalidDateValueException | InvalidDateChronology | EmptyComputerNameException | EmptyCompanyNameException e) {
 			mView.setViewName("error");
 			mView.getModel().put("errorMessage", e.getMessage());
 			return mView;
 		}
 	}
 }
-*/
+

@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import config.ConfigForTest;
 import dto.CompanyDTO;
 import model.Company;
-import persistence.CompanyDAO;
+import service.CompanyService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,7 +22,7 @@ public class CompanyMapperTest {
 	@Autowired
 	CompanyMapper companyMapper;
 	@Autowired
-	CompanyDAO companyDAO;
+	CompanyService companyService;
 	
 	
 	CompanyDTO companyDTO = new CompanyDTO();
@@ -39,14 +39,16 @@ public class CompanyMapperTest {
 	}
 
 	@Test
-	public void testDtoToModel() {
+	public void testDtoToModel() {	
 		
-		Company.Builder builder = new Company.Builder();		
-		builder.withParameter(23L, "Macbook");
-		Company company = builder.build();
+		Company company = new Company();		
+		company.setId(23L);
+		company.setName("Apple");
+
+
 		
 		companyDTO.setId("23");
-		companyDTO.setName("Macbook");
+		companyDTO.setName("23L");
 		
 		assertEquals(23L,companyMapper.dtoToModel(companyDTO).getId() );
 		assertEquals("Macbook",companyMapper.dtoToModel(companyDTO).getName());
@@ -65,9 +67,9 @@ public class CompanyMapperTest {
 	public void testModelToDto() {
 	
 		
-		Company.Builder builder = new Company.Builder();		
-		builder.withParameter(23L, "Macbook");
-		Company company = builder.build();
+		Company company = new Company();		
+		company.setId(23L);
+		company.setName("Apple");
 		
 		companyDTO.setId("23");
 		companyDTO.setName("Macbook");
