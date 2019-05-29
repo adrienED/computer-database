@@ -2,10 +2,14 @@ package model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 @Entity
 @Table (name="computer")
@@ -19,8 +23,11 @@ public class Computer {
 	private LocalDate introduced;
 	@Column(name ="discontinued", nullable = true)
 	private LocalDate discontinued;
-	@Column(name ="company_id")
-	private long companyID;
+	
+	@Column(name ="company_id", nullable = false)
+	@Basic(optional = true)
+	@NotFound(action = NotFoundAction.IGNORE)
+	private Long companyID;
 
 	public Computer() {
 	}
@@ -70,12 +77,12 @@ public class Computer {
 	}
 
 
-	public long getCompanyID() {
+	public Long getCompanyID() {
 		return companyID;
 	}
 
 
-	public void setCompanyID(long companyID) {
+	public void setCompanyID(Long companyID) {
 		this.companyID = companyID;
 	}
 

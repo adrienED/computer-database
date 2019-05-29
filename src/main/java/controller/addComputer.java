@@ -62,7 +62,7 @@ public class addComputer {
 
 		mv.getModel().put("ListCompanies", listCompanies);
 		
-		System.out.println(this.companyService.findById(36));
+		System.out.println(this.computerService.findAllComputers());
 
 		return mv;
 	}

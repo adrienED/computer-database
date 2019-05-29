@@ -73,7 +73,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 				computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
 			long id = companyService.findByName(computerDTO.getCompanyName());
 			if ( id == 0)
-				computer.setCompanyID(0);
+				computer.setCompanyID((long) 0);
 			else {
 				computer.setCompanyID(id);
 			}
@@ -103,9 +103,13 @@ public class ComputerMapper implements RowMapper<Computer> {
 			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
 		
 		System.out.println(computer.getCompanyID());
+		if(computer.getCompanyID() != null) {
 		Optional<Company> company = companyService.findById(computer.getCompanyID());
 		computerDTO.setCompanyName(companyService.findById(computer.getCompanyID()).get().getName());
-
+		}
+		else {
+			computerDTO.setCompanyName("");
+		}
 		return computerDTO;
 	}
 

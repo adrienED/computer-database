@@ -1,4 +1,4 @@
-/*package controller;
+package controller;
 
 import java.util.stream.IntStream;
 
@@ -35,10 +35,10 @@ public class DeleteComputer {
 
 		String[] list = listDelete.split(",");
 		IntStream.range(0, list.length).forEach(i -> {
-				computerService.delete(computerMapper.idToLong(list[i]));
+				computerService.deleteComputer(computerMapper.idToLong(list[i]));
 		});
 		
 		 return "redirect:dashboard";
 	}
 }
-*/
+

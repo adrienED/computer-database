@@ -68,20 +68,20 @@
 							</a>
 						</span></th>
 						<th><spring:message code="app.lang.computer"/>
-                            <a href="dashboard?orderBy=name&nbOfComputerByPage=10&page=1">&#9650;</a>
+                            <a href="dashboard?orderBy=name&ComputerByPage=10&page=1">&#9650;</a>
                             <a href="dashboard?orderBy=nameDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
                             </th>
 						<th><spring:message code="app.lang.introDate"/>
-						<a href="dashboard?orderBy=introduced&nbOfComputerByPage=10&page=1">&#9650;</a>
+						<a href="dashboard?orderBy=introduced&ComputerByPage=10&page=1">&#9650;</a>
                         <a href="dashboard?orderBy=introducedDESC&nbOfComputerByPage=10&page=1">&#9660;</a></th>
 			
 						<th><spring:message code="app.lang.discDate"/>
-						<a href="dashboard?orderBy=discontinued&nbOfComputerByPage=10&page=1">&#9650;</a>
+						<a href="dashboard?orderBy=discontinued&ComputerByPage=10&page=1">&#9650;</a>
                         <a href="dashboard?orderBy=discontinuedDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
 						</th>
 						
 						<th><spring:message code="app.lang.company"/></a>
-						<a href="dashboard?orderBy=company&nbOfComputerByPage=10&page=1">&#9650;</a>
+						<a href="dashboard?orderBy=company&ComputerByPage=10&page=1">&#9650;</a>
                         <a href="dashboard?orderBy=companyDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
                         </th>
 

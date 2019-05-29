@@ -21,7 +21,6 @@ CompanyRepository companyRepository;
 	public CompanyService() {
 	}
 
-
 	public List<Company> getAll() {
 		 return companyRepository.findAll();
 	}
@@ -34,6 +33,4 @@ CompanyRepository companyRepository;
 		return companyRepository.findById(id);
 	}
 
-	
-	
 }

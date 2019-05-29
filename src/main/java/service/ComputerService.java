@@ -3,6 +3,8 @@ package service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,11 +35,23 @@ public class ComputerService {
 		return (int) nbOfComputer;
 	}
 	
+	public List <Computer> findAllComputers (){
+		return computerRepository.findAll();
+	}
+	
 	public List<Computer> findAllPagined(Pageable pageable){
 		
-		Page<Computer> comPage =computerRepository.findAll(PageRequest.of(1, 10));
+		Page<Computer> comPage =computerRepository.findAll(pageable);
+	
 		List<Computer> computers = comPage.getContent();
+
 		return  computers;
+	}
+	
+	
+	public void deleteComputer (long id) {
+		computerRepository.deleteById(id);
+		
 	}
 
 	/*
