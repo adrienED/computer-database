@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.excilys</groupId>
-	<artifactId>computer-database</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<properties>
-		<java.version>1.8</java.version>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
+  <groupId>com.excilys.CDB</groupId>
+  <artifactId>computer-database</artifactId>
+  <version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+  <name>computer-database</name>
+  <!-- FIXME change it to the project's website -->
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+
+		<java.version>1.8</java.version>
 		<mysql-connector.version>8.0.15</mysql-connector.version>
 		<slf4j.version>1.7.26</slf4j.version>
 		<junit.version>4.12</junit.version>
@@ -24,12 +31,27 @@
 		<spring.version>5.1.5.RELEASE</spring.version>
 		<jcl.version>1.7.25</jcl.version>
 		<logback.version>1.2.3</logback.version>
+  </properties>
+
+ <modules>
+    <module>computer-database-webapp</module>
+    <module>computer-database-core</module>
+    <module>computer-database-service</module>
+    <module>computer-database-binding</module>
+    <module>computer-database-persistence</module>
+    <module>computer-database-console</module>
+  </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
 
 
-	</properties>
-
-	<dependencies>
-		<dependency>
+<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector.version}</version>
@@ -133,12 +155,7 @@
 
 		<!-- Test -->
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>pl.pragmatists</groupId>
 			<artifactId>JUnitParams</artifactId>
@@ -201,9 +218,9 @@
 
 
 
-	</dependencies>
+  </dependencies>
 
-	<build>
+  <build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -320,5 +337,6 @@
 			</plugin>
 
 		</plugins>
-	</build>
+</build>
+ 
 </project>
