@@ -1,4 +1,4 @@
-package dto;
+package com.excilys.CDB.binding.dto;
 
 public class ComputerDTO {
 

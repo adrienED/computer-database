@@ -1,4 +1,4 @@
-package mapper;
+package com.excilys.CDB.binding.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import dto.CompanyDTO;
-import model.Company;
+import com.excilys.CDB.binding.dto.CompanyDTO;
+import com.excilys.CDB.core.model.Company;
 
 @Component("CompanyMapper")
 public class CompanyMapper implements RowMapper<Company> {
