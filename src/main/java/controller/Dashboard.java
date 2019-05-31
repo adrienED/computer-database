@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dto.ComputerDTO;
 import mapper.ComputerMapper;
+import service.CompanyService;
 import service.ComputerService;
 
 @Controller
@@ -25,11 +27,13 @@ public class Dashboard {
 
 	static Logger logger = LoggerFactory.getLogger(Dashboard.class);
 
+	@Autowired
+	CompanyService companyService;
+
 	private final ComputerService computerService;
-	
-	
-	private final ComputerMapper computerMapper;	
-	
+
+	private final ComputerMapper computerMapper;
+
 	public Dashboard(ComputerService computerService, ComputerMapper computerMapper) {
 		super();
 		this.computerService = computerService;
@@ -39,57 +43,70 @@ public class Dashboard {
 	@GetMapping
 	public ModelAndView doGet(HttpServletRequest request) {
 
-		int nbOfComputerByPage;
-		String orderParameter;
-		if(request.getParameter("nbOfComputerByPage")!=null)
-			nbOfComputerByPage = Integer.parseInt(request.getParameter("nbOfComputerByPage"));
-		else nbOfComputerByPage = 10;
-		if (request.getParameter("orderBy") != null)
-			orderParameter = request.getParameter("orderBy");
-		else orderParameter = "id";
 		int page = 1;
-		
-        ModelAndView mv = new ModelAndView();
+		int nbOfComputer = computerService.getNbOfComputer();
+		int nbOfComputerByPage;
+		String orderParameter = "id";
+		String AS = "ASC";
+		if (request.getParameter("nbOfComputerByPage") != null)
+			nbOfComputerByPage = Integer.parseInt(request.getParameter("nbOfComputerByPage"));
+		else
+			nbOfComputerByPage = 10;
+
+		if (request.getParameter("orderBy") != null) {
+			orderParameter = request.getParameter("orderBy");
+			if (orderParameter.equals("company"))
+				orderParameter = "B.name";
+		}
+
+		if (request.getParameter("AS") != null) {
+			AS = request.getParameter("AS");
+		}
+
+		PageRequest pageRequest;
+
+		ModelAndView mv = new ModelAndView();
 
 		List<ComputerDTO> listComputerDTO = new ArrayList<>();
-		int nbOfComputer = 10;
 
 		if (request.getParameter("page") != null)
 			page = Integer.parseInt(request.getParameter("page"));
 
 		if (request.getParameter("search") != null) {
 
-			
-				listComputerDTO = this.computerService.search(request.getParameter("search"),PageRequest.of(0, 3)).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
-				
-				mv.getModel().put("ListComputer", listComputerDTO);
+			if (AS.equals("DESC"))
+				pageRequest = PageRequest.of(page - 1, nbOfComputerByPage, Sort.by(orderParameter).descending());
+			else
+				pageRequest = PageRequest.of(page - 1, nbOfComputerByPage, Sort.by(orderParameter));
 
-				nbOfComputer = listComputerDTO.size();
-			
+			listComputerDTO = this.computerService.search(request.getParameter("search"), pageRequest).stream()
+					.map(this.computerMapper::modelToDto).collect(Collectors.toList());
+
+			mv.getModel().put("ListComputer", listComputerDTO);
+
+			nbOfComputer = listComputerDTO.size();
+
 		} else {
 
-			if (request.getParameter("orderBy") != null)
-				orderParameter = request.getParameter("orderBy");
+			if (AS.equals("DESC"))
+				pageRequest = PageRequest.of(page - 1, nbOfComputerByPage, Sort.by(orderParameter).descending());
+			else
+				pageRequest = PageRequest.of(page - 1, nbOfComputerByPage, Sort.by(orderParameter));
 
-				nbOfComputer = computerService.getNbOfComputer();
-				
-				PageRequest pageRequest = PageRequest.of(page-1, nbOfComputerByPage, Sort.by("companyID").descending());
+			listComputerDTO = this.computerService.findAll(pageRequest).stream().map(this.computerMapper::modelToDto)
+					.collect(Collectors.toList());
 
-				listComputerDTO = this.computerService.findAllPagined(pageRequest).stream().map(this.computerMapper::modelToDto).collect(Collectors.toList());
-			
-			
 			mv.getModel().put("ListComputer", listComputerDTO);
 		}
 
 		int lastPage = nbOfComputer / nbOfComputerByPage;
-		
+
 		mv.getModel().put("page", request.getParameter("page"));
-		mv.getModel().put("lastPage", lastPage);
 		mv.getModel().put("nbOfComputer", nbOfComputer);
+		mv.getModel().put("lastPage", lastPage);
 		mv.getModel().put("OrderBy", orderParameter);
 		mv.getModel().put("nbOfComputerByPage", nbOfComputerByPage);
 
 		return mv;
 	}
 }
-

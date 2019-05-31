@@ -29,5 +29,3 @@ public class WebAppInitializer implements WebApplicationInitializer {
         
      }
 	}
-  
-

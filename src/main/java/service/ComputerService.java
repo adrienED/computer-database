@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import mapper.ComputerMapper;
@@ -37,9 +39,9 @@ public class ComputerService {
 		return computerRepository.findAll();
 	}
 	
-	public List<Computer> findAllPagined(Pageable pageable){
+	public List<Computer> findAll(Pageable pageable){
 		
-		Page<Computer> comPage =computerRepository.findAll(pageable);
+		Page<Computer> comPage =computerRepository.listComputers(pageable);
 	
 		List<Computer> computers = comPage.getContent();
 
@@ -61,21 +63,18 @@ public class ComputerService {
 	public Optional<Computer> findById(String id) {
 		return this.computerRepository.findById(this.computerMapper.idToLong(id));
 	}
-	/*
-	public Computer findbyName (String name) {
-		return this.computerRepository.findByName("Amiga");
-	}
-	*/
+	
 
 	public List<Computer> search(String keyword, Pageable pageable)  {
-
 		
-		
-		List <Computer> list = computerRepository.findSomething(keyword, pageable);
+		Page <Computer> page = computerRepository.findSomething(keyword, pageable);
 
+		List<Computer> list = page.getContent();
 		return list;
 
 	}
+
+	
 	
 	
 }

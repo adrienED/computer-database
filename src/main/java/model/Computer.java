@@ -24,21 +24,21 @@ public class Computer {
 	@Column(name = "discontinued", nullable = true)
 	private LocalDate discontinued;
 
-	@Column(name = "company_id", nullable = false)
+	@Column(name = "company_id", nullable = true)
 	@Basic(optional = true)
 	@NotFound(action = NotFoundAction.IGNORE)
-	private Long companyID;
+	private Long company_id;
 
 	public Computer() {
 	}
 
-	public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, long companyID) {
+	public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, long company_id) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.companyID = companyID;
+		this.company_id = company_id;
 	}
 
 	public long getId() {
@@ -73,25 +73,19 @@ public class Computer {
 		this.discontinued = discontinued;
 	}
 
-	public Long getCompanyID() {
-		return companyID;
+	public Long getCompany_id() {
+		return company_id;
 	}
 
-	public void setCompanyID(Long companyID) {
-		this.companyID = companyID;
-	}
-
-	@Override
-	public String toString() {
-		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", companyID=" + companyID + "]";
+	public void setCompany_id(Long company_id) {
+		this.company_id = company_id;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((companyID == null) ? 0 : companyID.hashCode());
+		result = prime * result + ((company_id == null) ? 0 : company_id.hashCode());
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
@@ -108,10 +102,10 @@ public class Computer {
 		if (getClass() != obj.getClass())
 			return false;
 		Computer other = (Computer) obj;
-		if (companyID == null) {
-			if (other.companyID != null)
+		if (company_id == null) {
+			if (other.company_id != null)
 				return false;
-		} else if (!companyID.equals(other.companyID))
+		} else if (!company_id.equals(other.company_id))
 			return false;
 		if (discontinued == null) {
 			if (other.discontinued != null)
@@ -133,6 +127,9 @@ public class Computer {
 		return true;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
+				+ ", company_id=" + company_id + "]";
+	}
 }

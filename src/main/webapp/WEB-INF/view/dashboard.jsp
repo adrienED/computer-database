@@ -69,20 +69,20 @@
 						</span></th>
 						<th><spring:message code="app.lang.computer"/>
                             <a href="dashboard?orderBy=name&ComputerByPage=10&page=1">&#9650;</a>
-                            <a href="dashboard?orderBy=nameDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+                            <a href="dashboard?orderBy=name&AS=DESC&nbOfComputerByPage=10&page=1">&#9660;</a>
                             </th>
 						<th><spring:message code="app.lang.introDate"/>
 						<a href="dashboard?orderBy=introduced&ComputerByPage=10&page=1">&#9650;</a>
-                        <a href="dashboard?orderBy=introducedDESC&nbOfComputerByPage=10&page=1">&#9660;</a></th>
+                        <a href="dashboard?orderBy=introduced&AS=DESC&nbOfComputerByPage=10&page=1">&#9660;</a></th>
 			
 						<th><spring:message code="app.lang.discDate"/>
 						<a href="dashboard?orderBy=discontinued&ComputerByPage=10&page=1">&#9650;</a>
-                        <a href="dashboard?orderBy=discontinuedDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+                        <a href="dashboard?orderBy=discontinued&AS=DESC&nbOfComputerByPage=10&page=1">&#9660;</a>
 						</th>
 						
 						<th><spring:message code="app.lang.company"/></a>
 						<a href="dashboard?orderBy=company&ComputerByPage=10&page=1">&#9650;</a>
-                        <a href="dashboard?orderBy=companyDESC&nbOfComputerByPage=10&page=1">&#9660;</a>
+                        <a href="dashboard?orderBy=company&AS=DESC&nbOfComputerByPage=10&page=1">&#9660;</a>
                         </th>
 
 					</tr>
@@ -111,7 +111,7 @@
 		<div class="container text-center">
 			<ul class="pagination">
 				<c:if test="${(page-1) > 0}">
-					<li><a href="?page=${page-1}" aria-label="Previous"> <span
+					<li><a href="?page=${page-1}&&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }" aria-label="Previous"> <span
 							aria-hidden="true">&laquo;</span>
 					</a></li>
 				</c:if>
@@ -129,7 +129,7 @@
 					<li><a href="?page=${page+4}&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }">${page+4}</a></li>
 				</c:if>
 				<c:if test="${page+1<=lastPage}">
-					<li><a href="?page=${page+1}" aria-label="Next"> <span
+					<li><a href="?page=${page+1}&orderBy=${OrderBy}&nbOfComputerByPage=${nbOfComputerByPage }" aria-label="Next"> <span
 							aria-hidden="true">&raquo;</span>
 					</a></li>
 				</c:if>

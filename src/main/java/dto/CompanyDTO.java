@@ -2,7 +2,6 @@ package dto;
 
 public class CompanyDTO {
 
-
 	private String id;
 	
 	private String name;

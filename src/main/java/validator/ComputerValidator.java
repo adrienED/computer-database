@@ -50,7 +50,7 @@ public class ComputerValidator {
 		else
 			validateDateDiscontinued = true;
 
-		if ( ! computerDTO.getIntroduced().isEmpty() && computerDTO.getDiscontinued().isEmpty())
+		if ( ! computerDTO.getIntroduced().isEmpty() && ! computerDTO.getDiscontinued().isEmpty())
 			validateDateOrder = validateDateOrder(computerDTO.getIntroduced(), computerDTO.getDiscontinued());
 		else
 			validateDateOrder = true;

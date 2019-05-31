@@ -10,8 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import dto.ComputerDTO;
-import exception.InvalidDateChronology;
-import exception.InvalidDateValueException;
 import model.Computer;
 import service.CompanyService;
 
@@ -44,7 +42,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 			computer.setDiscontinued(resultSet.getDate("discontinued").toLocalDate());
 		}
 
-		computer.setCompanyID(resultSet.getLong("company_id"));
+		computer.setCompany_id(resultSet.getLong("company_id"));
 
 
 		return computer;
@@ -70,9 +68,9 @@ public class ComputerMapper implements RowMapper<Computer> {
 				computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
 			long id = companyService.findByName(computerDTO.getCompanyName());
 			if ( id == 0)
-				computer.setCompanyID((long) 0);
+				computer.setCompany_id((long) 0);
 			else {
-				computer.setCompanyID(id);
+				computer.setCompany_id(id);
 			}
 
 		} catch (NullPointerException e) {
@@ -97,9 +95,9 @@ public class ComputerMapper implements RowMapper<Computer> {
 		if (computer.getDiscontinued() != null)
 			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
 		
-		if(computer.getCompanyID() != null) {
+		if(computer.getCompany_id() != null) {
 		
-		computerDTO.setCompanyName(companyService.findById(computer.getCompanyID()).get().getName());
+		computerDTO.setCompanyName(companyService.findById(computer.getCompany_id()).get().getName());
 		}
 		else {
 			computerDTO.setCompanyName("");

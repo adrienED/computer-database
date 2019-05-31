@@ -16,9 +16,9 @@ import service.ComputerService;
 @Controller
 @RequestMapping("/deleteComputer")
 public class DeleteComputer {
-	
+
 	static Logger logger = LoggerFactory.getLogger(DeleteComputer.class);
-	
+
 	private final ComputerService computerService;
 	private final ComputerMapper computerMapper;
 
@@ -35,10 +35,9 @@ public class DeleteComputer {
 
 		String[] list = listDelete.split(",");
 		IntStream.range(0, list.length).forEach(i -> {
-				computerService.deleteComputer(computerMapper.idToLong(list[i]));
+			computerService.deleteComputer(computerMapper.idToLong(list[i]));
 		});
-		
-		 return "redirect:dashboard";
+
+		return "redirect:dashboard";
 	}
 }
-
