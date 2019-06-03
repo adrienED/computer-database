@@ -1,4 +1,4 @@
-package controller;
+package com.excilys.CDB.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import dto.CompanyDTO;
-import dto.ComputerDTO;
-import exception.ComputerNotFoundException;
-import exception.EmptyCompanyNameException;
-import exception.EmptyComputerNameException;
-import exception.InvalidDateChronology;
-import exception.InvalidDateValueException;
-import mapper.CompanyMapper;
-import mapper.ComputerMapper;
-import model.Computer;
-import service.CompanyService;
-import service.ComputerService;
-import validator.ComputerValidator;
+import com.excilys.CDB.binding.dto.CompanyDTO;
+import com.excilys.CDB.binding.dto.ComputerDTO;
+import com.excilys.CDB.binding.mapper.CompanyMapper;
+import com.excilys.CDB.binding.mapper.ComputerMapper;
+import com.excilys.CDB.binding.validator.ComputerValidator;
+import com.excilys.CDB.core.exception.ComputerNotFoundException;
+import com.excilys.CDB.core.exception.EmptyCompanyNameException;
+import com.excilys.CDB.core.exception.EmptyComputerNameException;
+import com.excilys.CDB.core.exception.InvalidDateChronology;
+import com.excilys.CDB.core.exception.InvalidDateValueException;
+import com.excilys.CDB.core.model.Computer;
+import com.excilys.CDB.service.CompanyService;
+import com.excilys.CDB.service.ComputerService;
 
 @Controller
 @RequestMapping(value = "/editComputer")
@@ -88,6 +88,9 @@ public class EditComputer {
 		model.addAttribute("introduced", computerDTO.getIntroduced());
 		model.addAttribute("discontinued", computerDTO.getDiscontinued());
 		model.addAttribute("companyName", computerDTO.getCompanyName());
+		model.addAttribute("company_id", computerDTO.getCompany_id());
+		
+		System.out.println(computerDTO);
 
 		try {
 			computerValidator.validate(computerDTO);

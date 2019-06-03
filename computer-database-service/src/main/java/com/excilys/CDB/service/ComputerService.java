@@ -1,18 +1,16 @@
-package service;
+package com.excilys.CDB.service;
 
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import mapper.ComputerMapper;
-import model.Computer;
-import repository.ComputerRepository;
+import com.excilys.CDB.binding.mapper.ComputerMapper;
+import com.excilys.CDB.core.model.Computer;
+import com.excilys.CDB.persistence.repository.ComputerRepository;
 
 @Component("ComputerService")
 public class ComputerService {

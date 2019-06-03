@@ -1,4 +1,4 @@
-package mapper;
+package com.excilys.CDB.binding.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,19 +9,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import dto.ComputerDTO;
-import model.Computer;
-import service.CompanyService;
+import com.excilys.CDB.binding.dto.ComputerDTO;
+import com.excilys.CDB.core.model.Company;
+import com.excilys.CDB.core.model.Computer;
 
 @Component("ComputerMapper")
 public class ComputerMapper implements RowMapper<Computer> {
 
 	private Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
 	
-	CompanyService companyService;
 
-	public ComputerMapper(CompanyService companyService) {
-		this.companyService=companyService;
+	public ComputerMapper() {
+		
 	}
 
 	@Override
@@ -42,14 +41,15 @@ public class ComputerMapper implements RowMapper<Computer> {
 			computer.setDiscontinued(resultSet.getDate("discontinued").toLocalDate());
 		}
 
-		computer.setCompany_id(resultSet.getLong("company_id"));
 
 
 		return computer;
 	}
+	
 
 	public Computer dtoToModel(ComputerDTO computerDTO){
 		Computer computer=new Computer();
+		Company company = new Company();
 		try {
 
 			if (computerDTO.getId() != null)
@@ -66,12 +66,13 @@ public class ComputerMapper implements RowMapper<Computer> {
 				computer.setDiscontinued(null);
 			else
 				computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
-			long id = companyService.findByName(computerDTO.getCompanyName());
-			if ( id == 0)
-				computer.setCompany_id((long) 0);
-			else {
-				computer.setCompany_id(id);
-			}
+
+				company.setId(computerDTO.getCompany_id());	
+			if (computerDTO.getCompanyName() != null || computerDTO.getDiscontinued()=="")
+				company.setName(computerDTO.getCompanyName());
+			
+			computer.setCompany(company);
+			
 
 		} catch (NullPointerException e) {
 			logger.error("null exception dtoToModel", e);
@@ -95,9 +96,10 @@ public class ComputerMapper implements RowMapper<Computer> {
 		if (computer.getDiscontinued() != null)
 			computerDTO.setDiscontinued(computer.getDiscontinued().toString());
 		
-		if(computer.getCompany_id() != null) {
+		if(computer.getCompany() != null) {
 		
-		computerDTO.setCompanyName(companyService.findById(computer.getCompany_id()).get().getName());
+		computerDTO.setCompanyName(computer.getCompany().getName());
+		computerDTO.setCompany_id(computer.getCompany().getId());
 		}
 		else {
 			computerDTO.setCompanyName("");

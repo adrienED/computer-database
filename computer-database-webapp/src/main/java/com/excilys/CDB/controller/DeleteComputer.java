@@ -1,4 +1,4 @@
-package controller;
+package com.excilys.CDB.controller;
 
 import java.util.stream.IntStream;
 
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import mapper.ComputerMapper;
-import service.ComputerService;
+import com.excilys.CDB.binding.mapper.ComputerMapper;
+import com.excilys.CDB.service.ComputerService;
 
 @Controller
 @RequestMapping("/deleteComputer")

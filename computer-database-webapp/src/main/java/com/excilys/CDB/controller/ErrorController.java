@@ -1,4 +1,4 @@
-package controller;
+package com.excilys.CDB.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,4 +1,4 @@
-package exception;
+package com.excilys.CDB.core.exception;
 
 public class InvalidDateChronology extends Exception{
 

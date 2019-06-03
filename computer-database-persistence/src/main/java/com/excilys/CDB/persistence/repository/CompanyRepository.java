@@ -1,4 +1,4 @@
-package repository;
+package com.excilys.CDB.persistence.repository;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import model.Company;
+import com.excilys.CDB.core.model.Company;
 
 	public interface CompanyRepository extends JpaRepository<Company, Long> {
 		

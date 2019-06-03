@@ -7,6 +7,7 @@ public class ComputerDTO {
 	private String introduced;
 	private String discontinued;
 	private String companyName;
+	private long company_id;
 
 	public String getId() {
 		return id;
@@ -48,10 +49,12 @@ public class ComputerDTO {
 		this.companyName = companyName;
 	}
 
-	@Override
-	public String toString() {
-		return "ComputerDTO [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
-				+ discontinued + ", companyName=" + companyName + "]";
+	public long getCompany_id() {
+		return company_id;
+	}
+
+	public void setCompany_id(long company_id) {
+		this.company_id = company_id;
 	}
 
 	@Override
@@ -59,6 +62,7 @@ public class ComputerDTO {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
+		result = prime * result + (int) (company_id ^ (company_id >>> 32));
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
@@ -80,13 +84,13 @@ public class ComputerDTO {
 				return false;
 		} else if (!companyName.equals(other.companyName))
 			return false;
-
+		if (company_id != other.company_id)
+			return false;
 		if (discontinued == null) {
 			if (other.discontinued != null)
 				return false;
 		} else if (!discontinued.equals(other.discontinued))
 			return false;
-
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -97,14 +101,19 @@ public class ComputerDTO {
 				return false;
 		} else if (!introduced.equals(other.introduced))
 			return false;
-
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "ComputerDTO [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
+				+ discontinued + ", companyName=" + companyName + ", company_id=" + company_id + "]";
+	}
+
 
 }

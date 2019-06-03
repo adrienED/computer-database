@@ -1,4 +1,4 @@
-package validator;
+package com.excilys.CDB.binding.validator;
 
 import java.time.LocalDate;
 
@@ -6,11 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import dto.ComputerDTO;
-import exception.EmptyCompanyNameException;
-import exception.EmptyComputerNameException;
-import exception.InvalidDateChronology;
-import exception.InvalidDateValueException;
+import com.excilys.CDB.binding.dto.ComputerDTO;
+import com.excilys.CDB.core.exception.EmptyCompanyNameException;
+import com.excilys.CDB.core.exception.EmptyComputerNameException;
+import com.excilys.CDB.core.exception.InvalidDateChronology;
+import com.excilys.CDB.core.exception.InvalidDateValueException;
 
 @Component ("ComputerValidator")
 public class ComputerValidator {
@@ -34,10 +34,7 @@ public class ComputerValidator {
 		else
 			throw new EmptyComputerNameException();
 
-		if (computerDTO.getCompanyName() != null)
-			validateNameCompany = true;
-		else
-			throw new EmptyCompanyNameException();
+		
 
 		if ( ! computerDTO.getIntroduced().isEmpty() && computerDTO.getIntroduced() != null)
 			validateDateIntroduced = validateDate(computerDTO.getIntroduced());	

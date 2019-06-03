@@ -1,4 +1,4 @@
-package controller;
+package com.excilys.CDB.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import dto.ComputerDTO;
-import mapper.ComputerMapper;
-import service.CompanyService;
-import service.ComputerService;
+import com.excilys.CDB.binding.dto.ComputerDTO;
+import com.excilys.CDB.binding.mapper.ComputerMapper;
+import com.excilys.CDB.service.CompanyService;
+import com.excilys.CDB.service.ComputerService;
 
 @Controller
 @RequestMapping(value = "/dashboard")

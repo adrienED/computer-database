@@ -1,17 +1,13 @@
-package service;
+package com.excilys.CDB.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
 
-import model.Company;
-import repository.CompanyRepository;
-import repository.ComputerRepository;
+import com.excilys.CDB.core.model.Company;
+import com.excilys.CDB.persistence.repository.CompanyRepository;
+import com.excilys.CDB.persistence.repository.ComputerRepository;
 
 
 @Component("CompanyService")
