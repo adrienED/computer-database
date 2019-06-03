@@ -35,8 +35,8 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.computer-database.repository")
-@ComponentScan (basePackages = {"com.excilys.CDB.controller"})
+@EnableJpaRepositories(basePackages = "com.excilys.CDB.repository")
+@ComponentScan (basePackages = {"com.excilys.CDB"})
 public class WebConfig implements WebMvcConfigurer{
 
 	 @Bean(destroyMethod = "close")
@@ -96,7 +96,7 @@ public class WebConfig implements WebMvcConfigurer{
 	 	 public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 	 	 LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 	 	 em.setDataSource(dataSource());
-	 	 em.setPackagesToScan("model");
+	 	 em.setPackagesToScan("com.excilys.CDB.core.model");
 	 	 JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 	 	 em.setJpaVendorAdapter(vendorAdapter);
 	 	 em.setJpaProperties(additionalProperties());

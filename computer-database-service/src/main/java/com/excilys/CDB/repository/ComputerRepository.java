@@ -1,4 +1,4 @@
-package com.excilys.CDB.persistence.repository;
+package com.excilys.CDB.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,10 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.CDB.core.model.Computer;
 
-
 public interface ComputerRepository extends JpaRepository<Computer, Long> {
 			
-	
 	@Query("select c FROM Computer c LEFT JOIN Company B ON c.company = B WHERE (B.name like %:search% OR c.name like %:search%)")
 	public Page<Computer> findSomething(@Param("search") String search, Pageable pageable);
 	

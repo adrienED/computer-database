@@ -10,18 +10,18 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.CDB.binding.mapper.ComputerMapper;
 import com.excilys.CDB.core.model.Computer;
-import com.excilys.CDB.persistence.repository.ComputerRepository;
+import com.excilys.CDB.repository.ComputerRepository;
 
 @Component("ComputerService")
 public class ComputerService {
 
 	private final ComputerMapper computerMapper;
-	private final ComputerRepository computerRepository;
+	private final  ComputerRepository computerRepository;
 
 	public ComputerService(ComputerMapper computerMapper, ComputerRepository computerRepository) {
 		super();
-		this.computerMapper = computerMapper;
-		this.computerRepository = computerRepository;
+		this.computerMapper=computerMapper;
+		this.computerRepository=computerRepository;
 	}
 
 	public Computer create(Computer computer) {

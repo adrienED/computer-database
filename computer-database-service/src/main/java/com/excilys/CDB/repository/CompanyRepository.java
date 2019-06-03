@@ -1,4 +1,4 @@
-package com.excilys.CDB.persistence.repository;
+package com.excilys.CDB.repository;
 
 import java.util.Optional;
 
@@ -7,17 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.excilys.CDB.core.model.Company;
-
+	
 	public interface CompanyRepository extends JpaRepository<Company, Long> {
-		
-		
+				
 		@Query("FROM Company c WHERE c.name = :name")
-		Company findByName(@Param("name") String name);
-		
+		Company findByName(@Param("name") String name);		
 	   
 		public Optional<Company> findById (long id);
-		
-		
-		
-	    
+			    
 	}
