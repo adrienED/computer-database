@@ -16,9 +16,6 @@ public class CompanyMapper implements RowMapper<Company> {
 
 	Logger logger = LoggerFactory.getLogger(CompanyMapper.class);
 
-	public CompanyMapper() {
-	}
-
 	@Override
 	public Company mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 

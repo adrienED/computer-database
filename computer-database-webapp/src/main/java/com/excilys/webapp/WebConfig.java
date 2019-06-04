@@ -17,6 +17,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
@@ -35,8 +36,9 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @EnableJpaRepositories(basePackages = "com.excilys.CDB.repository")
-@ComponentScan (basePackages = {"com.excilys.CDB"})
+@ComponentScan (basePackages = {"com.excilys"})
 public class WebConfig implements WebMvcConfigurer{
 
 	 @Bean(destroyMethod = "close")

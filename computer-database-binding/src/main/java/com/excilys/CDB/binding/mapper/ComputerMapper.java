@@ -17,11 +17,7 @@ import com.excilys.CDB.core.model.Computer;
 public class ComputerMapper implements RowMapper<Computer> {
 
 	private Logger logger = LoggerFactory.getLogger(ComputerMapper.class);
-	
 
-	public ComputerMapper() {
-		
-	}
 
 	@Override
 	public Computer mapRow(ResultSet resultSet, int rowNum) throws SQLException {
@@ -57,22 +53,22 @@ public class ComputerMapper implements RowMapper<Computer> {
 
 			computer.setName(computerDTO.getName());
 
-			if (computerDTO.getIntroduced()==null || computerDTO.getIntroduced() =="")
+			if (computerDTO.getIntroduced()==null || computerDTO.getIntroduced().isEmpty())
 				computer.setIntroduced(null);
 			else
 				computer.setIntroduced(LocalDate.parse(computerDTO.getIntroduced()));
 
-			if (computerDTO.getDiscontinued()==null || computerDTO.getDiscontinued()=="")
+			if (computerDTO.getDiscontinued()==null || computerDTO.getDiscontinued().isEmpty())
 				computer.setDiscontinued(null);
 			else
 				computer.setDiscontinued(LocalDate.parse(computerDTO.getDiscontinued()));
 
 				company.setId(computerDTO.getCompany_id());	
-			if (computerDTO.getCompanyName() != null || computerDTO.getDiscontinued()=="")
+			if (computerDTO.getCompanyName() != null || computerDTO.getDiscontinued().isEmpty())
 				company.setName(computerDTO.getCompanyName());
 			
 			computer.setCompany(company);
-			
+		
 
 		} catch (NullPointerException e) {
 			logger.error("null exception dtoToModel", e);

@@ -37,10 +37,6 @@
 		<version>${module.core.version}</version>
 </dependency>
 
-
-
-
-    
   </dependencies>
 
   <build>

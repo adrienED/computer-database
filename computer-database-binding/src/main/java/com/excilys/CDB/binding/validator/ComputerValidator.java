@@ -15,8 +15,6 @@ import com.excilys.CDB.core.exception.InvalidDateValueException;
 @Component ("ComputerValidator")
 public class ComputerValidator {
 
-	public ComputerValidator() {}
-
 	Logger logger = LoggerFactory.getLogger(ComputerValidator.class);
 
 	public boolean validate(ComputerDTO computerDTO) throws EmptyComputerNameException, EmptyCompanyNameException, InvalidDateChronology, InvalidDateValueException {
@@ -26,15 +24,11 @@ public class ComputerValidator {
 		boolean validateDateDiscontinued;
 		boolean validateDateOrder;
 		boolean validateNameCompany;
-		
-		System.out.println(computerDTO);
 
-		if (computerDTO.getName() != null && computerDTO.getName() !="")
+		if (computerDTO.getName() != null && ! computerDTO.getName().isEmpty())
 			validateName = true;
 		else
 			throw new EmptyComputerNameException();
-
-		
 
 		if ( ! computerDTO.getIntroduced().isEmpty() && computerDTO.getIntroduced() != null)
 			validateDateIntroduced = validateDate(computerDTO.getIntroduced());	
@@ -52,8 +46,7 @@ public class ComputerValidator {
 		else
 			validateDateOrder = true;
 
-		if (validateName == true && validateDateIntroduced == true && validateDateDiscontinued == true
-				&& validateDateOrder == true)
+		if (validateName  && validateDateIntroduced  && validateDateDiscontinued  && validateDateOrder )
 			return true;
 		else
 			return false;

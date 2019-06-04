@@ -44,10 +44,6 @@
 		<artifactId>computer-database-binding</artifactId>
 		<version>${module.core.version}</version>
 </dependency>
-
-
-
-
   </dependencies>
 
   <build>
