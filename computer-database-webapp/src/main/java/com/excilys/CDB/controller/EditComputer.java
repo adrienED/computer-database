@@ -79,7 +79,7 @@ public class EditComputer {
 
 	@PostMapping
 	public ModelAndView submit(@Validated @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult result,
-			ModelMap model) throws ComputerNotFoundException {
+			ModelMap model) {
 
 		ModelAndView mView = new ModelAndView();
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.CDB.binding.mapper.ComputerMapper;
 import com.excilys.CDB.core.model.Computer;
-import com.excilys.CDB.repository.ComputerRepository;
+import com.excilys.CDB.persistence.repository.ComputerRepository;
 
 @Component("ComputerService")
 public class ComputerService {

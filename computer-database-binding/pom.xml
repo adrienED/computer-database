@@ -21,6 +21,9 @@
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
      <module.core.version>1.0-SNAPSHOT</module.core.version>
+     		<spring.version>5.1.5.RELEASE</spring.version>
+     		<slf4j.version>1.7.26</slf4j.version>
+     
   </properties>
 
   <dependencies>
@@ -36,6 +39,32 @@
 		<artifactId>computer-database-core</artifactId>
 		<version>${module.core.version}</version>
 </dependency>
+
+
+<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${jcl.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
 
   </dependencies>
 

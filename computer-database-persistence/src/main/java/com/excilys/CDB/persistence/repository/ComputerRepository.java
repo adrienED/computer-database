@@ -1,4 +1,4 @@
-package com.excilys.CDB.repository;
+package com.excilys.CDB.persistence.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -37,7 +36,6 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableGlobalMethodSecurity(securedEnabled = true)
-@EnableJpaRepositories(basePackages = "com.excilys.CDB.repository")
 @ComponentScan (basePackages = {"com.excilys"})
 public class WebConfig implements WebMvcConfigurer{
 

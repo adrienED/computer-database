@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.excilys.CDB.core.model.Company;
-import com.excilys.CDB.repository.CompanyRepository;
-import com.excilys.CDB.repository.ComputerRepository;
+import com.excilys.CDB.persistence.repository.CompanyRepository;
+import com.excilys.CDB.persistence.repository.ComputerRepository;
 
 
 @Component("CompanyService")
