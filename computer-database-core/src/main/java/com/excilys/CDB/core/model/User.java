@@ -17,9 +17,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "user")
 public class User implements Serializable , UserDetails {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
+    
     private String username;
     private String password;
     public Integer getUserId() {

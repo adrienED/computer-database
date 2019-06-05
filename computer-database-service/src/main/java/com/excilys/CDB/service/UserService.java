@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.excilys.CDB.core.model.User;
 import com.excilys.CDB.persistence.repository.UserRepository;
+import com.sun.java.swing.action.SaveAction;
 
 @Service
     public class UserService implements UserDetailsService {
@@ -19,10 +20,17 @@ import com.excilys.CDB.persistence.repository.UserRepository;
             this.userRepository = userRepository;
         }
         @Override
-        public UserDetails loadUserByUsername(String username) {
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
             Objects.requireNonNull(username);
+            
             User user = userRepository.findUserWithName(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             return user;
         }
+        
+        public void SavePass(User user) {
+        	userRepository.save(user);
+        }
+        
+        
     }

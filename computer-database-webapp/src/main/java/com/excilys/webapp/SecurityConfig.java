@@ -17,8 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
@@ -37,15 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint() {
-		})
-		.and().authenticationProvider(authenticationProvider())
-		.formLogin().loginProcessingUrl("/login")
-				.successHandler(new AuthentificationLoginSuccessHandler())
-				.failureHandler(new SimpleUrlAuthenticationFailureHandler()).and().logout().logoutUrl("/logout")
-				.logoutSuccessHandler(new AuthentificationLogoutSuccessHandler()).invalidateHttpSession(true).and()
-				.authorizeRequests().antMatchers("/login").permitAll().antMatchers("/logout").permitAll()
-				.antMatchers("/").authenticated().anyRequest().permitAll();
+		http.authorizeRequests().antMatchers("/css/**", "/front/**", "/js/**").permitAll().anyRequest()
+		.authenticated().and().formLogin().permitAll().and().logout().permitAll();
 	}
 
 	private class AuthentificationLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
