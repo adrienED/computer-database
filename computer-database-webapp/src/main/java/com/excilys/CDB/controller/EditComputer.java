@@ -22,7 +22,6 @@ import com.excilys.CDB.binding.dto.ComputerDTO;
 import com.excilys.CDB.binding.mapper.CompanyMapper;
 import com.excilys.CDB.binding.mapper.ComputerMapper;
 import com.excilys.CDB.binding.validator.ComputerValidator;
-import com.excilys.CDB.core.exception.ComputerNotFoundException;
 import com.excilys.CDB.core.exception.EmptyCompanyNameException;
 import com.excilys.CDB.core.exception.EmptyComputerNameException;
 import com.excilys.CDB.core.exception.InvalidDateChronology;
@@ -61,7 +60,7 @@ public class EditComputer {
 	public ModelAndView doGet(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("editComputer", "computerDTO", new ComputerDTO());
 
-		ComputerDTO computerDTO = new ComputerDTO();
+		ComputerDTO computerDTO;
 
 		Computer computer = computerService.findById(request.getParameter("id")).get();
 		
@@ -90,7 +89,7 @@ public class EditComputer {
 		model.addAttribute("companyName", computerDTO.getCompanyName());
 		model.addAttribute("company_id", computerDTO.getCompany_id());
 		
-		System.out.println(computerDTO);
+
 
 		try {
 			computerValidator.validate(computerDTO);

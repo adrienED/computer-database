@@ -1,6 +1,5 @@
 package com.excilys.CDB.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +66,7 @@ public class Dashboard {
 
 		ModelAndView mv = new ModelAndView();
 
-		List<ComputerDTO> listComputerDTO = new ArrayList<>();
+		List<ComputerDTO> listComputerDTO;
 
 		if (request.getParameter("page") != null)
 			page = Integer.parseInt(request.getParameter("page"));

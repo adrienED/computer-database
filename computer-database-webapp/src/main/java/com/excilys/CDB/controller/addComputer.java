@@ -58,8 +58,6 @@ public class addComputer {
 
 		List<CompanyDTO> listCompanies = this.companyService.getAll().stream().map(this.companyMapper::modelToDto)
 				.collect(Collectors.toList());
-
-		System.out.println(listCompanies);
 		
 		mv.getModel().put("ListCompanies", listCompanies);
 
@@ -77,9 +75,7 @@ public class addComputer {
 		model.addAttribute("discontinued", computerDTO.getDiscontinued());
 		model.addAttribute("companyName", computerDTO.getCompanyName());
 		model.addAttribute("company_id", computerDTO.getCompany_id());
-		
-		
-		System.out.println(computerDTO);
+
 
 		try {
 			computerValidator.validate(computerDTO);

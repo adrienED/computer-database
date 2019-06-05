@@ -1,41 +1,36 @@
-/*package com.excilys.CDB.controller;
-
-import java.util.ArrayList;
+package com.excilys.CDB.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.excilys.CDB.service.UserService;
 
+
+
 public class CustomAuthenticationProvider  implements AuthenticationProvider{
 	
-	@Autowired
-	UserService UserService ;
-
-	@Override
-    public Authentication authenticate(Authentication authentication) 
-      throws AuthenticationException {
-  
-        String name = authentication.getName();
-        String password = authentication.getCredentials().toString();
-         
-        if (name.equals()) {
-  
-            // use the credentials
-            // and authenticate against the third-party system
-            return new UsernamePasswordAuthenticationToken(
-              name, password, new ArrayList<>());
-        } else {
-            return null;
+    @Autowired
+    UserService userDetailsService;
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) authentication;
+        String name = auth.getName();
+        String password = auth.getCredentials()
+                .toString();
+        UserDetails user = userDetailsService.loadUserByUsername(name);
+        if (user == null) {
+            throw new BadCredentialsException("Username/Password does not match for " + auth.getPrincipal());
         }
+        return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
     }
- 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+        return true;
     }
 }
-*/
+
