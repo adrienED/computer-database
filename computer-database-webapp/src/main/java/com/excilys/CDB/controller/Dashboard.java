@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.CDB.binding.dto.ComputerDTO;
@@ -20,7 +20,7 @@ import com.excilys.CDB.binding.mapper.ComputerMapper;
 import com.excilys.CDB.service.CompanyService;
 import com.excilys.CDB.service.ComputerService;
 
-@Controller
+@RestController
 @RequestMapping(value = "/dashboard")
 public class Dashboard {
 

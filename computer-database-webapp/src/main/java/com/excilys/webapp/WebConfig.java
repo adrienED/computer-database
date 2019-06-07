@@ -20,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -27,7 +28,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -56,7 +59,7 @@ public class WebConfig implements WebMvcConfigurer {
 	public DataSourceTransactionManager getTransactionManager(DataSource mysqlDataSource) {
 		return new DataSourceTransactionManager(mysqlDataSource);
 	}
-
+/*
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver bean = new InternalResourceViewResolver();
@@ -64,6 +67,7 @@ public class WebConfig implements WebMvcConfigurer {
 		bean.setSuffix(".jsp");
 		return bean;
 	}
+*/
 
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
@@ -118,4 +122,16 @@ public class WebConfig implements WebMvcConfigurer {
 		transactionManager.setEntityManagerFactory(emf);
 		return transactionManager;
 	}
+	
+	 @Bean
+	    public View jsonTemplate() {
+	        MappingJackson2JsonView view = new MappingJackson2JsonView();
+	        view.setPrettyPrint(true);
+	        return view;
+	    }
+	     
+	    @Bean
+	    public ViewResolver viewResolver() {
+	        return new BeanNameViewResolver();
+	    }
 }

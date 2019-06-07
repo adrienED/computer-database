@@ -25,14 +25,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/css/**", "/front/**", "/js/**").permitAll().anyRequest()
-		.authenticated().and().formLogin().permitAll().and().logout().permitAll();
-	}
 
+		
+		http.csrf().disable().authorizeRequests().antMatchers("/css/**", "/front/**", "/js/**").permitAll()
+		.anyRequest()
+		.permitAll();
+	}
 
 	@Bean	
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder(11);
 	}
-
+	/*
+	 * http.authorizeRequests().antMatchers("/css/**", "/front/**", "/js/**").permitAll().anyRequest()
+		.authenticated().and().formLogin().permitAll().and().logout().permitAll();
+	 * 
+	 * 
+	 */
+	
+	
 }

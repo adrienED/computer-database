@@ -32,15 +32,10 @@ import com.excilys.CDB.service.ComputerService;
 public class addComputer {
 
 	static Logger logger = LoggerFactory.getLogger(addComputer.class);
-
 	private final ComputerMapper computerMapper;
-
 	private final CompanyService companyService;
-
 	private final ComputerService computerService;
-
 	private final ComputerValidator computerValidator;
-
 	private final CompanyMapper companyMapper;
 
 	public addComputer(ComputerMapper computerMapper, CompanyService companyService, ComputerService computerService,
@@ -63,7 +58,7 @@ public class addComputer {
 
 		return mv;
 	}
-
+/*
 	@PostMapping
 	public ModelAndView submit(@Validated @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult result,
 			ModelMap model) {
@@ -90,4 +85,32 @@ public class addComputer {
 		}
 
 	}
+	*/
+	
+	
+	
+	@PostMapping
+	public String submit(@Validated @ModelAttribute("computerDTO") ComputerDTO computerDTO) {
+
+		
+
+	
+
+
+		try {
+			computerValidator.validate(computerDTO);
+			computerService.create(computerMapper.dtoToModel(computerDTO));
+			return "redirect:dashboard";
+
+		} catch (InvalidDateChronology | InvalidDateValueException | EmptyComputerNameException
+				| EmptyCompanyNameException e) {
+
+			return "error";
+		}
+
+	}
+	
+	
+	
+	
 }
