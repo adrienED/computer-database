@@ -22,7 +22,7 @@
 		<selenium.version>3.141.59</selenium.version>
 		<webdrivermanager.version>3.4.0</webdrivermanager.version>
 		<phantomjsdriver.version>1.4.4</phantomjsdriver.version>
-		<spring.version>5.1.5.RELEASE</spring.version>
+		<spring.version>5.3.18</spring.version>
 		<jcl.version>1.7.25</jcl.version>
 		<logback.version>1.2.3</logback.version>
 
